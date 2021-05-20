@@ -1,22 +1,27 @@
 {
   "name": "XSNetwork",
   "version": "0.1.0",
-  "summary": "A short description of XSNetwork.",
+  "summary": "对AFNetworking 4.0的封装",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/shun/XSNetwork",
+  "homepage": "http://nasxs.cn:32769/xiangshun/XSNetwork",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "shun": "truma.xiang@edoctor.cn"
+    "shun": "113648883@qq.com"
   },
   "source": {
-    "git": "https://github.com/shun/XSNetwork.git",
+    "git": "http://nasxs.cn:32769/xiangshun/XSNetwork.git",
     "tag": "0.1.0"
   },
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "XSNetwork/Classes/**/*"
+  "source_files": "XSNetwork/Classes/**/*",
+  "dependencies": {
+    "AFNetworking": [
+      "~> 4.0.1"
+    ]
+  }
 }

@@ -1,16 +1,37 @@
 PODS:
-  - XSNetwork (0.1.0)
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - XSNetwork (0.1.0):
+    - AFNetworking (~> 4.0.1)
 
 DEPENDENCIES:
   - XSNetwork (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
 
 EXTERNAL SOURCES:
   XSNetwork:
     :path: "../"
 
 SPEC CHECKSUMS:
-  XSNetwork: a284b1b136da027d432e342ef12cdfc45bf530e0
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  XSNetwork: cc4b794b11de7231bd71c9c0640e2bcb4b6a5a67
 
-PODFILE CHECKSUM: 1d421c4c6f7a0f335a8f62c1d3f29f537082b795
+PODFILE CHECKSUM: 67b9fe2164b86d797023384f0e16ccb2145eaaa0
 
 COCOAPODS: 1.9.3
