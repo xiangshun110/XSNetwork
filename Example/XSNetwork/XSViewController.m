@@ -20,10 +20,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    NSLog(@"---------:%@",[XSNetworkTools getAppVersion]);
+
+    [XSNetworkTools setComparam:@{
+        @"token":@"dasdasdas"
+    }];
     
+    [XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
     
-    [XSNetworkTools request:self param:nil path:@"http://admin.talkmed.com/live-required-columns?id=427549" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
+    [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
         NSLog(@"======:%@",data);
     }];
     

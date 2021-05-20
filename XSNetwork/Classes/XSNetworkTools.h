@@ -4,7 +4,7 @@
 //
 //  Created by shun on 2018/4/12.
 //  Copyright © 2018年 xiangshun. All rights reserved.
-//
+//  Version: 0.1.0
 
 #import <Foundation/Foundation.h>
 #import "XSBaseDataEngine.h"
@@ -13,22 +13,22 @@
 @interface XSNetworkTools : NSObject
 
 
-/// 获取group ID，用于和扩展程序之前共享数据
-+ (nullable NSString *)getAppSCGroupID;
-
-/// 设置group ID，用于和扩展程序之前共享数据
-/// @param appGroupID group id
-+ (void)setAppSCGroupID:(NSString * _Nonnull)appGroupID;
-
-
-
-+ (nullable NSString *)getAppVersion;
-+ (nullable NSString *)getPlatfrom;
-
-+ (nullable NSString *)getToken;
-+ (void)setToken:(nullable NSString *)token;
-
-+ (nullable NSString *)getUserID;
+///// 获取group ID，用于和扩展程序之前共享数据
+//+ (nullable NSString *)getAppSCGroupID;
+//
+///// 设置group ID，用于和扩展程序之前共享数据
+///// @param appGroupID group id
+//+ (void)setAppSCGroupID:(NSString * _Nonnull)appGroupID;
+//
+//
+//
+//+ (nullable NSString *)getAppVersion;
+//+ (nullable NSString *)getPlatfrom;
+//
+//+ (nullable NSString *)getToken;
+//+ (void)setToken:(nullable NSString *)token;
+//
+//+ (nullable NSString *)getUserID;
 
 
 /// 获取公共参数
