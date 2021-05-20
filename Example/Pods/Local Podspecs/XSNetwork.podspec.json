@@ -1,0 +1,22 @@
+{
+  "name": "XSNetwork",
+  "version": "0.1.0",
+  "summary": "A short description of XSNetwork.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/shun/XSNetwork",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "shun": "truma.xiang@edoctor.cn"
+  },
+  "source": {
+    "git": "https://github.com/shun/XSNetwork.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "XSNetwork/Classes/**/*"
+}

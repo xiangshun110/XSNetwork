@@ -1,0 +1,6 @@
+framework module XSNetwork {
+  umbrella header "XSNetwork-umbrella.h"
+
+  export *
+  module * { export * }
+}
