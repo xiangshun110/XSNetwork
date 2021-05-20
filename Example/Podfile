@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'XSNetwork_Example' do
+  pod 'XSNetwork', :path => '../'
+
+  target 'XSNetwork_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
