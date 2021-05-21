@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = '对AFNetworking 4.0的封装'
 
 # This description is used to generate tags and improve search results.

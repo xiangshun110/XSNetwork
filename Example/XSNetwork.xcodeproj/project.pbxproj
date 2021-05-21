@@ -66,7 +66,7 @@
 		8A8B798ABC8BAFD84DFC85C0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C12063A38DC4D17AEC4262EC /* Pods-XSNetwork_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Example.debug.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		DF7EC4A3AD027CA84A8C3FF6 /* Pods-XSNetwork_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Example.release.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example.release.xcconfig"; sourceTree = "<group>"; };
-		E85F42AF64F851BB0BEF9341 /* XSNetwork.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XSNetwork.podspec; path = ../XSNetwork.podspec; sourceTree = "<group>"; };
+		E85F42AF64F851BB0BEF9341 /* XSNetwork.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XSNetwork.podspec; path = ../XSNetwork.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
