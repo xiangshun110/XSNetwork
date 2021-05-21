@@ -8,9 +8,9 @@
 
 #import "XSCustomResponseSerializer.h"
 
-NSString * const AFURLResponseSerializationErrorDomain_cus = @"com.alamofire.error.serialization.response";
-NSString * const AFNetworkingOperationFailingURLResponseErrorKey_cus = @"com.alamofire.serialization.response.error.response";
-NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey_cus = @"com.alamofire.serialization.response.error.data";
+NSString * const AFURLResponseSerializationErrorDomain_xscus = @"com.alamofire.error.serialization.response";
+NSString * const AFNetworkingOperationFailingURLResponseErrorKey_xscus = @"com.alamofire.serialization.response.error.response";
+NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey_xscus = @"com.alamofire.serialization.response.error.data";
 
 static NSError * AFErrorWithUnderlyingError_cus(NSError *error, NSError *underlyingError) {
     if (!error) {
@@ -94,7 +94,7 @@ static id AFJSONObjectByRemovingKeysWithNullValues_cus(id JSONObject, NSJSONRead
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain_cus(*error, NSURLErrorCannotDecodeContentData, AFURLResponseSerializationErrorDomain_cus)) {
+        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain_cus(*error, NSURLErrorCannotDecodeContentData, AFURLResponseSerializationErrorDomain_xscus)) {
             return nil;
         }
     }
