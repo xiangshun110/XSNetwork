@@ -10,13 +10,13 @@
 /**
  *  开发、测试、预发、正式、HotFix和自定义环境,环境的切换是给开发人员和测试人员用的，对于外部正式打包不应该有环境切换的存在
  */
-typedef NS_ENUM(NSUInteger,EnvironmentType) {
-    EnvironmentTypeDevelop,
+typedef NS_ENUM(NSUInteger,XSEnvType) {
+    XSEnvTypeDevelop,
 //    EnvironmentTypeTest,
-    EnvironmentTypePreRelease,
+    XSEnvTypePreRelease,
 //    EnvironmentTypeHotFix,
-    EnvironmentTypeRelease,
-    EnvironmentTypeCustom,
+    XSEnvTypeRelease,
+    XSEnvTypeCustom,
 };
 
 @protocol YABaseServiceProtocol <NSObject>
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger,EnvironmentType) {
 @end
 
 @interface XSBaseServers : NSObject
-@property (nonatomic, assign) EnvironmentType environmentType;
+@property (nonatomic, assign) XSEnvType environmentType;
 
 @property (nonatomic, strong, readonly) NSString *publicKey;
 @property (nonatomic, strong, readonly) NSString *privateKey;

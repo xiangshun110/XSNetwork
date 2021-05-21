@@ -9,27 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "XSBaseDataEngine.h"
 #import "XSBaseServers.h"
+#import "XSAPIResponseErrorHandler.h"
 
 @interface XSNetworkTools : NSObject
-
-
-///// 获取group ID，用于和扩展程序之前共享数据
-//+ (nullable NSString *)getAppSCGroupID;
-//
-///// 设置group ID，用于和扩展程序之前共享数据
-///// @param appGroupID group id
-//+ (void)setAppSCGroupID:(NSString * _Nonnull)appGroupID;
-//
-//
-//
-//+ (nullable NSString *)getAppVersion;
-//+ (nullable NSString *)getPlatfrom;
-//
-//+ (nullable NSString *)getToken;
-//+ (void)setToken:(nullable NSString *)token;
-//
-//+ (nullable NSString *)getUserID;
-
 
 /// 获取公共参数
 + (nullable NSDictionary *)getComParam;
@@ -47,10 +29,14 @@
 + (void)setComparamExclude:(nullable NSArray *)comParamExclude;
 
 
-/// 切换开发环境, 如果你的URL都是带http的，可以不用设置，默认EnvironmentTypeRelease
+/// 切换开发环境, 如果你的URL都是带http的，可以不用设置，这个切换是存在NSUserDefaults里面的，默认EnvironmentTypeRelease
 /// @param environmentType 环境
-+ (void)changeEnvironmentType:(EnvironmentType)environmentType;
++ (void)changeEnvironmentType:(XSEnvType)environmentType;
 
+
+/// 设置返回数据的公共处理，比如服务器返回code==0算成功，就需要配置这个
+/// @param errHander XSAPIResponseErrorHandler的子类，自己实现，如果是null，则不对返回数据进行处理，默认是XSAPIResponseErrorHandler
++ (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander;
 
 
 /// 设置baseURL, 如果你的URL都是带http的，可以不用设置

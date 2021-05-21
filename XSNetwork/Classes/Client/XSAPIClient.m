@@ -23,6 +23,10 @@
 // 根据 requestID，存放 requestModel
 @property (nonatomic, strong) NSMutableDictionary *requestModelDict;
 
+
+
+@property (nonatomic, strong) XSAPIResponseErrorHandler *errHandler;
+
 @end
 @implementation XSAPIClient
 #pragma mark - life cycle
@@ -32,8 +36,17 @@
     static XSAPIClient *sharedInstance = nil;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[XSAPIClient alloc] init];
+        [sharedInstance initOther];
     });
     return sharedInstance;
+}
+
+- (void)initOther {
+    self.errHandler = [XSAPIResponseErrorHandler new];
+}
+
+- (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander {
+    self.errHandler = errHander;
 }
 
 /**
@@ -80,9 +93,11 @@
                 
                 //在这里做网络错误的解析，只是整理成error(包含重新发起请求，比如重新获取签名后再次请求),不做任何UI处理(包含reload，常规reload不在这里处理)，
                 //解析完成后通过调用requestModel.responseBlock进行回调
-               [XSAPIResponseErrorHandler errorHandlerWithRequestDataModel:requestModel responseURL:response responseObject:responseObject error:error errorHandler:^(NSError *newError) {
-                    requestModel.responseBlock(responseObject, newError);
-                }];
+                if (weakSelf.errHandler) {
+                    error = [weakSelf.errHandler errorHandlerWithRequestDataModel:requestModel responseURL:response responseObject:responseObject error:error];
+                    
+                }
+                requestModel.responseBlock(responseObject, error);
             }
         }];
         [task resume];

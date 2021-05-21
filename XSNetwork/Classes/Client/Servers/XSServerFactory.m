@@ -30,10 +30,10 @@
 + (NSString *)YABaseAPI{
     return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].apiBaseUrl;
 }
-+ (EnvironmentType)getEnvironmentType{
++ (XSEnvType)getEnvironmentType{
     return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].environmentType;
 }
-+ (void)changeEnvironmentType:(EnvironmentType)environmentType{
++ (void)changeEnvironmentType:(XSEnvType)environmentType{
     XSServerFactory *factory = [self sharedInstance];
     [factory.serviceStorage.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         XSBaseServers *service = obj;

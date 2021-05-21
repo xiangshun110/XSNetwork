@@ -18,6 +18,29 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'XSNetwork'
+pod 'XSNetwork' , :git => 'http://nasxs.cn:32769/xiangshun/XSNetwork.git'
+```
+
+## 使用：
+```objective-c
+//配置base URL
+[XSNetworkTools setBaseURLWithRelease:@"https://api.abc.com" dev:@"https://devapi.abc.com" preRelease:@"https://preapi.abc.com"];
+
+//切换环境，EXSEnvTypeDevelop对应上面的https://devapi.abc.com，这个切换是存在NSUserDefaults里面的
+[XSNetworkTools changeEnvironmentType:XSEnvTypeDevelop];
+
+//设置公共参数
+[XSNetworkTools setComparam:@{
+    @"token":@"dasdasdas"
+}];
+
+//设置不要加公共参数的API
+[XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
+
+//GET请求
+[XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
+    NSLog(@"======:%@",data);
+}];
 ```
 
 ## Author

@@ -10,10 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "XSServerFactory.h"
 #import "XSMainServer.h"
-
-static NSString *accessToken = nil;
-static NSString *platfrom = nil;
-static NSString *scgroupID = nil;
+#import "XSAPIClient.h"
 
 //通用参数
 static NSDictionary *commonParameter = nil;
@@ -22,18 +19,6 @@ static NSDictionary *commonParameter = nil;
 static NSArray *comParamExcludes = nil;
 
 @implementation XSNetworkTools
-
-/// 获取group ID
-+ (nullable NSString *)getAppSCGroupID {
-    return scgroupID;
-}
-
-/// 设置group ID
-/// @param appGroupID group id
-+ (void)setAppSCGroupID:(NSString * _Nonnull)appGroupID {
-    scgroupID = appGroupID;
-}
-
 
 /// 获取公共参数
 + (nullable NSDictionary *)getComParam {
@@ -58,76 +43,18 @@ static NSArray *comParamExcludes = nil;
     comParamExcludes = comParamExclude;
 }
 
-+ (void)changeEnvironmentType:(EnvironmentType)environmentType {
++ (void)changeEnvironmentType:(XSEnvType)environmentType {
     [XSServerFactory changeEnvironmentType:environmentType];
+}
+
++ (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander {
+    [[XSAPIClient sharedInstance] setErrorHander:errHander];
 }
 
 + (void)setBaseURLWithRelease:(NSString *_Nullable)release dev:(NSString *_Nullable)dev preRelease:(NSString *_Nullable)preRelease {
     [XSMainServer setBaseURLWithRelease:release dev:dev preRelease:preRelease];
 }
 
-
-//+ (nullable NSString *)getAppVersion{
-//    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-//}
-//
-//+ (nullable NSString *)getPlatfrom{
-//    if(!platfrom) {
-//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-//            platfrom = @"ios";
-//        }else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-//            platfrom = @"ipad";
-//        }else{
-//            platfrom = @"unknown";
-//        }
-//    }
-//    return platfrom;
-//}
-//
-//+ (nullable NSString *)getToken{
-//    if(accessToken) {
-//        return accessToken;
-//    }
-//    NSString *token;
-//    token = [[NSUserDefaults standardUserDefaults] valueForKey:@"Accesstoken"];
-//    if(!token && scgroupID){
-//        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:scgroupID];
-//        token = [userDefaults valueForKey:@"Accesstoken"];
-//    }
-//    accessToken = token;
-//    return token;
-//}
-//
-//
-//+ (void)setToken:(nullable NSString *)token {
-//    accessToken = token;
-//    NSUserDefaults *userDefaults = nil;
-//    if (scgroupID) {
-//        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:scgroupID];
-//    }
-//    if (token) {
-//        [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"Accesstoken"];
-//        if (userDefaults) {
-//            [userDefaults setValue:token forKey:@"Accesstoken"];
-//        }
-//    } else {
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Accesstoken"];
-//        if (userDefaults) {
-//            [userDefaults removeObjectForKey:@"Accesstoken"];
-//        }
-//    }
-//    
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//    if (userDefaults) {
-//        [userDefaults synchronize];
-//    }
-//}
-//
-//+ (nullable NSString *)getUserID{
-//    NSString *platfrom;
-//    platfrom=[[NSUserDefaults standardUserDefaults] valueForKey:@"user_id"];
-//    return platfrom;
-//}
 
 + (NSString *)strOrEmpty:(NSString *)str{
     return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);

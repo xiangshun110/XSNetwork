@@ -16,9 +16,9 @@
 
 + (NSString *)YABaseAPI;
 
-+ (EnvironmentType)getEnvironmentType;
++ (XSEnvType)getEnvironmentType;
 
-+ (void)changeEnvironmentType:(EnvironmentType)environmentType;
++ (void)changeEnvironmentType:(XSEnvType)environmentType;
 
 - (XSBaseServers<YABaseServiceProtocol> *)serviceWithType:(XSServiceType)type;
 

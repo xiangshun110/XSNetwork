@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XSAPIBaseRequestDataModel.h"
+#import "XSAPIResponseErrorHandler.h"
 /**
  *   Client 负责 计算 request， 发起请求。做出回调,尽量不暴露 底层实现。比如 AF，NSSessionData
  */
@@ -28,4 +29,7 @@
  */
 - (void)cancelRequestWithRequestID:(NSNumber *)requestID;
 - (void)cancelRequestWithRequestIDList:(NSArray<NSNumber *> *)requestIDList;
+
+
+- (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander;
 @end
