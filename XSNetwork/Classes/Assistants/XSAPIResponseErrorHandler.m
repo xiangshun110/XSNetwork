@@ -51,24 +51,31 @@
 //    }
 //}
 
-- (NSError *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error {
+- (XSErrorHanderResult *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error {
+    
+    XSErrorHanderResult *xsResult = [XSErrorHanderResult new];
+    
     if (error) {
-        return error;
+        xsResult.error = error;
+        return xsResult;
     } else {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             int errorCode = [[responseObject objectForKey:@"code"] intValue];
             if (errorCode == 0) {
-                return nil;
+                return xsResult;
             } else {
                 NSString *message = @"请求失败";
                 if ([responseObject isKindOfClass:[NSDictionary class]]){
                     message = responseObject[@"message"];
                 }
                 NSError *newError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey:message,@"data":responseObject?responseObject:@{},@"URL":responseURL.URL.absoluteString}];
-                return newError;
+                
+                xsResult.error = newError;
+                return xsResult;
             }
         } else {
-            return error;
+            xsResult.error = error;
+            return xsResult;
         }
     }
 }

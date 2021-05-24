@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "XSAPIBaseRequestDataModel.h"
+#import "XSErrorHanderResult.h"
+
 @interface XSAPIResponseErrorHandler : NSObject
 //- (void)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error errorHandler:(void(^)(NSError *newError))errorHandler;
 
@@ -17,5 +19,5 @@
 /// @param responseURL 请求的URL
 /// @param responseObject  返回的数据
 /// @param error 返回的错误
-- (NSError *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error;
+- (XSErrorHanderResult *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error;
 @end
