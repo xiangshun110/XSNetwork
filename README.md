@@ -15,7 +15,12 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 这个库也是在别人的基本上改的（原作者貌似也没维护了），是对AF对AFNetworking 4.0.x的封装，配置灵活，使用方便，满足中小企业的大部分需求。
 
+特点：
 
+1. 可配置多换环境，可随时切换环境
+2. VC销毁时自动取消没完成的网络请求
+3. 可设置公共参数，可设置不要公共参数的URL
+4. 静态方法调用，使用方便
 
 ## Requirements
 
@@ -43,18 +48,21 @@ pod 'XSNetwork' , :git => 'http://nasxs.cn:32769/xiangshun/XSNetwork.git'
     @"token":@"dasdasdas"
 }];
 
-//设置数据回调的统一处理（可以不设置）TestAPIErrorHander需要自己创建，下面我会给个示例
+//设置数据回调的统一处理（可以不设置）TestAPIErrorHander需要自己创建，下面有示例代码
 [XSNetworkTools setErrorHander:[TestAPIErrorHander new]];
 
 
 //设置不要加公共参数的API
 [XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
 
+//-------------  以上配置只需要配置一次  --------------
+
 //GET请求
 [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
     NSLog(@"======:%@",data);
 }];
 
+//注意，上面方法的第一个参数，可以使任何Object, 当这个参数被销毁时，如果请求还没完成，会自动取消请求，所以最好传当前VC
 
 
 
