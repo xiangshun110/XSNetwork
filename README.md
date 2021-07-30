@@ -135,7 +135,19 @@ NS_ASSUME_NONNULL_END
 
 ## Author
 
-shun, 113648883@qq.com
+向顺, 113648883@qq.com
+
+
+
+## 版本更新记录
+
+0.1.5：
+
+1.增加全局设置超时时间（[XSNetworkTools setRequesTimeout:10];）
+
+2.增加单个请求设置超时时间
+
+
 
 ## License
 
