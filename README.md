@@ -21,6 +21,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 2. VC销毁时自动取消没完成的网络请求
 3. 可设置公共参数，可设置不要公共参数的URL
 4. 静态方法调用，使用方便
+5. 支持全局配置超时时间和单个请求设置超时时间
 
 ## Requirements
 
@@ -54,6 +55,9 @@ pod 'XSNetwork' , :git => 'http://nasxs.cn:32769/xiangshun/XSNetwork.git'
 
 //设置不要加公共参数的API
 [XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
+
+//设置全局超时时间（不设置默认25秒）
+[XSNetworkTools setRequesTimeout:10];
 
 //-------------  以上配置只需要配置一次  --------------
 
