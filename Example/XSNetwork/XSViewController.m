@@ -9,6 +9,8 @@
 #import "XSViewController.h"
 #import <XSNetworkTools.h>
 
+#import "XSAppDelegate.h"
+
 @interface XSViewController ()
 
 @end
@@ -35,9 +37,19 @@
     //设置不要加公共参数的API
     [XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
     
+    
+    //超时
+    //[XSNetworkTools setRequesTimeout:10];
+    
     //GET请求
     [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
+        NSLog(@"======aaaaaa:%@",error);
+    }];
+    
+    //单独设置超时的
+    [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631&d=1" requestType:XSAPIRequestTypeGet timeout:1 complete:^(id data, NSError *error) {
         NSLog(@"======:%@",data);
+        NSLog(@"======:%@",error);
     }];
     
 }

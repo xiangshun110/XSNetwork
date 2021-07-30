@@ -46,6 +46,11 @@
 + (void)setBaseURLWithRelease:(NSString *_Nullable)release dev:(NSString *_Nullable)dev preRelease:(NSString *_Nullable)preRelease;
 
 
+/// 设置请求超时时间
+/// @param timeout 时间，默认是25秒
++ (void)setRequesTimeout:(NSTimeInterval)timeout;
+
+
 /**
  *  如果参数是nil，返回@""
  *  @param str 要判断的字符串
@@ -71,6 +76,15 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 + (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
 
 
+
+/// 网络请求--可以设置超时，这个超时只影响这一个请求，不影响其他请求
+/// @param control object
+/// @param param 参数
+/// @param path 请求URL
+/// @param requestType YAAPIManagerRequestTypeGet/YAAPIManagerRequestTypePost
+/// @param timeout 超时时间,0的话就是默认，默认是25秒（如果没设置）
+/// @param responseBlock 回调
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType timeout:(NSTimeInterval)timeout complete:(CompletionDataBlock _Nullable)responseBlock;
 
 /// 上传文件
 /// @param control self
@@ -101,7 +115,7 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 /**
  * @brief   原生GET请求方法  没有框架
- * @author  yuancan
+ * @author  xiangshun
  
  * @param relativePath 接口名称
  * @param params 请求参数
@@ -112,7 +126,7 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 /**
  * @brief   原生POST请求方法
- * @author  yuancan
+ * @author  xiangshun
  
  * @param relativePath 接口名称
  * @param params 请求参数
@@ -123,7 +137,7 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 /**
  * @brief   原生JSON格式网络接口请求方法
- * @author  yuancan
+ * @author  xiangshun
  *
  * @param relativePath 接口名称
  * @param params 请求参数

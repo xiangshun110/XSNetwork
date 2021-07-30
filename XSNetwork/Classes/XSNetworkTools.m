@@ -11,6 +11,7 @@
 #import "XSServerFactory.h"
 #import "XSMainServer.h"
 #import "XSAPIClient.h"
+#import "XSNetworkSingle.h"
 
 //通用参数
 static NSDictionary *commonParameter = nil;
@@ -56,12 +57,23 @@ static NSArray *comParamExcludes = nil;
 }
 
 
++ (void)setRequesTimeout:(NSTimeInterval)timeout {
+    if (timeout > 0) {
+        [XSNetworkSingle sharedInstance].requestTimeout = timeout;
+    }
+}
+
 + (NSString *)strOrEmpty:(NSString *)str{
     return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);
 }
 
 + (XSBaseDataEngine *)request:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock)responseBlock{
     return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
+}
+
+
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType timeout:(NSTimeInterval)timeout complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None timeout:timeout progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
 }
 
 + (XSBaseDataEngine *)uploadFile:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path filePath:(NSString *)filePath fileKey:(NSString *)fileKey fileName:(NSString *)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock)progress complete:(CompletionDataBlock)responseBlock{

@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - XSNetwork (0.1.0):
+  - XSNetwork (0.1.4):
     - AFNetworking (~> 4.0.1)
 
 DEPENDENCIES:
@@ -30,8 +30,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  XSNetwork: cc4b794b11de7231bd71c9c0640e2bcb4b6a5a67
+  XSNetwork: 7729ea9b8e834f6f6b8afde03789b7cc4cb9a8f5
 
-PODFILE CHECKSUM: 67b9fe2164b86d797023384f0e16ccb2145eaaa0
+PODFILE CHECKSUM: 1d421c4c6f7a0f335a8f62c1d3f29f537082b795
 
 COCOAPODS: 1.9.3

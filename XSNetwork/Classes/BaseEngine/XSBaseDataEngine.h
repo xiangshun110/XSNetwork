@@ -10,6 +10,7 @@
 #import "XSServerConfig.h"
 #import <UIKit/UIKit.h>
 @interface XSBaseDataEngine : NSObject
+
 /**
  *  取消self持有的hash的网络请求
  */
@@ -18,6 +19,19 @@
 /**
  *  下面的区分get/post/upload/download只是为了上层Engine调用方便，实现都是一样的
  */
+
+
+/// get/post
++ (XSBaseDataEngine *)control:(NSObject *)control
+       callAPIWithServiceType:(XSServiceType)serviceType
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                      timeout:(NSTimeInterval)timeout
+                progressBlock:(ProgressBlock)progressBlock
+                     complete:(CompletionDataBlock)responseBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock;
 
 /// get/post
 + (XSBaseDataEngine *)control:(NSObject *)control

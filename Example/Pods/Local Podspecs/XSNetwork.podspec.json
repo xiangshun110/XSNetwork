@@ -1,6 +1,6 @@
 {
   "name": "XSNetwork",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "summary": "对AFNetworking 4.0的封装",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "http://nasxs.cn:32769/xiangshun/XSNetwork",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "http://nasxs.cn:32769/xiangshun/XSNetwork.git",
-    "tag": "0.1.0"
+    "tag": "0.1.4"
   },
   "platforms": {
     "ios": "9.0"

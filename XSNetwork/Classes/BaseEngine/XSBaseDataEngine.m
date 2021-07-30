@@ -29,6 +29,7 @@
     [[XSAPIClient sharedInstance] cancelRequestWithRequestID:self.requestID];
 }
 
+
 /// get/post
 + (XSBaseDataEngine *)control:(NSObject *)control
        callAPIWithServiceType:(XSServiceType)serviceType
@@ -36,11 +37,12 @@
                         param:(NSDictionary *)parameters
                   requestType:(XSAPIRequestType)requestType
                     alertType:(XSAPIAlertType)alertType
+                      timeout:(NSTimeInterval)timeout
                 progressBlock:(ProgressBlock)progressBlock
                      complete:(CompletionDataBlock)responseBlock
-       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock{
-    XSBaseDataEngine *engine = [[XSBaseDataEngine alloc]init];
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
     __weak typeof(control) weakControl = control;
+    XSBaseDataEngine *engine = [[XSBaseDataEngine alloc] init];
     XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType path:path param:parameters dataFilePath:nil image:nil dataName:nil fileName:nil mimeType:nil requestType:requestType uploadProgressBlock:progressBlock downloadProgressBlock:nil complete:^(id data, NSError *error) {
         if (responseBlock) {
             //可以在这里做错误的UI处理，或者是在上层engine做
@@ -68,6 +70,11 @@
         [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
     }];
     
+    
+    if (timeout > 0) {
+        dataModel.requestTimeout = timeout;
+    }
+    
     if ([path hasPrefix:@"http"]) {
         dataModel.needBaseURL = NO;
     } else {
@@ -76,6 +83,21 @@
     
     [engine callRequestWithRequestModel:dataModel control:control];
     return engine;
+}
+
+
+/// get/post
++ (XSBaseDataEngine *)control:(NSObject *)control
+       callAPIWithServiceType:(XSServiceType)serviceType
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                progressBlock:(ProgressBlock)progressBlock
+                     complete:(CompletionDataBlock)responseBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    
+    return [self control:control callAPIWithServiceType:serviceType path:path param:parameters requestType:requestType alertType:alertType timeout:0 progressBlock:progressBlock complete:responseBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 // upload/download

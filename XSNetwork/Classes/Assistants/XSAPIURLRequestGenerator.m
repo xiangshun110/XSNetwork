@@ -12,8 +12,9 @@
 #import "XSignatureGenerator.h"
 #import "NSString+XSUtilNetworking.h"
 #import "XSNetworkTools.h"
+#import "XSNetworkSingle.h"
 
-static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
+//static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 @interface XSAPIURLRequestGenerator()
 @property (nonatomic, strong) AFHTTPRequestSerializer *httpRequestSerializer;
 //@property (nonatomic, strong) AFJSONRequestSerializer *jsonRequestSerializer;
@@ -118,7 +119,13 @@ static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 #else
 
 #endif
-    request.timeoutInterval=kYANetworkingTimeoutSeconds;
+    
+    if (dataModel.requestTimeout > 0) {
+        request.timeoutInterval = dataModel.requestTimeout;
+    } else {
+        request.timeoutInterval = [XSNetworkSingle sharedInstance].requestTimeout;
+    }
+    
     return request;
 }
 #pragma mark - private methods
@@ -141,7 +148,7 @@ static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 {
     if (_httpRequestSerializer == nil) {
         _httpRequestSerializer = [AFHTTPRequestSerializer serializer];
-        _httpRequestSerializer.timeoutInterval = kYANetworkingTimeoutSeconds;
+        _httpRequestSerializer.timeoutInterval = [XSNetworkSingle sharedInstance].requestTimeout;
         _httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     }
     return _httpRequestSerializer;

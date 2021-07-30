@@ -41,5 +41,4 @@ typedef void (^CompletionDataBlock)(id data, NSError *error);
 typedef void (^ErrorAlertSelectIndexBlock)(NSUInteger buttonIndex);
 
 
-
 #endif /* XSServerConfig_h */

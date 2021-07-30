@@ -14,7 +14,7 @@
 #import "XSAPIResponseErrorHandler.h"
 #import "XSAPIURLRequestGenerator.h"
 #import "XSAppContext.h"
-#import "XSCommonParamsGenerator.h"
+#import "XSErrorHanderResult.h"
 #import "XSignatureGenerator.h"
 #import "XSNetworkingAutoCancelRequests.h"
 #import "XSBaseDataEngine.h"
@@ -25,9 +25,9 @@
 #import "XSBaseServers.h"
 #import "XSServerFactory.h"
 #import "XSAPIClient.h"
-#import "XSServerConfig.h"
 #import "XSCustomResponseSerializer.h"
 #import "XSNetworkTools.h"
+#import "XSServerConfig.h"
 
 FOUNDATION_EXPORT double XSNetworkVersionNumber;
 FOUNDATION_EXPORT const unsigned char XSNetworkVersionString[];
