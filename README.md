@@ -152,7 +152,7 @@ NS_ASSUME_NONNULL_END
 
 ## 版本更新记录
 
-0.1.6：
+0.1.8：
 
 1.增加可以往body里面传一个NSData,在XSNetworkTools里面：
 
