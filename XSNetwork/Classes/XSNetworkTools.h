@@ -51,6 +51,12 @@
 + (void)setRequesTimeout:(NSTimeInterval)timeout;
 
 
+
+/// 设置弹出toast的视图
+/// @param view UIview
++ (void)setToastView:(UIView *_Nonnull)view;
+
+
 /**
  *  如果参数是nil，返回@""
  *  @param str 要判断的字符串

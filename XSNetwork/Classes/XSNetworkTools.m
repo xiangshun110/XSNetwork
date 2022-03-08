@@ -63,6 +63,10 @@ static NSArray *comParamExcludes = nil;
     }
 }
 
++ (void)setToastView:(UIView *)view {
+    [XSNetworkSingle sharedInstance].toastView = view;
+}
+
 + (NSString *)strOrEmpty:(NSString *)str{
     return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);
 }

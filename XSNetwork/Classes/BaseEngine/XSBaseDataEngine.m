@@ -12,6 +12,7 @@
 #import "NSObject+XSNetWorkingAutoCancel.h"
 //#import "MBProgressHUD+TMD.h"
 #import "MBProgressHUD.h"
+#import "XSNetworkSingle.h"
 
 @interface XSBaseDataEngine ()
 
@@ -80,17 +81,21 @@
                     case XSAPIAlertType_Toast:
                     {
                         UIView *view = nil;
-                        if ([control isKindOfClass:[UIViewController class]]) {
-                            UIViewController *vc = (UIViewController *)control;
-                            view = vc.view;
+                        if ([XSNetworkSingle sharedInstance].toastView) {
+                            view = [XSNetworkSingle sharedInstance].toastView;
                         } else {
-                            view = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+                            if ([control isKindOfClass:[UIViewController class]]) {
+                                UIViewController *vc = (UIViewController *)control;
+                                view = vc.view;
+                            }
                         }
-                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-                        hud.mode = MBProgressHUDModeText;
-                        hud.label.text = emsg;
-                        hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
-                        [hud hideAnimated:YES afterDelay:2.f];
+                        if (view) {
+                            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+                            hud.mode = MBProgressHUDModeText;
+                            hud.label.text = emsg;
+                            hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
+                            [hud hideAnimated:YES afterDelay:2.f];
+                        }
                     }
                         break;
                     case XSAPIAlertType_Alert:

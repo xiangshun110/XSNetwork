@@ -152,6 +152,22 @@ NS_ASSUME_NONNULL_END
 
 ## 版本更新记录
 
+0.1.11：
+
+1.增加一个方法(暂时没用到)：
+
+```objective-c
+/// 设置弹出toast的视图
+/// @param view UIview
++ (void)setToastView:(UIView *_Nonnull)view;
+```
+
+
+
+
+
+
+
 0.1.10：
 
 1.增加可以往body里面传一个NSData,在XSNetworkTools里面：
