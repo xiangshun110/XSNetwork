@@ -23,6 +23,8 @@ static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 
 - (void)initOther {
     self.requestTimeout = kYANetworkingTimeoutSeconds;
+    self.errMessageKey = @"message";
+    self.errorAlerType = XSAPIAlertType_None;
 }
 
 @end

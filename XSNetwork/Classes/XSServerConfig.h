@@ -32,8 +32,8 @@ typedef NS_ENUM (NSUInteger, XSAPIRequestType){
 typedef NS_ENUM(NSInteger, XSAPIAlertType) {
     XSAPIAlertType_None,
     XSAPIAlertType_Toast,
-    XSAPIAlertType_Alert,
-    XSAPIAlertType_ErrorView
+//    XSAPIAlertType_Alert,
+//    XSAPIAlertType_ErrorView
 };
 
 typedef void (^ProgressBlock)(NSProgress *taskProgress);

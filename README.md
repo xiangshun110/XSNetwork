@@ -152,6 +152,25 @@ NS_ASSUME_NONNULL_END
 
 ## 版本更新记录
 
+0.1.12：
+
+1.增加2个方法（setToastView可以用了）：
+
+```objective-c
+/// 请求错误时弹出消息的方式,默认不弹出，XSAPIAlertType_None
+/// @param errorAlerType type
++ (void)setErrorAlerType:(XSAPIAlertType)errorAlerType;
+
+
+/// 设置获取错误消息的key,默认是message
+/// @param messageKey keu
++ (void)setErrorMessageKey:(NSString *_Nonnull)messageKey;
+```
+
+
+
+
+
 0.1.11：
 
 1.增加一个方法(暂时没用到)：

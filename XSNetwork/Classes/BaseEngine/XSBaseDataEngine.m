@@ -72,10 +72,11 @@
                                                         complete:^(id data, NSError *error) {
         if (responseBlock) {
             //可以在这里做错误的UI处理，或者是在上层engine做
-            if(error){
+            if (error) {
                 NSString *emsg = error.localizedDescription;
-                if (data[@"error_msg"]) {
-                    emsg = data[@"error_msg"];
+                NSString *errKey = [XSNetworkSingle sharedInstance].errMessageKey;
+                if (data[errKey]) {
+                    emsg = data[errKey];
                 }
                 switch (alertType) {
                     case XSAPIAlertType_Toast:
@@ -98,12 +99,12 @@
                         }
                     }
                         break;
-                    case XSAPIAlertType_Alert:
-                    case XSAPIAlertType_ErrorView:
-                    {
-                        
-                    }
-                        break;
+//                    case XSAPIAlertType_Alert:
+//                    case XSAPIAlertType_ErrorView:
+//                    {
+//                        
+//                    }
+//                        break;
                     default:
                         break;
                 }

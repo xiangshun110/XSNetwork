@@ -126,6 +126,10 @@
         request.timeoutInterval = [XSNetworkSingle sharedInstance].requestTimeout;
     }
     
+    if (dataModel.bodyData) {
+        [request setHTTPBody:dataModel.bodyData];
+    }
+    
     return request;
 }
 #pragma mark - private methods

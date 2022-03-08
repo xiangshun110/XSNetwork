@@ -71,12 +71,30 @@ static NSArray *comParamExcludes = nil;
     return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);
 }
 
+/// 请求错误时弹出消息的方式,默认不弹出，XSAPIAlertType_None
+/// @param errorAlerType type
++ (void)setErrorAlerType:(XSAPIAlertType)errorAlerType {
+    [XSNetworkSingle sharedInstance].errorAlerType = errorAlerType;
+}
+
+
+/// 设置获取错误消息的key,默认是message
+/// @param messageKey keu
++ (void)setErrorMessageKey:(NSString *_Nonnull)messageKey {
+    [XSNetworkSingle sharedInstance].errMessageKey = messageKey;
+}
+
+
+
+
+
+
 + (XSBaseDataEngine *)request:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock)responseBlock{
     return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
 }
 
-+ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock {
-    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:nil bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
 }
 
 

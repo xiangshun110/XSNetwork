@@ -57,6 +57,15 @@
 + (void)setToastView:(UIView *_Nonnull)view;
 
 
+/// 请求错误时弹出消息的方式,默认不弹出，XSAPIAlertType_None
+/// @param errorAlerType type
++ (void)setErrorAlerType:(XSAPIAlertType)errorAlerType;
+
+
+/// 设置获取错误消息的key,默认是message
+/// @param messageKey keu
++ (void)setErrorMessageKey:(NSString *_Nonnull)messageKey;
+
 /**
  *  如果参数是nil，返回@""
  *  @param str 要判断的字符串
@@ -89,7 +98,7 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 /// @param path path
 /// @param requestType type
 /// @param responseBlock 回调
-+ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
 
 
 /// 网络请求--可以设置超时，这个超时只影响这一个请求，不影响其他请求
