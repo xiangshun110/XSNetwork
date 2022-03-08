@@ -21,6 +21,26 @@
  */
 
 
++ (XSBaseDataEngine *)control:(NSObject *)control
+       callAPIWithServiceType:(XSServiceType)serviceType
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                        bodyData:(NSData *)bodyData
+                 dataFilePath:(NSString *)dataFilePath
+                  dataFileURL:(NSURL *)dataFileURL
+                        image:(UIImage *)image
+                     dataName:(NSString *)dataName
+                     fileName:(NSString *)fileName
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                     mimeType:(NSString *)mimeType
+                      timeout:(NSTimeInterval)timeout
+                     complete:(CompletionDataBlock)responseBlock
+          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
+        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock;
+
+
 /// get/post
 + (XSBaseDataEngine *)control:(NSObject *)control
        callAPIWithServiceType:(XSServiceType)serviceType

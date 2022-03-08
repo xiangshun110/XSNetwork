@@ -37,6 +37,9 @@
 /// 要传的图片
 @property (nonatomic, strong) UIImage               *image;
 
+
+@property (nonatomic, strong) NSData                *bodyData;
+
 /// 如果小于等于0，就用默认的kYANetworkingTimeoutSeconds
 @property (nonatomic, assign) NSTimeInterval        requestTimeout;
 

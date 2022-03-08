@@ -77,6 +77,15 @@ typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 
 
+/// 给body传一个nsdata
+/// @param control self
+/// @param bodyData nsdata
+/// @param path path
+/// @param requestType type
+/// @param responseBlock 回调
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
+
+
 /// 网络请求--可以设置超时，这个超时只影响这一个请求，不影响其他请求
 /// @param control object
 /// @param param 参数

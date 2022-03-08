@@ -71,6 +71,10 @@ static NSArray *comParamExcludes = nil;
     return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
 }
 
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:nil bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
 
 + (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType timeout:(NSTimeInterval)timeout complete:(CompletionDataBlock _Nullable)responseBlock {
     return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None timeout:timeout progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];

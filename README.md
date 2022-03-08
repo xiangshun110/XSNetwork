@@ -145,6 +145,16 @@ NS_ASSUME_NONNULL_END
 
 ## 版本更新记录
 
+0.1.6：
+
+1.增加可以往body里面传一个NSData,在XSNetworkTools里面：
+
+```objective-c
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
+```
+
+
+
 0.1.5：
 
 1.增加全局设置超时时间（[XSNetworkTools setRequesTimeout:10];）

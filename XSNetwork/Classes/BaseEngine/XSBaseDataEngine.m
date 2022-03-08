@@ -30,35 +30,60 @@
 }
 
 
-/// get/post
+
 + (XSBaseDataEngine *)control:(NSObject *)control
        callAPIWithServiceType:(XSServiceType)serviceType
                          path:(NSString *)path
                         param:(NSDictionary *)parameters
+                        bodyData:(NSData *)bodyData
+                 dataFilePath:(NSString *)dataFilePath
+                  dataFileURL:(NSURL *)dataFileURL
+                        image:(UIImage *)image
+                     dataName:(NSString *)dataName
+                     fileName:(NSString *)fileName
                   requestType:(XSAPIRequestType)requestType
                     alertType:(XSAPIAlertType)alertType
+                     mimeType:(NSString *)mimeType
                       timeout:(NSTimeInterval)timeout
-                progressBlock:(ProgressBlock)progressBlock
                      complete:(CompletionDataBlock)responseBlock
+          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
+        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    
     __weak typeof(control) weakControl = control;
     XSBaseDataEngine *engine = [[XSBaseDataEngine alloc] init];
-    XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType path:path param:parameters dataFilePath:nil image:nil dataName:nil fileName:nil mimeType:nil requestType:requestType uploadProgressBlock:progressBlock downloadProgressBlock:nil complete:^(id data, NSError *error) {
+    
+    XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType
+                                                            path:path
+                                                           param:parameters
+                                                        bodyData:bodyData
+                                                    dataFilePath:dataFilePath
+                                                     dataFileURL:dataFileURL
+                                                           image:image
+                                                        dataName:dataName
+                                                        fileName:fileName
+                                                        mimeType:mimeType
+                                                     requestType:requestType
+                                             uploadProgressBlock:uploadProgressBlock
+                                           downloadProgressBlock:downloadProgressBlock
+                                                        complete:^(id data, NSError *error) {
         if (responseBlock) {
             //可以在这里做错误的UI处理，或者是在上层engine做
             if(error){
-                NSString *emsg=error.localizedDescription;
+                NSString *emsg = error.localizedDescription;
                 if(data[@"error_msg"]){
-                    emsg=data[@"error_msg"];
+                    emsg = data[@"error_msg"];
                 }
                 switch (alertType) {
                     case XSAPIAlertType_Toast:
-                        //[MBProgressHUD showError:emsg];
+                    {
+                        
+                    }
                         break;
                     case XSAPIAlertType_Alert:
                     case XSAPIAlertType_ErrorView:
                     {
-                        //[[XSSingleton getInstance] showAlertWithContent:emsg];
+                        
                     }
                         break;
                     default:
@@ -69,7 +94,6 @@
         }
         [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
     }];
-    
     
     if (timeout > 0) {
         dataModel.requestTimeout = timeout;
@@ -83,6 +107,22 @@
     
     [engine callRequestWithRequestModel:dataModel control:control];
     return engine;
+}
+
+
+/// get/post
++ (XSBaseDataEngine *)control:(NSObject *)control
+       callAPIWithServiceType:(XSServiceType)serviceType
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                      timeout:(NSTimeInterval)timeout
+                progressBlock:(ProgressBlock)progressBlock
+                     complete:(CompletionDataBlock)responseBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:alertType mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:progressBlock downloadProgressBlock:nil errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 
@@ -117,22 +157,8 @@
                      complete:(CompletionDataBlock)responseBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
 {
-    XSBaseDataEngine *engine = [[XSBaseDataEngine alloc]init];
-    __weak typeof(control) weakControl = control;
-    XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType path:path param:parameters dataFilePath:dataFilePath image:image dataName:dataName fileName:fileName mimeType:mimeType requestType:requestType uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock complete:^(id data, NSError *error) {
-        if (responseBlock) {
-            //可以在这里做错误的UI处理，或者是在上层engine做
-            responseBlock(data,error);
-        }
-        [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
-    }];
-    if([path hasPrefix:@"http"]){
-        dataModel.needBaseURL=NO;
-    }else{
-        dataModel.needBaseURL=YES;
-    }
-    [engine callRequestWithRequestModel:dataModel control:control];
-    return engine;
+    
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:dataFilePath dataFileURL:nil image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 
@@ -152,22 +178,7 @@
                      complete:(CompletionDataBlock)responseBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
 {
-    XSBaseDataEngine *engine = [[XSBaseDataEngine alloc]init];
-    __weak typeof(control) weakControl = control;
-    XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType path:path param:parameters dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName mimeType:mimeType requestType:requestType uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock complete:^(id data, NSError *error) {
-        if (responseBlock) {
-            //可以在这里做错误的UI处理，或者是在上层engine做
-            responseBlock(data,error);
-        }
-        [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
-    }];
-    if([path hasPrefix:@"http"]){
-        dataModel.needBaseURL=NO;
-    }else{
-        dataModel.needBaseURL=YES;
-    }
-    [engine callRequestWithRequestModel:dataModel control:control];
-    return engine;
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:nil dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 
@@ -190,22 +201,8 @@
                      complete:(CompletionDataBlock)responseBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
 {
-    XSBaseDataEngine *engine = [[XSBaseDataEngine alloc]init];
-    __weak typeof(control) weakControl = control;
-    XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType path:path param:parameters dataFilePath:dataFilePath dataName:dataName fileName:fileName mimeType:mimeType requestType:requestType uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock complete:^(id data, NSError *error) {
-        if (responseBlock) {
-            //可以在这里做错误的UI处理，或者是在上层engine做
-            responseBlock(data,error);
-        }
-        [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
-    }];
-    if([path hasPrefix:@"http"]){
-        dataModel.needBaseURL=NO;
-    }else{
-        dataModel.needBaseURL=YES;
-    }
-    [engine callRequestWithRequestModel:dataModel control:control];
-    return engine;
+    
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:dataFilePath dataFileURL:nil image:nil dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 #pragma mark - UITableViewDelegate
@@ -215,36 +212,8 @@
 - (XSAPIBaseRequestDataModel *)dataModelWith:(XSServiceType)serviceType
                                         path:(NSString *)path
                                        param:(NSDictionary *)parameters
+                                    bodyData:(NSData *)bodyData
                                 dataFilePath:(NSString *)dataFilePath
-                                       image:(UIImage *)image
-                                    dataName:(NSString *)dataName
-                                    fileName:(NSString *)fileName
-                                    mimeType:(NSString *)mimeType
-                                 requestType:(XSAPIRequestType)requestType
-                         uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-                       downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-                                    complete:(CompletionDataBlock)responseBlock
-{
-    XSAPIBaseRequestDataModel *dataModel = [[XSAPIBaseRequestDataModel alloc]init];
-    dataModel.serviceType = serviceType;
-    dataModel.apiMethodPath = path;
-    dataModel.parameters = parameters;
-    dataModel.dataFilePath = dataFilePath;
-    dataModel.dataName = dataName;
-    dataModel.fileName=fileName;
-    dataModel.mimeType = mimeType;
-    dataModel.requestType = requestType;
-    dataModel.uploadProgressBlock = uploadProgressBlock;
-    dataModel.downloadProgressBlock = downloadProgressBlock;
-    dataModel.responseBlock = responseBlock;
-    dataModel.image=image;
-    return dataModel;
-}
-
-
-- (XSAPIBaseRequestDataModel *)dataModelWith:(XSServiceType)serviceType
-                                        path:(NSString *)path
-                                       param:(NSDictionary *)parameters
                                  dataFileURL:(NSURL *)dataFileURL
                                        image:(UIImage *)image
                                     dataName:(NSString *)dataName
@@ -259,42 +228,17 @@
     dataModel.serviceType = serviceType;
     dataModel.apiMethodPath = path;
     dataModel.parameters = parameters;
+    dataModel.dataFilePath = dataFilePath;
     dataModel.dataFileURL = dataFileURL;
     dataModel.dataName = dataName;
-    dataModel.fileName=fileName;
+    dataModel.fileName = fileName;
     dataModel.mimeType = mimeType;
     dataModel.requestType = requestType;
     dataModel.uploadProgressBlock = uploadProgressBlock;
     dataModel.downloadProgressBlock = downloadProgressBlock;
     dataModel.responseBlock = responseBlock;
-    dataModel.image=image;
-    return dataModel;
-}
-
-- (XSAPIBaseRequestDataModel *)dataModelWith:(XSServiceType)serviceType
-                                        path:(NSString *)path
-                                       param:(NSDictionary *)parameters
-                                dataFilePath:(NSString *)dataFilePath
-                                    dataName:(NSString *)dataName
-                                    fileName:(NSString *)fileName
-                                    mimeType:(NSString *)mimeType
-                                 requestType:(XSAPIRequestType)requestType
-                         uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-                       downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-                                    complete:(CompletionDataBlock)responseBlock
-{
-    XSAPIBaseRequestDataModel *dataModel = [[XSAPIBaseRequestDataModel alloc]init];
-    dataModel.serviceType = serviceType;
-    dataModel.apiMethodPath = path;
-    dataModel.parameters = parameters;
-    dataModel.dataFilePath = dataFilePath;
-    dataModel.dataName = dataName;
-    dataModel.fileName=fileName;
-    dataModel.mimeType = mimeType;
-    dataModel.requestType = requestType;
-    dataModel.uploadProgressBlock = uploadProgressBlock;
-    dataModel.downloadProgressBlock = downloadProgressBlock;
-    dataModel.responseBlock = responseBlock;
+    dataModel.image = image;
+    dataModel.bodyData = bodyData;
     return dataModel;
 }
 
