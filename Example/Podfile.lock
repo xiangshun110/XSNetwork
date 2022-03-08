@@ -14,8 +14,10 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - XSNetwork (0.1.4):
+  - MBProgressHUD (1.2.0)
+  - XSNetwork (0.1.6):
     - AFNetworking (~> 4.0.1)
+    - MBProgressHUD (~> 1.2.0)
 
 DEPENDENCIES:
   - XSNetwork (from `../`)
@@ -23,6 +25,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
+    - MBProgressHUD
 
 EXTERNAL SOURCES:
   XSNetwork:
@@ -30,8 +33,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  XSNetwork: 7729ea9b8e834f6f6b8afde03789b7cc4cb9a8f5
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  XSNetwork: 3e299fa482b316fe573e34a8b5aa40f22814d049
 
 PODFILE CHECKSUM: 1d421c4c6f7a0f335a8f62c1d3f29f537082b795
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.11.2

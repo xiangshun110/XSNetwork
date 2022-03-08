@@ -11,6 +11,8 @@
 #import "XSAPIClient.h"
 #import "NSObject+XSNetWorkingAutoCancel.h"
 //#import "MBProgressHUD+TMD.h"
+#import "MBProgressHUD.h"
+
 @interface XSBaseDataEngine ()
 
 @property (nonatomic, strong) NSNumber *requestID;
@@ -71,13 +73,24 @@
             //可以在这里做错误的UI处理，或者是在上层engine做
             if(error){
                 NSString *emsg = error.localizedDescription;
-                if(data[@"error_msg"]){
+                if (data[@"error_msg"]) {
                     emsg = data[@"error_msg"];
                 }
                 switch (alertType) {
                     case XSAPIAlertType_Toast:
                     {
-                        
+                        UIView *view = nil;
+                        if ([control isKindOfClass:[UIViewController class]]) {
+                            UIViewController *vc = (UIViewController *)control;
+                            view = vc.view;
+                        } else {
+                            view = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+                        }
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+                        hud.mode = MBProgressHUDModeText;
+                        hud.label.text = emsg;
+                        hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
+                        [hud hideAnimated:YES afterDelay:2.f];
                     }
                         break;
                     case XSAPIAlertType_Alert:

@@ -26,6 +26,7 @@
 #import "XSServerFactory.h"
 #import "XSAPIClient.h"
 #import "XSCustomResponseSerializer.h"
+#import "XSNetworkSingle.h"
 #import "XSNetworkTools.h"
 #import "XSServerConfig.h"
 
