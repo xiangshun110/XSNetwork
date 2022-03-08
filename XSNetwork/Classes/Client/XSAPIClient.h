@@ -14,7 +14,7 @@
  */
 @interface XSAPIClient : NSObject
 
-+ (instancetype)sharedInstance;
++ (instancetype _Nonnull )sharedInstance;
 
 /**
  *  根据dataModel发起网络请求，并根据dataModel发起回调
@@ -22,13 +22,13 @@
  *
  *  @return 网络请求task哈希值
  */
-- (NSNumber *)callRequestWithRequestModel:(XSAPIBaseRequestDataModel *)requestModel;
+- (NSNumber *_Nonnull)callRequestWithRequestModel:(XSAPIBaseRequestDataModel *_Nonnull)requestModel;
 
 /**
  *  取消网络请求
  */
-- (void)cancelRequestWithRequestID:(NSNumber *)requestID;
-- (void)cancelRequestWithRequestIDList:(NSArray<NSNumber *> *)requestIDList;
+- (void)cancelRequestWithRequestID:(NSNumber *_Nonnull)requestID;
+- (void)cancelRequestWithRequestIDList:(NSArray<NSNumber *> *_Nonnull)requestIDList;
 
 
 - (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander;

@@ -14,11 +14,11 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 - (NSString *)user_id {
-    if (/* DISABLES CODE */ (!@"APP_DELEGATE.user.userID")) {
-        _user_id = @"APP_DELEGATE.user.userID";
-    } else {
-        _user_id = @"loginUser.userID";
-    }
+//    if (/* DISABLES CODE */ (!@"APP_DELEGATE.user.userID")) {
+//        _user_id = @"APP_DELEGATE.user.userID";
+//    } else {
+//        _user_id = @"loginUser.userID";
+//    }
     return _user_id;
 }
 

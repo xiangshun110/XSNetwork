@@ -25,12 +25,12 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-依赖第三方库：
+依赖的第三方库：
 
 - 'AFNetworking', '~> 4.0.1'
 - 'MBProgressHUD', '~> 1.2.0'
 
-
+如果你的项目中有使用者两个库，只要版本大于等于这个版本就可以
 
 ## Installation
 
