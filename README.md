@@ -25,6 +25,13 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+依赖第三方库：
+
+- 'AFNetworking', '~> 4.0.1'
+- 'MBProgressHUD', '~> 1.2.0'
+
+
+
 ## Installation
 
 XSNetwork is available through [CocoaPods](https://cocoapods.org). To install
