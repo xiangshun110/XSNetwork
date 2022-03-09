@@ -152,7 +152,9 @@ NS_ASSUME_NONNULL_END
 
 ## 版本更新记录
 
-0.1.12：
+#### 0.1.12
+
+------
 
 1.增加2个方法（setToastView可以用了）：
 
@@ -169,9 +171,9 @@ NS_ASSUME_NONNULL_END
 
 
 
+#### 0.1.11
 
-
-0.1.11：
+------
 
 1.增加一个方法(暂时没用到)：
 
@@ -183,11 +185,9 @@ NS_ASSUME_NONNULL_END
 
 
 
+#### 0.1.10
 
-
-
-
-0.1.10：
+------
 
 1.增加可以往body里面传一个NSData,在XSNetworkTools里面：
 
@@ -197,13 +197,9 @@ NS_ASSUME_NONNULL_END
 
 
 
+#### 0.1.5
 
-
-
-
-
-
-0.1.5：
+------
 
 1.增加全局设置超时时间（[XSNetworkTools setRequesTimeout:10];）
 
