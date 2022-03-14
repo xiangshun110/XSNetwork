@@ -25,6 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString              *errMessageKey;
 
 
+/// 动态参数IMP
+@property (nonatomic, assign) IMP                   dynamicParamsIMP;
+
+
 + (instancetype)sharedInstance;
 
 @end

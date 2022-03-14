@@ -84,7 +84,14 @@ static NSArray *comParamExcludes = nil;
     [XSNetworkSingle sharedInstance].errMessageKey = messageKey;
 }
 
-
++ (void)setDynamicParamsIMP:(IMP _Nonnull )imp {
+    [XSNetworkSingle sharedInstance].dynamicParamsIMP = imp;
+    
+    //测试一下
+    NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
+    NSDictionary *dyParams = dyFunc();
+    NSLog(@"-----dyParams:%@",dyParams);
+}
 
 
 

@@ -53,6 +53,15 @@
     
     [commonParams addEntriesFromDictionary:dataModel.parameters];
     
+    //动态通用参数
+    if ([XSNetworkSingle sharedInstance].dynamicParamsIMP) {
+        NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
+        NSDictionary *dyParams = dyFunc();
+        if (dyParams) {
+            [commonParams addEntriesFromDictionary:dyParams];
+        }
+    }
+    
     NSString *urlString = nil;
     if (dataModel.requestType != XSAPIRequestTypeGETDownload && dataModel.needBaseURL) {
         urlString = [self URLStringWithServiceUrl:service.apiBaseUrl path:dataModel.apiMethodPath];
