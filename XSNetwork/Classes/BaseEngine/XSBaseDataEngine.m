@@ -175,7 +175,7 @@
           uploadProgressBlock:(ProgressBlock)uploadProgressBlock
         downloadProgressBlock:(ProgressBlock)downloadProgressBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
-    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout loadingMsg:nil complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 
