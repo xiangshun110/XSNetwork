@@ -58,7 +58,7 @@
     __weak typeof(control) weakControl = control;
     XSBaseDataEngine *engine = [[XSBaseDataEngine alloc] init];
     
-    
+    MBProgressHUD *hud = nil;
     if (loadingMsg && ([control isKindOfClass:[UIViewController class]] || [control isKindOfClass:[UIView class]])) {
         UIView *view = nil;
         if ([control isKindOfClass:[UIViewController class]]) {
@@ -67,7 +67,7 @@
         } else if ([control isKindOfClass:[UIView class]]) {
             view = (UIView *)control;
         }
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
         hud.mode = MBProgressHUDModeIndeterminate;
         hud.bezelView.style = MBProgressHUDBackgroundStyleBlur;
         hud.bezelView.color = [UIColor blackColor];
@@ -77,7 +77,6 @@
         }
         hud.removeFromSuperViewOnHide = YES;
         hud.userInteractionEnabled = NO;
-        engine.hud = hud;
     }
     
     XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType
@@ -94,8 +93,8 @@
                                              uploadProgressBlock:uploadProgressBlock
                                            downloadProgressBlock:downloadProgressBlock
                                                         complete:^(id data, NSError *error) {
-        if (engine.hud) {
-            [engine.hud hideAnimated:YES];
+        if (hud) {
+            [hud hideAnimated:YES];
         }
         
         if (responseBlock) {
