@@ -34,6 +34,8 @@
 
 
 
+
+
 + (XSBaseDataEngine *)control:(NSObject *)control
        callAPIWithServiceType:(XSServiceType)serviceType
                          path:(NSString *)path
@@ -48,6 +50,7 @@
                     alertType:(XSAPIAlertType)alertType
                      mimeType:(NSString *)mimeType
                       timeout:(NSTimeInterval)timeout
+                   loadingMsg:(NSString *)loadingMsg
                      complete:(CompletionDataBlock)responseBlock
           uploadProgressBlock:(ProgressBlock)uploadProgressBlock
         downloadProgressBlock:(ProgressBlock)downloadProgressBlock
@@ -55,6 +58,27 @@
     
     __weak typeof(control) weakControl = control;
     XSBaseDataEngine *engine = [[XSBaseDataEngine alloc] init];
+    
+    MBProgressHUD *hud = nil;
+    if (loadingMsg && ([control isKindOfClass:[UIViewController class]] || [control isKindOfClass:[UIView class]])) {
+        UIView *view = nil;
+        if ([control isKindOfClass:[UIViewController class]]) {
+            UIViewController *uivc = (UIViewController *)control;
+            view = uivc.view;
+        } else if ([control isKindOfClass:[UIView class]]) {
+            view = (UIView *)control;
+        }
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.bezelView.style = MBProgressHUDBackgroundStyleBlur;
+        hud.bezelView.color = [UIColor blackColor];
+        hud.contentColor = [UIColor whiteColor];
+        if (loadingMsg.length) {
+            hud.label.text = loadingMsg;
+        }
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+    }
     
     XSAPIBaseRequestDataModel *dataModel = [engine dataModelWith:serviceType
                                                             path:path
@@ -70,6 +94,10 @@
                                              uploadProgressBlock:uploadProgressBlock
                                            downloadProgressBlock:downloadProgressBlock
                                                         complete:^(id data, NSError *error) {
+        if (hud) {
+            [hud hideAnimated:YES];
+        }
+        
         if (responseBlock) {
             //可以在这里做错误的UI处理，或者是在上层engine做
             if (error) {
@@ -126,6 +154,28 @@
     
     [engine callRequestWithRequestModel:dataModel control:control];
     return engine;
+}
+
+
++ (XSBaseDataEngine *)control:(NSObject *)control
+       callAPIWithServiceType:(XSServiceType)serviceType
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                        bodyData:(NSData *)bodyData
+                 dataFilePath:(NSString *)dataFilePath
+                  dataFileURL:(NSURL *)dataFileURL
+                        image:(UIImage *)image
+                     dataName:(NSString *)dataName
+                     fileName:(NSString *)fileName
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                     mimeType:(NSString *)mimeType
+                      timeout:(NSTimeInterval)timeout
+                     complete:(CompletionDataBlock)responseBlock
+          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
+        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
 }
 
 

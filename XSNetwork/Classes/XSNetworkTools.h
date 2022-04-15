@@ -94,6 +94,22 @@ typedef void(^HSResponseSuccessBlock)(NSDictionary * _Nullable responseObject);
 typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 
+
+/**
+ 网络请求
+
+ @param control self
+ @param param 参数
+ @param path URL
+ @param requestType YAAPIManagerRequestTypeGet/YAAPIManagerRequestTypePost
+ @param loadingMsg 不为nil的话会显示一个loading,请求完成后自动消失，loadingView显示在control的view上，如果control不是UIview和UIViewController，就不显示
+ @param responseBlock 回调
+ @return 返回
+ */
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType loadingMsg:(NSString * _Nonnull)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock;
+
+
+
 /**
  网络请求
 

@@ -88,12 +88,16 @@ static NSArray *comParamExcludes = nil;
     [XSNetworkSingle sharedInstance].dynamicParamsIMP = imp;
     
     //测试一下
-    NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
-    NSDictionary *dyParams = dyFunc();
-    NSLog(@"-----dyParams:%@",dyParams);
+//    NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
+//    NSDictionary *dyParams = dyFunc();
+//    NSLog(@"-----dyParams:%@",dyParams);
 }
 
 
+
++ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType loadingMsg:(NSString * _Nonnull)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
 
 
 + (XSBaseDataEngine *)request:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock)responseBlock{
