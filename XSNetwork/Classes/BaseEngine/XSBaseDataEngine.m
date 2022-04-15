@@ -10,9 +10,8 @@
 #import "XSAPIBaseRequestDataModel.h"
 #import "XSAPIClient.h"
 #import "NSObject+XSNetWorkingAutoCancel.h"
-//#import "MBProgressHUD+TMD.h"
-#import "MBProgressHUD.h"
 #import "XSNetworkSingle.h"
+#import "MBProgressHUD.h"
 
 @interface XSBaseDataEngine ()
 

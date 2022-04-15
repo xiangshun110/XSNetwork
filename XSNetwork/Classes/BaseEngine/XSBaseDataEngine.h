@@ -10,6 +10,7 @@
 #import "XSServerConfig.h"
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+//@import MBProgressHUD;
 
 @interface XSBaseDataEngine : NSObject
 
