@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "XSServerConfig.h"
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+
 @interface XSBaseDataEngine : NSObject
+
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 /**
  *  取消self持有的hash的网络请求
