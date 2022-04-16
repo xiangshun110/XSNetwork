@@ -3,10 +3,11 @@
 //  XSNetwork
 //
 //  Created by shun on 2021/7/30.
-//
+//  这个类弃用了
 
 #import <Foundation/Foundation.h>
 #import "XSServerConfig.h"
+#import "XSServerModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 动态参数IMP
 @property (nonatomic, assign) IMP                   dynamicParamsIMP;
+
+
+- (XSServerModel *)getServerConfig:(NSString *)serviceName;
+
+- (void)setDynamicParamsIMP:(IMP)dynamicParamsIMP serviceName:(NSString *)serviceName;
+
+- (void)setErrMessageKey:(NSString *)errMessageKey serviceName:(NSString *)serviceName;
+
+- (void)setErrorAlerType:(XSAPIAlertType)errorAlerType serviceName:(NSString *)serviceName;
+
+- (void)setToastView:(UIView *)toastView serviceName:(NSString *)serviceName;
+
+- (void)setRequestTimeout:(NSTimeInterval)requestTimeout serviceName:(NSString *)serviceName;
 
 
 + (instancetype)sharedInstance;

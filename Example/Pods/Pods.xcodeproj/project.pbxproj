@@ -19,6 +19,8 @@
 		1F283322A211EE1CEBB453656014D7E9 /* XSAppContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67540BB58AD00CFE87940C99750CC50F /* XSAppContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22AD28E260EF21FECAAEF40B04E8E020 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CCF38E5105EA24EF459B7C3C03795296 /* AFURLSessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23AEAF5E77D59B98AE79C57BAE746C1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB342FF58CA5A5D1282C84E02280A34F /* Foundation.framework */; };
+		24FA367F280B0ABE00DFCAD9 /* XSServerModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 24FA367D280B0ABE00DFCAD9 /* XSServerModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24FA3680280B0ABE00DFCAD9 /* XSServerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA367E280B0ABE00DFCAD9 /* XSServerModel.m */; };
 		27A1AA22D234973BA30D8493C546884C /* UIImageView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = D9969585A0405D4DCF364EEE15EF4E0D /* UIImageView+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27AB52C7962046BC8963B2CD626F22BD /* AFNetworkReachabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 016CC32BA2507B82CF91CB552D67EC06 /* AFNetworkReachabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E326DBC83691743BC87369A382AF9BE /* Pods-XSNetwork_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 701AD5B7E408F8D79B84319E110A2E58 /* Pods-XSNetwork_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -161,6 +163,8 @@
 		1BFA0FC29629EEE1E673FDE5C897F17E /* XSAPIURLRequestGenerator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = XSAPIURLRequestGenerator.m; sourceTree = "<group>"; };
 		1FED7AB82F21B5EA5D4645E9E469EC08 /* Pods-XSNetwork_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-XSNetwork_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		1FEFF8357EE26B6E1B775A16BA723662 /* XSMainServer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = XSMainServer.h; sourceTree = "<group>"; };
+		24FA367D280B0ABE00DFCAD9 /* XSServerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSServerModel.h; sourceTree = "<group>"; };
+		24FA367E280B0ABE00DFCAD9 /* XSServerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSServerModel.m; sourceTree = "<group>"; };
 		272C87CE7D2F286B227AEA8F54E4404C /* XSignatureGenerator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = XSignatureGenerator.h; sourceTree = "<group>"; };
 		27A90EB6295D324498A2E673BC123103 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIRefreshControl+AFNetworking.m"; path = "UIKit+AFNetworking/UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		2B04392FB975C5DC7804EB46C2B98D2B /* Pods-XSNetwork_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-XSNetwork_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -348,6 +352,16 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		24FA367C280B0ABE00DFCAD9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				24FA367D280B0ABE00DFCAD9 /* XSServerModel.h */,
+				24FA367E280B0ABE00DFCAD9 /* XSServerModel.m */,
+			);
+			name = Model;
+			path = XSNetwork/Classes/Model;
+			sourceTree = "<group>";
+		};
 		28ADF10013B409912D4898C6EF4DD9F4 /* Serialization */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,6 +452,7 @@
 		582C57CBB2C86BABB75EDB3B8A96A609 /* XSNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				24FA367C280B0ABE00DFCAD9 /* Model */,
 				D4979DAFC84E10B3757777FA2064F43B /* XSCustomResponseSerializer.h */,
 				72C88A9F0D56812A286C6C43B00C9858 /* XSCustomResponseSerializer.m */,
 				4E26EE97F1C3BC424F4F80AC01381DEB /* XSNetworkSingle.h */,
@@ -668,6 +683,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B450FDDBE38B3612C08F0F07F62E30D4 /* NSObject+XSNetWorkingAutoCancel.h in Headers */,
+				24FA367F280B0ABE00DFCAD9 /* XSServerModel.h in Headers */,
 				B7D5CB1D354337BFD8D725604F3F7202 /* NSString+XSUtilNetworking.h in Headers */,
 				097C84540D0A8D8CE35356594DD48E96 /* UIDevice+XSUtilNetworking.h in Headers */,
 				DC64D753F9EC76D0AA1DC3CFE2DC0754 /* XSAPIBaseRequestDataModel.h in Headers */,
@@ -917,6 +933,7 @@
 				0CD5B949557F7A3B6AF04D8B25AC29AB /* NSObject+XSNetWorkingAutoCancel.m in Sources */,
 				699E89FCB748DF1196279F97EA802CA7 /* NSString+XSUtilNetworking.m in Sources */,
 				B5774C18E18746903B9AB46753B9CADB /* UIDevice+XSUtilNetworking.m in Sources */,
+				24FA3680280B0ABE00DFCAD9 /* XSServerModel.m in Sources */,
 				4065EAC5CA94CBA56451B592B23B38C7 /* XSAPIBaseRequestDataModel.m in Sources */,
 				B47F2618F0A2A75FB685B10F977B2DB9 /* XSAPIClient.m in Sources */,
 				ED0506473A15EA5483D4ED84B4AF2809 /* XSAPIResponseErrorHandler.m in Sources */,

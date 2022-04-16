@@ -15,10 +15,17 @@
 #define DELog(format, ...)
 #endif
 
+//默认服务器名字
+#define DefaultServerName      @"defaultName"
+
+
+// 服务器类型，这个弃用了，用serverName代替，XSServiceMain就是DefaultServerName
 typedef NS_ENUM(NSUInteger, XSServiceType) {
     XSServiceMain,      //主服务器
 };
 
+
+//请求方式
 typedef NS_ENUM (NSUInteger, XSAPIRequestType){
     XSAPIRequestTypeGet,                 //get请求
     XSAPIRequestTypePost,                //POST请求
@@ -29,15 +36,28 @@ typedef NS_ENUM (NSUInteger, XSAPIRequestType){
     XSAPIRequestTypeGETDownload          //下载文件请求，不做返回值解析
 };
 
+//请求失败弹出样式
 typedef NS_ENUM(NSInteger, XSAPIAlertType) {
-    XSAPIAlertType_None,
-    XSAPIAlertType_Toast,
-//    XSAPIAlertType_Alert,
-//    XSAPIAlertType_ErrorView
+    XSAPIAlertType_None, //不弹出
+    XSAPIAlertType_Toast //toast
 };
 
+
+/**
+ *  开发、测试、预发、正式、HotFix和自定义环境,环境的切换是给开发人员和测试人员用的，对于外部正式打包不应该有环境切换的存在
+ */
+typedef NS_ENUM(NSUInteger,XSEnvType) {
+    XSEnvTypeDevelop,
+    XSEnvTypePreRelease,
+    XSEnvTypeRelease,
+    XSEnvTypeCustom,
+};
+
+//进度回调，用于上传和下载
 typedef void (^ProgressBlock)(NSProgress *taskProgress);
+//请求完成回调(包括成功和失败)
 typedef void (^CompletionDataBlock)(id data, NSError *error);
+//这个弃用了
 typedef void (^ErrorAlertSelectIndexBlock)(NSUInteger buttonIndex);
 
 

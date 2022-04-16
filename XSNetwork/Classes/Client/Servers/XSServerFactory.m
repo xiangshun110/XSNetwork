@@ -33,20 +33,38 @@
 + (XSEnvType)getEnvironmentType{
     return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].environmentType;
 }
+
+
 + (void)changeEnvironmentType:(XSEnvType)environmentType{
-    XSServerFactory *factory = [self sharedInstance];
-    [factory.serviceStorage.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        XSBaseServers *service = obj;
-        service.environmentType = environmentType;
-    }];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:environmentType] forKey:@"environmentType"];
+    
+    XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:DefaultServerName];
+    server.model.environmentType = environmentType;
+    
+//    XSServerFactory *factory = [XSServerFactory sharedInstance];
+//    [factory.serviceStorage.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        XSBaseServers *service = obj;
+//        service.environmentType = environmentType;
+//    }];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:environmentType] forKey:@"environmentType"];
 }
+
+
 - (XSBaseServers<YABaseServiceProtocol> *)serviceWithType:(XSServiceType)type
 {
-    if (self.serviceStorage[@(type)] == nil) {
-        self.serviceStorage[@(type)] = [self newServiceWithType:type];
+    
+    return [self serviceWithName:DefaultServerName];
+    
+//    if (self.serviceStorage[@(type)] == nil) {
+//        self.serviceStorage[@(type)] = [self newServiceWithType:type];
+//    }
+//    return self.serviceStorage[@(type)];
+}
+
+- (XSBaseServers *)serviceWithName:(NSString *)serverName {
+    if (self.serviceStorage[serverName] == nil) {
+        self.serviceStorage[serverName] = [self newServiceWithName:serverName];
     }
-    return self.serviceStorage[@(type)];
+    return self.serviceStorage[serverName];
 }
 
 #pragma mark - private methods
@@ -60,6 +78,12 @@
         default:
             break;
     }
+    return service;
+}
+
+- (XSBaseServers *)newServiceWithName:(NSString *)serverName
+{
+    XSBaseServers *service = [[XSBaseServers alloc] initWithServerName:serverName];
     return service;
 }
 #pragma mark - getters and setters

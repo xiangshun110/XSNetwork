@@ -22,4 +22,9 @@
 
 - (XSBaseServers<YABaseServiceProtocol> *)serviceWithType:(XSServiceType)type;
 
+
+/// 创建或者返回一个已有的server
+/// @param serverName name
+- (XSBaseServers *)serviceWithName:(NSString *)serverName;
+
 @end
