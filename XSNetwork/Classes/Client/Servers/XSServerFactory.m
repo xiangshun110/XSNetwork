@@ -38,7 +38,12 @@
 + (void)changeEnvironmentType:(XSEnvType)environmentType{
     
     XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:DefaultServerName];
-    server.model.environmentType = environmentType;
+    if (server.model) {
+        server.model.environmentType = environmentType;
+    } else {
+        server.environmentType = environmentType;
+    }
+    
     
 //    XSServerFactory *factory = [XSServerFactory sharedInstance];
 //    [factory.serviceStorage.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

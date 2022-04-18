@@ -30,6 +30,6 @@
 - (void)cancelRequestWithRequestID:(NSNumber *_Nonnull)requestID;
 - (void)cancelRequestWithRequestIDList:(NSArray<NSNumber *> *_Nonnull)requestIDList;
 
+- (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander DEPRECATED_MSG_ATTRIBUTE("这个放在了XSServerModel中，跟server走");
 
-- (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander;
 @end

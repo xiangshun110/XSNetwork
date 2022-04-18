@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0015FA0BDC8C518B1EC0BC0E /* Pods_XSNetwork_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD12A983FA5542FF28917A6 /* Pods_XSNetwork_Tests.framework */; };
+		24FA3683280D4CC500DFCAD9 /* XSNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA3682280D4CC500DFCAD9 /* XSNet.m */; };
+		24FA368B280D535200DFCAD9 /* XSViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA368A280D535200DFCAD9 /* XSViewController1.m */; };
+		24FA368E280D536800DFCAD9 /* XSNet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA368D280D536800DFCAD9 /* XSNet1.m */; };
+		24FA3691280D537E00DFCAD9 /* XSViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA3690280D537E00DFCAD9 /* XSViewController2.m */; };
+		24FA3697280D5F2300DFCAD9 /* ErrorHandler1.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FA3696280D5F2300DFCAD9 /* ErrorHandler1.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -41,6 +46,16 @@
 		0A1FE84C4A76C6E41F965B2F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1E564851C9F347E72E4ED36A /* Pods-XSNetwork_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Tests.release.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Tests/Pods-XSNetwork_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		1FD12A983FA5542FF28917A6 /* Pods_XSNetwork_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XSNetwork_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		24FA3681280D4CC500DFCAD9 /* XSNet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSNet.h; sourceTree = "<group>"; };
+		24FA3682280D4CC500DFCAD9 /* XSNet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSNet.m; sourceTree = "<group>"; };
+		24FA3689280D535200DFCAD9 /* XSViewController1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSViewController1.h; sourceTree = "<group>"; };
+		24FA368A280D535200DFCAD9 /* XSViewController1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSViewController1.m; sourceTree = "<group>"; };
+		24FA368C280D536800DFCAD9 /* XSNet1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSNet1.h; sourceTree = "<group>"; };
+		24FA368D280D536800DFCAD9 /* XSNet1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSNet1.m; sourceTree = "<group>"; };
+		24FA368F280D537E00DFCAD9 /* XSViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSViewController2.h; sourceTree = "<group>"; };
+		24FA3690280D537E00DFCAD9 /* XSViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSViewController2.m; sourceTree = "<group>"; };
+		24FA3695280D5F2300DFCAD9 /* ErrorHandler1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorHandler1.h; sourceTree = "<group>"; };
+		24FA3696280D5F2300DFCAD9 /* ErrorHandler1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorHandler1.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* XSNetwork_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSNetwork_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -95,6 +110,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24FA3684280D52DA00DFCAD9 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				24FA3681280D4CC500DFCAD9 /* XSNet.h */,
+				24FA3682280D4CC500DFCAD9 /* XSNet.m */,
+			);
+			name = Net;
+			sourceTree = "<group>";
+		};
+		24FA3685280D530100DFCAD9 /* Moudle */ = {
+			isa = PBXGroup;
+			children = (
+				24FA3687280D531E00DFCAD9 /* test2 */,
+				24FA3686280D531500DFCAD9 /* test1 */,
+			);
+			name = Moudle;
+			sourceTree = "<group>";
+		};
+		24FA3686280D531500DFCAD9 /* test1 */ = {
+			isa = PBXGroup;
+			children = (
+				24FA3689280D535200DFCAD9 /* XSViewController1.h */,
+				24FA368A280D535200DFCAD9 /* XSViewController1.m */,
+				24FA368C280D536800DFCAD9 /* XSNet1.h */,
+				24FA368D280D536800DFCAD9 /* XSNet1.m */,
+				24FA3695280D5F2300DFCAD9 /* ErrorHandler1.h */,
+				24FA3696280D5F2300DFCAD9 /* ErrorHandler1.m */,
+			);
+			name = test1;
+			sourceTree = "<group>";
+		};
+		24FA3687280D531E00DFCAD9 /* test2 */ = {
+			isa = PBXGroup;
+			children = (
+				24FA368F280D537E00DFCAD9 /* XSViewController2.h */,
+				24FA3690280D537E00DFCAD9 /* XSViewController2.m */,
+			);
+			name = test2;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +187,8 @@
 		6003F593195388D20070C39A /* Example for XSNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				24FA3685280D530100DFCAD9 /* Moudle */,
+				24FA3684280D52DA00DFCAD9 /* Net */,
 				6003F59C195388D20070C39A /* XSAppDelegate.h */,
 				6003F59D195388D20070C39A /* XSAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -371,9 +428,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24FA368E280D536800DFCAD9 /* XSNet1.m in Sources */,
+				24FA3683280D4CC500DFCAD9 /* XSNet.m in Sources */,
 				6003F59E195388D20070C39A /* XSAppDelegate.m in Sources */,
+				24FA3691280D537E00DFCAD9 /* XSViewController2.m in Sources */,
 				6003F5A7195388D20070C39A /* XSViewController.m in Sources */,
+				24FA368B280D535200DFCAD9 /* XSViewController1.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				24FA3697280D5F2300DFCAD9 /* ErrorHandler1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

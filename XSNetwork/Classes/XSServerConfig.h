@@ -17,6 +17,7 @@
 
 //默认服务器名字
 #define DefaultServerName      @"defaultName"
+#define DefaultTimeout         25.0
 
 
 // 服务器类型，这个弃用了，用serverName代替，XSServiceMain就是DefaultServerName
@@ -32,12 +33,13 @@ typedef NS_ENUM (NSUInteger, XSAPIRequestType){
     XSAPIRequestTypePut,                 //PUT请求
     XSAPIRequestTypeDelete,              //DELETE请求
     XSAPIRequestTypeUpdate,              //UPDATE请求
-    XSAPIRequestTypePostUpload,          //POST数据请求
+    XSAPIRequestTypePostUpload,          //POST数据请求,传文件，formdata
     XSAPIRequestTypeGETDownload          //下载文件请求，不做返回值解析
 };
 
 //请求失败弹出样式
 typedef NS_ENUM(NSInteger, XSAPIAlertType) {
+    XSAPIAlertType_Unknown, //默认值，未设置
     XSAPIAlertType_None, //不弹出
     XSAPIAlertType_Toast //toast
 };
@@ -54,11 +56,15 @@ typedef NS_ENUM(NSUInteger,XSEnvType) {
 };
 
 //进度回调，用于上传和下载
-typedef void (^ProgressBlock)(NSProgress *taskProgress);
+typedef void (^ProgressBlock)(NSProgress * _Nonnull taskProgress);
 //请求完成回调(包括成功和失败)
-typedef void (^CompletionDataBlock)(id data, NSError *error);
+typedef void (^CompletionDataBlock)(id _Nullable data, NSError * _Nullable error);
 //这个弃用了
 typedef void (^ErrorAlertSelectIndexBlock)(NSUInteger buttonIndex);
+
+
+typedef void(^HSResponseSuccessBlock)(NSDictionary * _Nullable responseObject);
+typedef void(^HSResponseFailBlock)(NSError * _Nullable error);
 
 
 #endif /* XSServerConfig_h */

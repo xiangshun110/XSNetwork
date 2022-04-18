@@ -10,4 +10,11 @@
 
 @implementation XSAPIBaseRequestDataModel
 
+- (NSString *)serverName {
+    if (!_serverName) {
+        return DefaultServerName;
+    }
+    return _serverName;
+}
+
 @end

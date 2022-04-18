@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface XSServerModel : NSObject
 
-/// 请求超时时间，0是默认值15秒
+/// 请求超时时间，0是默认值25秒
 @property (nonatomic, assign) NSTimeInterval        requestTimeout;
 
 /// 用于显示提示框
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) XSAPIAlertType        errorAlerType;
 
 
-/// 用于解析接口返回数据的错误信息
+/// 用于解析接口返回数据的错误信息,用于XSAPIAlertType_Toast弹出错误信息
 @property (nonatomic, strong) NSString              *errMessageKey;
 
 /// 这里可以设置一个动态参数的方法，与setComparam不同的是，setComparam设置后，里面的key和value是不能改变的，除非你再调用setComparam方法，这个是每次请求都会调用一次生成参数的方法

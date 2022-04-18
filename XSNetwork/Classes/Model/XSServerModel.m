@@ -36,11 +36,15 @@
         self.environmentType = XSEnvTypeRelease;
     }
     
-    self.requestTimeout = 0;
-    
-    self.errorAlerType = XSAPIAlertType_None;
+    self.errorAlerType = XSAPIAlertType_Unknown;
     
     self.privateKey = @"volkhjuss$&^ghhh";
+    
+    self.errHander = [XSAPIResponseErrorHandler new];
+    
+    self.requestTimeout = 25.0;
+    
+    self.errMessageKey = @"message";
     
     NSString *key = [NSString stringWithFormat:@"customApi_%@",self.serverName];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
@@ -89,6 +93,14 @@
         [[NSUserDefaults standardUserDefaults] setObject:customApiBaseUrl forKey:key];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDynamicParamsIMP:(IMP)dynamicParamsIMP {
+    _dynamicParamsIMP = dynamicParamsIMP;
+    //测试一下
+//    NSDictionary* (*dyFunc)(void) = (void *)dynamicParamsIMP;
+//    NSDictionary *dyParams = dyFunc();
+//    NSLog(@"-----dyParams:%@",dyParams);
 }
 
 @end

@@ -20,4 +20,6 @@
 /// @param responseObject  返回的数据
 /// @param error 返回的错误
 - (XSErrorHanderResult *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error;
+
+
 @end

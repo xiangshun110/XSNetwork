@@ -12,7 +12,6 @@
 #import "XSignatureGenerator.h"
 #import "NSString+XSUtilNetworking.h"
 #import "XSNetworkTools.h"
-#import "XSNetworkSingle.h"
 
 //static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 @interface XSAPIURLRequestGenerator()
@@ -35,9 +34,13 @@
 
 #pragma mark - public methods
 - (NSURLRequest *)generateWithRequestDataModel:(XSAPIBaseRequestDataModel *)dataModel{
-    XSBaseServers *service = [[XSServerFactory sharedInstance] serviceWithType:dataModel.serviceType];
-    NSMutableDictionary *commonParams=[NSMutableDictionary new];
-    NSArray *exclude = [XSNetworkTools getComParamExclude];
+    //XSBaseServers *service = [[XSServerFactory sharedInstance] serviceWithType:dataModel.serviceType];
+    
+    XSBaseServers *service = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
+    
+    NSMutableDictionary *commonParams = [NSMutableDictionary new];
+    NSArray *exclude = service.model.comParamExclude;
+
     BOOL isIn = NO;
     if (exclude && exclude.count) {
         for (NSString *u in exclude) {
@@ -48,17 +51,22 @@
         }
     }
     if (!isIn) {
-        commonParams = [NSMutableDictionary dictionaryWithDictionary:[XSNetworkTools getComParam]];
+        if (service.model.commonParameter) {
+            [commonParams addEntriesFromDictionary:service.model.commonParameter];
+        }
     }
     
     [commonParams addEntriesFromDictionary:dataModel.parameters];
     
     //动态通用参数
-    if ([XSNetworkSingle sharedInstance].dynamicParamsIMP) {
-        NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
-        NSDictionary *dyParams = dyFunc();
-        if (dyParams) {
-            [commonParams addEntriesFromDictionary:dyParams];
+    
+    if (service.model) {
+        if (service.model.dynamicParamsIMP) {
+            NSDictionary* (*dyFunc)(void) = (void *)service.model.dynamicParamsIMP;
+            NSDictionary *dyParams = dyFunc();
+            if (dyParams) {
+                [commonParams addEntriesFromDictionary:dyParams];
+            }
         }
     }
     
@@ -132,7 +140,12 @@
     if (dataModel.requestTimeout > 0) {
         request.timeoutInterval = dataModel.requestTimeout;
     } else {
-        request.timeoutInterval = [XSNetworkSingle sharedInstance].requestTimeout;
+        XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
+        if (server.model) {
+            request.timeoutInterval = server.model.requestTimeout;
+        } else {
+            request.timeoutInterval = DefaultTimeout;
+        }
     }
     
     if (dataModel.bodyData) {
@@ -156,12 +169,27 @@
     }
     return [fullURL absoluteString];
 }
+
+//- (AFHTTPRequestSerializer *)serializerWithModel:(XSAPIBaseRequestDataModel *)dataModel {
+//    if (dataModel.requestTimeout > 0) {
+//        self.httpRequestSerializer.timeoutInterval = dataModel.requestTimeout;
+//    } else {
+//        XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
+//        if (server.model) {
+//            self.httpRequestSerializer.timeoutInterval = server.model.requestTimeout;
+//        } else {
+//            self.httpRequestSerializer.timeoutInterval = DefaultTimeout;
+//        }
+//    }
+//    return self.httpRequestSerializer;
+//}
+
 #pragma mark - getters and setters
 - (AFHTTPRequestSerializer *)httpRequestSerializer
 {
     if (_httpRequestSerializer == nil) {
         _httpRequestSerializer = [AFHTTPRequestSerializer serializer];
-        _httpRequestSerializer.timeoutInterval = [XSNetworkSingle sharedInstance].requestTimeout;
+        _httpRequestSerializer.timeoutInterval = DefaultTimeout;
         _httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     }
     return _httpRequestSerializer;

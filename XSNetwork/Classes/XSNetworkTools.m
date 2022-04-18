@@ -11,7 +11,6 @@
 #import "XSServerFactory.h"
 #import "XSMainServer.h"
 #import "XSAPIClient.h"
-#import "XSNetworkSingle.h"
 
 //通用参数
 static NSDictionary *commonParameter = nil;
@@ -19,110 +18,66 @@ static NSDictionary *commonParameter = nil;
 //不需要加通用参数的URL
 static NSArray *comParamExcludes = nil;
 
+@interface XSNetworkTools()
+
+@property (nonatomic, strong) XSBaseServers * _Nonnull server;
+
+@end
+
 @implementation XSNetworkTools
 
-/// 获取公共参数
-+ (nullable NSDictionary *)getComParam {
-    return commonParameter;
-}
 
-/// 设置公众参数
-/// @param comParam     参数
-+ (void)setComparam:(nullable NSDictionary *)comParam {
-    commonParameter = comParam;
-}
-
-
-/// 获取不要加公共参数的URL
-+ (nullable NSArray *)getComParamExclude {
-    return comParamExcludes;
-}
-
-/// 设置不要加公共参数的URL
-/// @param comParamExclude     不要加公共参数的URL
-+ (void)setComparamExclude:(nullable NSArray *)comParamExclude {
-    comParamExcludes = comParamExclude;
-}
-
-+ (void)changeEnvironmentType:(XSEnvType)environmentType {
-    [XSServerFactory changeEnvironmentType:environmentType];
-}
-
-+ (void)setErrorHander:(XSAPIResponseErrorHandler *_Nullable)errHander {
-    [[XSAPIClient sharedInstance] setErrorHander:errHander];
-}
-
-+ (void)setBaseURLWithRelease:(NSString *_Nullable)release dev:(NSString *_Nullable)dev preRelease:(NSString *_Nullable)preRelease {
-    [XSMainServer setBaseURLWithRelease:release dev:dev preRelease:preRelease];
-}
-
-
-+ (void)setRequesTimeout:(NSTimeInterval)timeout {
-    if (timeout > 0) {
-        [XSNetworkSingle sharedInstance].requestTimeout = timeout;
-    }
-}
-
-+ (void)setToastView:(UIView *)view {
-    [XSNetworkSingle sharedInstance].toastView = view;
-}
-
-+ (NSString *)strOrEmpty:(NSString *)str{
-    return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);
-}
-
-/// 请求错误时弹出消息的方式,默认不弹出，XSAPIAlertType_None
-/// @param errorAlerType type
-+ (void)setErrorAlerType:(XSAPIAlertType)errorAlerType {
-    [XSNetworkSingle sharedInstance].errorAlerType = errorAlerType;
-}
-
-
-/// 设置获取错误消息的key,默认是message
-/// @param messageKey keu
-+ (void)setErrorMessageKey:(NSString *_Nonnull)messageKey {
-    [XSNetworkSingle sharedInstance].errMessageKey = messageKey;
-}
-
-+ (void)setDynamicParamsIMP:(IMP _Nonnull )imp {
-    [XSNetworkSingle sharedInstance].dynamicParamsIMP = imp;
++ (instancetype)singleInstance
+{
+   
+    NSString *class = NSStringFromClass([self class]);
     
-    //测试一下
-//    NSDictionary* (*dyFunc)(void) = (void *)[XSNetworkSingle sharedInstance].dynamicParamsIMP;
-//    NSDictionary *dyParams = dyFunc();
-//    NSLog(@"-----dyParams:%@",dyParams);
-}
-
-
-
-+ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType loadingMsg:(NSString * _Nonnull)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
-    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
-}
-
-
-+ (XSBaseDataEngine *)request:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock)responseBlock{
-    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
-}
-
-+ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock {
-    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
-}
-
-
-+ (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType timeout:(NSTimeInterval)timeout complete:(CompletionDataBlock _Nullable)responseBlock {
-    return [XSBaseDataEngine control:control callAPIWithServiceType:XSServiceMain path:path param:param requestType:requestType alertType:XSAPIAlertType_None timeout:timeout progressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
-}
-
-+ (XSBaseDataEngine *)uploadFile:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path filePath:(NSString *)filePath fileKey:(NSString *)fileKey fileName:(NSString *)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock)progress complete:(CompletionDataBlock)responseBlock{
-
-    return [XSBaseDataEngine control:control uploadAPIWithServiceType:XSServiceMain path:path param:param dataFilePath:filePath image:nil dataName:fileKey fileName:fileName mimeType:nil requestType:XSAPIRequestTypePostUpload alertType:XSAPIAlertType_None uploadProgressBlock:progress downloadProgressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
-}
-
-+ (XSBaseDataEngine *)uploadFile:(NSObject *)control param:(NSDictionary *)param path:(NSString *)path fileURL:(NSURL *)fileURL fileKey:(NSString *)fileKey fileName:(NSString *)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock)progress complete:(CompletionDataBlock)responseBlock {
+    NSAssert([class isEqualToString:@"XSNetworkTools"], @"子类请自行实现单例方法,或者自己new一个实例");
     
-    return [XSBaseDataEngine control:control uploadAPIWithServiceType:XSServiceMain path:path param:param dataFileURL:fileURL image:nil dataName:fileKey fileName:fileName mimeType:nil requestType:XSAPIRequestTypePostUpload alertType:XSAPIAlertType_None uploadProgressBlock:progress downloadProgressBlock:nil complete:responseBlock errorButtonSelectIndex:nil];
+    static dispatch_once_t onceToken;
+    static XSNetworkTools *sharedInstance;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[XSNetworkTools alloc] init];
+    });
+    return sharedInstance;
 }
 
+
+- (XSBaseServers *)server {
+    return [[XSServerFactory sharedInstance] serviceWithName:[self serverName]];
+}
+
+
+- (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+
+- (nullable XSBaseDataEngine *)getRequest:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypeGet alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+- (nullable XSBaseDataEngine *)postRequest:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypePost alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+- (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypePostUpload alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+- (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType timeout:(NSTimeInterval)timeout complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:timeout loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+- (nullable XSBaseDataEngine *)uploadFile:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path fileURL:(NSURL * _Nonnull)fileURL filePath:(NSString *_Nonnull)filePath fileKey:(NSString *_Nonnull)fileKey fileName:(NSString *_Nonnull)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock _Nullable)progress complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:filePath dataFileURL:fileURL image:nil dataName:fileKey fileName:fileName requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+
+
+
+
+//-------------原生请求--------------
 
 + (void)requestHTTPMethod:(NSString *)httpMenthod relativePath:(NSString *)relativePath params:(NSDictionary *)params successBlock:(HSResponseSuccessBlock)successBlock failBlock:(HSResponseFailBlock)failBlock
 {
@@ -223,5 +178,15 @@ static NSArray *comParamExcludes = nil;
     }];
     [dataTask resume];
 }
+
+
+
+#pragma mark XSNetworkToolsProtocol
+- (NSString *)serverName {
+    return DefaultServerName;
+}
+
+
+
 
 @end

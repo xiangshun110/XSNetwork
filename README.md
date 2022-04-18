@@ -22,6 +22,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 3. 可设置公共参数，可设置不要公共参数的URL
 4. 静态方法调用，使用方便
 5. 支持全局配置超时时间和单个请求设置超时时间
+5. 支持各个模块可以独立配置baseurl等，便于模块化开发
 
 ## Requirements
 
@@ -39,110 +40,96 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'XSNetwork'
-or
-pod 'XSNetwork' , :git => 'http://nasxs.cn:32769/xiangshun/XSNetwork.git'
 ```
 
 ## 使用：
+
+###### 1.简单用法，无需任何配置
+
 ```objective-c
-//配置base URL
-[XSNetworkTools setBaseURLWithRelease:@"https://api.abc.com" dev:@"https://devapi.abc.com" preRelease:@"https://preapi.abc.com"];
+//简单用法：
+#import <XSNetworkTools.h>
 
-//切换环境，EXSEnvTypeDevelop对应上面的https://devapi.abc.com，这个切换是存在NSUserDefaults里面的
-[XSNetworkTools changeEnvironmentType:XSEnvTypeDevelop];
-
-//设置公共参数
-[XSNetworkTools setComparam:@{
-    @"token":@"dasdasdas"
-}];
-
-//设置数据回调的统一处理（可以不设置）TestAPIErrorHander需要自己创建，下面有示例代码
-[XSNetworkTools setErrorHander:[TestAPIErrorHander new]];
-
-
-//设置不要加公共参数的API
-[XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
-
-//设置全局超时时间（不设置默认25秒）
-[XSNetworkTools setRequesTimeout:10];
-
-//-------------  以上配置只需要配置一次  --------------
-
-//GET请求
-[XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
-    NSLog(@"======:%@",data);
-}];
-
-//注意，上面方法的第一个参数，可以使任何Object, 当这个参数被销毁时，如果请求还没完成，会自动取消请求，所以最好传当前VC
+[[XSNetworkTools singleInstance] postRequest:self param:nil path:@"https://api.abc.com/user" loadingMsg:@"loading" complete:^(id  _Nullable data, NSError * _Nullable error) {
+        NSLog(@"---data:%@",data);
+    }];  
+```
 
 
 
-----------分割线--------------
+###### 2.高级用法
 
-
-//TestAPIErrorHander类示例：
-  
-
-//============== h文件开始 ==============
-
-#import <Foundation/Foundation.h>
-#import "XSAPIResponseErrorHandler.h"
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface TestAPIErrorHander : XSAPIResponseErrorHandler
-
-@end
-
-NS_ASSUME_NONNULL_END
-  
-//---------- h文件结束 -------------
- 
-
-  
-//============== m文件开始 ==============
-#import "TestAPIErrorHander.h"
-
-@interface TestAPIErrorHander()
-
-@end
-
-@implementation TestAPIErrorHander
-
-- (XSErrorHanderResult *)errorHandlerWithRequestDataModel:(XSAPIBaseRequestDataModel *)requestDataModel responseURL:(NSURLResponse *)responseURL responseObject:(id)responseObject error:(NSError *)error {
+```objective-c
+//高级用法（可以参考demo）
+1.新建一个类，继承XSNetworkTools：
+  @interface XSNet : XSNetworkTools
+  @end
     
-    XSErrorHanderResult *xsResult = [XSErrorHanderResult new];
+  @implementation XSNet
+	//必须重写这个方法，这个名字用于区分各个模块，使各个模块的请求和配置互不影响
+  - (NSString *)serverName {
+      return @"server1";
+  }
+	//如果要用单例，必须写一个单例方法
+	+ (instancetype)singleInstance
+  {
+      static dispatch_once_t onceToken;
+      static XSNet *sharedInstance;
+      dispatch_once(&onceToken, ^{
+          sharedInstance = [[XSNet alloc] init];
+      });
+      return sharedInstance;
+  }
+  @end
     
-    if (error) {
-        xsResult.error = error;
-        return xsResult;
-    } else {
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            int errorCode = [[responseObject objectForKey:@"code"] intValue];
-            if (errorCode == 0) { 
-                return xsResult;
-            } else { 
-              	//不等于0就生成一个新的error
-                NSString *message = @"请求失败";
-                if ([responseObject isKindOfClass:[NSDictionary class]]){
-                    message = responseObject[@"message"];
-                }
-                NSError *newError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey:message,@"data":responseObject?responseObject:@{},@"URL":responseURL.URL.absoluteString}];
-                xsResult.error = newError;
-                //----------其他逻辑
-                return xsResult;
-            }
-        } else {
-            xsResult.error = error;
-            return xsResult;
-        }
+    
+2.配置,所有的配置都在XSServerModel中：
+    - (void)viewDidLoad {
+        [super viewDidLoad];
+
+        //配置baseURL，最好是配置，不然每次请求都要写全量url
+        [XSNet singleInstance].server.model.releaseApiBaseUrl = @"https://api.abc.com";
+        [XSNet singleInstance].server.model.developApiBaseUrl = @"https://devapi.abc.com";
+
+        //自定义错误处理逻辑(参考example)
+        [XSNet singleInstance].server.model.errHander = [ErrorHandler1 new];
+
+        //通用参数
+        [XSNet singleInstance].server.model.commonParameter = @{
+            @"ab":@"c"
+        };
+
+        //动态通用参数：
+        SEL sel = @selector(dynamicParams);
+        IMP imp = [self methodForSelector:sel];
+        [XSNet singleInstance].server.model.dynamicParamsIMP = imp;
+
+        //错误提示(统一配置)：
+        [XSNet singleInstance].server.model.errMessageKey = @"message";
+        //如果单个请求中设置了，以单个请求优先
+        [XSNet singleInstance].server.model.errorAlerType = XSAPIAlertType_Toast;
+    
+    		//切换环境
+    		//默认是XSEnvTypeRelease
+    		[XSNet singleInstance].server.model.environmentType = XSEnvTypeDevelop;
+    
+    		//来一个请求试试：
+    		[[XSNet singleInstance] postRequest:self param:nil path:@"/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+                NSLog(@"----data:%@",data);
+            }];
+
     }
-}
-
-@end
-//---------- m文件结束 -------------
+		
+		//动态通用参数
+		- (NSDictionary *)dynamicParams {
+        return @{
+            @"test_uuid":[[NSUUID UUID] UUIDString]
+        };
+    }
   
 ```
+
+
 
 ## Author
 
@@ -151,6 +138,14 @@ NS_ASSUME_NONNULL_END
 
 
 ## 版本更新记录
+
+#### 0.2.0
+
+------
+
+1.大调整，支持各个模块可以独立配置baseurl等，便于模块化开发
+
+
 
 #### 0.1.19
 

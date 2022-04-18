@@ -9,10 +9,15 @@
 #import "XSViewController.h"
 #import <XSNetworkTools.h>
 #import "XSAppDelegate.h"
+#import "XSNet.h"
+#import "XSViewController1.h"
+#import "XSViewController2.h"
+
 
 @interface XSViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView   *tableView;
+@property (nonatomic, strong) NSArray       *data;
 
 @end
 
@@ -23,36 +28,20 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    
-    //配置base URL
-    [XSNetworkTools setBaseURLWithRelease:@"https://api.abc.com" dev:@"https://devapi.abc.com" preRelease:@"https://preapi.abc.com"];
-    
-    //切换环境，EXSEnvTypeDevelop对应上面的https://devapi.abc.com
-    [XSNetworkTools changeEnvironmentType:XSEnvTypeDevelop];
-    
-    //设置公共参数
-    [XSNetworkTools setComparam:@{
-        @"token":@"dasdasdas"
-    }];
-    
-    //设置不要加公共参数的API
-    [XSNetworkTools setComparamExclude:@[@"http://itunes.apple.com/lookup?id=1148546631"]];
+    self.title = @"demo";
     
     
-    //超时
-    //[XSNetworkTools setRequesTimeout:10];
+    //配置baseURL，最好是配置，不然每次请求都要写全量url
+    [XSNet singleInstance].server.model.releaseApiBaseUrl = @"https://api.talkmed.com/api/v1";
+    [XSNet singleInstance].server.model.developApiBaseUrl = @"http://api.sandbox.talkmed.com/api/v1";
+
+    //默认是XSEnvTypeRelease
+    [XSNet singleInstance].server.model.environmentType = XSEnvTypeDevelop;
     
-    //GET请求
-//    [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631" requestType:XSAPIRequestTypeGet complete:^(id data, NSError *error) {
-//        NSLog(@"======aaaaaa:%@",error);
-//    }];
-//
-//    //单独设置超时的
-//    [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631&d=1" requestType:XSAPIRequestTypeGet timeout:1 complete:^(id data, NSError *error) {
-//        NSLog(@"======:%@",data);
-//        NSLog(@"======:%@",error);
-//    }];
+    NSLog(@"[XSNet singleInstance]:%@",[XSNet singleInstance]);
     
+    
+    self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"get请求",@"切换环境",@"不用baseURL的请求"];
     
     self.tableView = [UITableView new];
     self.tableView.delegate = self;
@@ -78,11 +67,11 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.data.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%zd",indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",self.data[indexPath.row]];
     return cell;
 }
 
@@ -92,10 +81,50 @@
     switch (indexPath.row) {
         case 0:
         {
-            [XSNetworkTools request:self param:nil path:@"http://itunes.apple.com/lookup?id=1148546631&d=1" requestType:XSAPIRequestTypeGet loadingMsg:@"loading" complete:^(id data, NSError *error) {
-                NSLog(@"----err:%@",error);
+            //http://itunes.apple.com/lookup?id=1148546631&d=1
+            XSViewController1 *vc1 = [XSViewController1 new];
+            [self.navigationController pushViewController:vc1 animated:YES];
+            
+        }
+            break;
+        case 1:
+        {
+            
+            XSViewController2 *vc2 = [XSViewController2 new];
+            [self.navigationController pushViewController:vc2 animated:YES];
+            
+            
+        }
+            break;
+        case 2:
+        {
+            [[XSNet singleInstance] postRequest:self param:nil path:@"/currency/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+                NSLog(@"----data:%@",data);
             }];
         }
+            break;
+        case 3:
+        {
+            [[XSNet singleInstance] getRequest:self param:nil path:@"/time" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+                NSLog(@"----data:%@",data);
+            }];
+        }
+            break;
+        case 4:
+        {
+            if ([XSNet singleInstance].server.model.environmentType == XSEnvTypeRelease) {
+                [XSNet singleInstance].server.model.environmentType = XSEnvTypeDevelop;
+                NSLog(@"切换dev成功");
+            } else {
+                [XSNet singleInstance].server.model.environmentType = XSEnvTypeRelease;
+                NSLog(@"切换release成功");
+            }
+        }
+            break;
+        case 5:
+            [[XSNet singleInstance] getRequest:self param:nil path:@"https://api.weixin.qq.com/sns/userinfo" loadingMsg:@"lll" complete:^(id  _Nullable data, NSError * _Nullable error) {
+                NSLog(@"----data:%@",data);
+            }];
             break;
             
         default:
