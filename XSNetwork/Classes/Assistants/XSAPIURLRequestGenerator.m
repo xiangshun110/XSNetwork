@@ -137,14 +137,18 @@
 
 #endif
     
-    if (dataModel.requestTimeout > 0) {
-        request.timeoutInterval = dataModel.requestTimeout;
+    if (dataModel.requestType == XSAPIRequestTypePostUpload) {
+        request.timeoutInterval = 0;
     } else {
-        XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
-        if (server.model) {
-            request.timeoutInterval = server.model.requestTimeout;
+        if (dataModel.requestTimeout > 0) {
+            request.timeoutInterval = dataModel.requestTimeout;
         } else {
-            request.timeoutInterval = DefaultTimeout;
+            XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
+            if (server.model) {
+                request.timeoutInterval = server.model.requestTimeout;
+            } else {
+                request.timeoutInterval = DefaultTimeout;
+            }
         }
     }
     
