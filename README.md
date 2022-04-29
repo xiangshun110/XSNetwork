@@ -51,8 +51,8 @@ pod 'XSNetwork'
 #import <XSNetworkTools.h>
 
 [[XSNetworkTools singleInstance] postRequest:self param:nil path:@"https://api.abc.com/user" loadingMsg:@"loading" complete:^(id  _Nullable data, NSError * _Nullable error) {
-        NSLog(@"---data:%@",data);
-    }];  
+    NSLog(@"---data:%@",data);
+}];  
 ```
 
 
@@ -62,70 +62,77 @@ pod 'XSNetwork'
 ```objective-c
 //高级用法（可以参考demo）
 1.新建一个类，继承XSNetworkTools：
-  @interface XSNet : XSNetworkTools
-  @end
+@interface XSNet : XSNetworkTools
++ (instancetype)share;
+@end
     
-  @implementation XSNet
-	//必须重写这个方法，这个名字用于区分各个模块，使各个模块的请求和配置互不影响
-  - (NSString *)serverName {
-      return @"server1";
-  }
-	//如果要用单例，必须写一个单例方法
-	+ (instancetype)singleInstance
-  {
-      static dispatch_once_t onceToken;
-      static XSNet *sharedInstance;
-      dispatch_once(&onceToken, ^{
-          sharedInstance = [[XSNet alloc] init];
-      });
-      return sharedInstance;
-  }
-  @end
+@implementation XSNet
+
+//必须重写这个方法，这个名字用于区分各个模块，使各个模块的请求和配置互不影响
+- (NSString *)serverName {
+    return @"server1";
+}
+
+//如果要用单例，必须写一个单例方法
++ (instancetype)share
+{
+    static dispatch_once_t onceToken;
+    static XSNet *sharedInstance;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[XSNet alloc] init];
+        [sharedInstance config];
+    });
+    return sharedInstance;
+}
+
+- (void)config {
+    //配置baseURL，最好是配置，不然每次请求都要写全量url
+    self.server.model.releaseApiBaseUrl = @"https://api.abc.com";
+    self.server.model.developApiBaseUrl = @"https://devapi.abc.com";
+    
+    //自定义错误处理逻辑,ErrorHandler1在example里面有
+    self.server.model.errHander = [ErrorHandler1 new];
+    
+    //通用参数
+    [XSNet1 share].server.model.commonParameter = @{
+        @"fuck":@"you"
+    };
+    
+    //动态通用参数：
+    SEL sel = @selector(dynamicParams);
+    IMP imp = [self methodForSelector:sel];
+    self.server.model.dynamicParamsIMP = imp;
+    
+    //错误提示(统一配置)：
+    self.server.model.errMessageKey = @"message";
+    //如果单个请求中设置了，以单个请求优先
+    self.server.model.errorAlerType = XSAPIAlertType_Toast;
+}
+
+//动态通用参数
+- (NSDictionary *)dynamicParams {
+    return @{
+        @"test_uuid":[[NSUUID UUID] UUIDString]
+    };
+}
+
+@end
     
     
-2.配置,所有的配置都在XSServerModel中：
-    - (void)viewDidLoad {
-        [super viewDidLoad];
+2. 使用
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
-        //配置baseURL，最好是配置，不然每次请求都要写全量url
-        [XSNet singleInstance].server.model.releaseApiBaseUrl = @"https://api.abc.com";
-        [XSNet singleInstance].server.model.developApiBaseUrl = @"https://devapi.abc.com";
+    //切换环境
+    //默认是XSEnvTypeRelease
+    [XSNet share].server.model.environmentType = XSEnvTypeDevelop;
 
-        //自定义错误处理逻辑(参考example)
-        [XSNet singleInstance].server.model.errHander = [ErrorHandler1 new];
+    //来一个请求试试：
+    [[XSNet share] postRequest:self param:nil path:@"/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+        NSLog(@"----data:%@",data);
+    }];
+}
 
-        //通用参数
-        [XSNet singleInstance].server.model.commonParameter = @{
-            @"ab":@"c"
-        };
-
-        //动态通用参数：
-        SEL sel = @selector(dynamicParams);
-        IMP imp = [self methodForSelector:sel];
-        [XSNet singleInstance].server.model.dynamicParamsIMP = imp;
-
-        //错误提示(统一配置)：
-        [XSNet singleInstance].server.model.errMessageKey = @"message";
-        //如果单个请求中设置了，以单个请求优先
-        [XSNet singleInstance].server.model.errorAlerType = XSAPIAlertType_Toast;
-    
-    		//切换环境
-    		//默认是XSEnvTypeRelease
-    		[XSNet singleInstance].server.model.environmentType = XSEnvTypeDevelop;
-    
-    		//来一个请求试试：
-    		[[XSNet singleInstance] postRequest:self param:nil path:@"/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
-                NSLog(@"----data:%@",data);
-            }];
-
-    }
-		
-		//动态通用参数
-		- (NSDictionary *)dynamicParams {
-        return @{
-            @"test_uuid":[[NSUUID UUID] UUIDString]
-        };
-    }
   
 ```
 

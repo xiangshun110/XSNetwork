@@ -8,7 +8,7 @@
 
 #import "XSViewController1.h"
 #import "XSNet1.h"
-#import "ErrorHandler1.h"
+
 
 @interface XSViewController1 ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -27,29 +27,6 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //配置baseURL，最好是配置，不然每次请求都要写全量url
-    [XSNet1 singleInstance].server.model.releaseApiBaseUrl = @"https://apimeeting.talkmed.com";
-    [XSNet1 singleInstance].server.model.developApiBaseUrl = @"https://devapimeeting.talkmed.com";
-    
-    //自定义错误处理逻辑
-    [XSNet1 singleInstance].server.model.errHander = [ErrorHandler1 new];
-    
-    //通用参数
-    [XSNet1 singleInstance].server.model.commonParameter = @{
-        @"fuck":@"you"
-    };
-    
-    //动态通用参数：
-    SEL sel = @selector(dynamicParams);
-    IMP imp = [self methodForSelector:sel];
-    [XSNet1 singleInstance].server.model.dynamicParamsIMP = imp;
-    
-    //错误提示(统一配置)：
-    [XSNet1 singleInstance].server.model.errMessageKey = @"message";
-    //如果单个请求中设置了，以单个请求优先
-    [XSNet1 singleInstance].server.model.errorAlerType = XSAPIAlertType_Toast;
-    
-    
     self.data = @[@"post请求",@"get请求",@"切换环境",@"单个请求不显示错误提示"];
     
     self.tableView = [UITableView new];
@@ -57,12 +34,6 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     [self.view addSubview:self.tableView];
-}
-
-- (NSDictionary *)dynamicParams {
-    return @{
-        @"test_uuid":[[NSUUID UUID] UUIDString]
-    };
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,32 +60,32 @@
     switch (indexPath.row) {
         case 0:
         {
-            [[XSNet1 singleInstance] postRequest:self param:nil path:@"/v1/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+            [[XSNet1 share] postRequest:self param:nil path:@"/v1/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
                 NSLog(@"----data:%@",data);
             }];
         }
             break;
         case 1:
         {
-            [[XSNet1 singleInstance] getRequest:self param:nil path:@"/time" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+            [[XSNet1 share] getRequest:self param:nil path:@"/time" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
                 NSLog(@"----data:%@",data);
             }];
         }
             break;
         case 2:
         {
-            if ([XSNet1 singleInstance].server.model.environmentType == XSEnvTypeRelease) {
-                [XSNet1 singleInstance].server.model.environmentType = XSEnvTypeDevelop;
+            if ([XSNet1 share].server.model.environmentType == XSEnvTypeRelease) {
+                [XSNet1 share].server.model.environmentType = XSEnvTypeDevelop;
                 NSLog(@"切换dev成功");
             } else {
-                [XSNet1 singleInstance].server.model.environmentType = XSEnvTypeRelease;
+                [XSNet1 share].server.model.environmentType = XSEnvTypeRelease;
                 NSLog(@"切换release成功");
             }
         }
             break;
         case 3:
         {
-            [[XSNet1 singleInstance] hideErrorAlert:self param:nil path:@"/v1/login" requestType:XSAPIRequestTypePost loadingMsg:@"ss" complete:^(id  _Nullable data, NSError * _Nullable error) {
+            [[XSNet1 share] hideErrorAlert:self param:nil path:@"/v1/login" requestType:XSAPIRequestTypePost loadingMsg:@"ss" complete:^(id  _Nullable data, NSError * _Nullable error) {
                 NSLog(@"----data:%@",data);
             }];
         }
