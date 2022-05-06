@@ -61,4 +61,18 @@
     return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_None mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
 }
 
+
+- (XSBaseDataEngine *)uploadImage:(NSObject *)control path:(NSString *)path image:(UIImage *)image params:(NSDictionary * _Nullable)params  dataName:(NSString *)dataName progress:(ProgressBlock)progress complete:(CompletionDataBlock _Nullable)responseBlock {
+    
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:params bodyData:nil dataFilePath:nil dataFileURL:nil image:image dataName:dataName fileName:@"img.png" requestType:XSAPIRequestTypePostUpload alertType:XSAPIAlertType_Unknown mimeType:@"image/png" timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:progress downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
+
+- (XSBaseDataEngine *)downloadImage:(NSObject *)control imgPath:(NSString *)imgPath progress:(ProgressBlock _Nullable)progress complete:(CompletionDataBlock)responseBlock {
+    return [XSBaseDataEngine control:self serverName:[self serverName] path:imgPath param:nil bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypeGETDownload alertType:XSAPIAlertType_None mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:progress errorButtonSelectIndex:nil];
+}
+
+
+
+
 @end
