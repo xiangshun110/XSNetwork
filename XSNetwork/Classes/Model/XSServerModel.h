@@ -47,6 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDictionary          *commonParameter;
 
 
+/// 通用header参数，每个请求都会加上
+@property (nonatomic, strong) NSDictionary          *commonHeaders;
+
+
+@property (nonatomic, assign) IMP                   dynamicHeadersIMP;
+
+
 /// 不需要加通用参数的URL
 @property (nonatomic, strong) NSArray               *comParamExclude;
 

@@ -35,7 +35,7 @@
     self.server.model.errHander = [ErrorHandler1 new];
     
     //通用参数
-    [XSNet1 share].server.model.commonParameter = @{
+    self.server.model.commonParameter = @{
         @"fuck":@"you"
     };
     
@@ -48,6 +48,11 @@
     self.server.model.errMessageKey = @"message";
     //如果单个请求中设置了，以单个请求优先
     self.server.model.errorAlerType = XSAPIAlertType_Toast;
+    
+    
+    self.server.model.commonHeaders = @{
+        @"token":@"aaaaa123"
+    };
 }
 
 - (NSDictionary *)dynamicParams {

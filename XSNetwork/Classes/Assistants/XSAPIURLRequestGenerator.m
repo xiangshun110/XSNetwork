@@ -133,8 +133,6 @@
 #ifdef DEBUG
     NSLog(@"==========URL:%@",urlString);
     NSLog(@"==========Params:%@",commonParams);
-#else
-
 #endif
     
     if (dataModel.requestType == XSAPIRequestTypePostUpload) {
@@ -150,6 +148,24 @@
                 request.timeoutInterval = DefaultTimeout;
             }
         }
+    }
+    
+    if (service.model) {
+        NSMutableDictionary *hParams = [NSMutableDictionary new];
+        if (service.model.commonHeaders) {
+            [hParams addEntriesFromDictionary:service.model.commonHeaders];
+        }
+        if (service.model.dynamicHeadersIMP) {
+            NSDictionary* (*dyFunc)(void) = (void *)service.model.dynamicHeadersIMP;
+            NSDictionary *dyParams = dyFunc();
+            if (dyParams) {
+                [hParams addEntriesFromDictionary:dyParams];
+            }
+        }
+        
+        [hParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [request setValue:obj forHTTPHeaderField:key];
+        }];
     }
     
     if (dataModel.bodyData) {

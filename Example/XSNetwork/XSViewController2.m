@@ -11,7 +11,7 @@
 
 @interface XSViewController2 ()
 
-@property (nonatomic, strong) XSNet2 *net;
+//@property (nonatomic, strong) XSNet2 *net;
 
 @end
 

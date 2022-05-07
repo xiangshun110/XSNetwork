@@ -144,33 +144,40 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
-#### 0.2.2
+
+#### 0.2.3
+
+1.XSServerModel中增加commonHeaders，dynamicHeadersIMP用于添加header参数
+
 
 ------
+
+#### 0.2.2
 
 1.XSNetworkTools调整
 
 
-## 版本更新记录
+------
 
 #### 0.2.1
 
-------
+
 
 1.上传文件设置为不超时
 
+------
 
 #### 0.2.0
 
-------
 
 1.大调整，支持各个模块可以独立配置baseurl等，便于模块化开发
 
 
+------
 
 #### 0.1.19
 
-------
+
 
 1.XSNetworkTools中增加1个方法，多了一个loadingMsg，用于显示loading：
 
@@ -191,11 +198,11 @@ pod 'XSNetwork'
 
 
 
-
+------
 
 #### 0.1.13
 
-------
+
 
 1.增加1个方法（setDynamicParamsIMP）：
 
@@ -220,11 +227,10 @@ pod 'XSNetwork'
 
 
 
-
+------
 
 #### 0.1.12
 
-------
 
 1.增加2个方法（setToastView可以用了）：
 
@@ -240,10 +246,10 @@ pod 'XSNetwork'
 ```
 
 
+------
 
 #### 0.1.11
 
-------
 
 1.增加一个方法(暂时没用到)：
 
@@ -254,10 +260,11 @@ pod 'XSNetwork'
 ```
 
 
+------
 
 #### 0.1.10
 
-------
+
 
 1.增加可以往body里面传一个NSData,在XSNetworkTools里面：
 
@@ -265,18 +272,18 @@ pod 'XSNetwork'
 + (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType complete:(CompletionDataBlock _Nullable)responseBlock;
 ```
 
-
+------
 
 #### 0.1.5
 
-------
+
 
 1.增加全局设置超时时间（[XSNetworkTools setRequesTimeout:10];）
 
 2.增加单个请求设置超时时间
 
 
-
+------
 ## License
 
 XSNetwork is available under the MIT license. See the LICENSE file for more info.
