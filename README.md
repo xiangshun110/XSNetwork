@@ -147,7 +147,7 @@ pod 'XSNetwork'
 
 
 
-#### 0.2.3
+#### 0.2.4
 
 1.XSServerModel中增加headersWithRequestParamsIMP，参考XSNet1.m
  作用是处理请求参数并放在header里面，这个IMP目标方法可以有一个参数，例如：
