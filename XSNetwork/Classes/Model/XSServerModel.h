@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString              *errMessageKey;
 
 /// 这里可以设置一个动态参数的方法，与setComparam不同的是，setComparam设置后，里面的key和value是不能改变的，除非你再调用setComparam方法，这个是每次请求都会调用一次生成参数的方法
+/// 注意，目标方法体里面不要有self
 /// 比如要在所有的请求都是一个时间戳参数，就可以这样：
 /// 在你的某个类中写个实例方式：
 /// - (NSDictionary *)generateParams {
@@ -51,7 +52,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDictionary          *commonHeaders;
 
 
+/// 动态header参数，每一次请求都会执行一下这个方法, 注意，目标方法体里面不要有self
 @property (nonatomic, assign) IMP                   dynamicHeadersIMP;
+
+
+
+/// 跟dynamicHeadersIMP一样，只是多了一个参数，这个是把你请求的时候参数传到IMP方法里面，用于利用参数签名，注意，目标方法体里面不要有self
+/// /// - (NSDictionary *)headersParams:(NSDictionary *)params  {
+///         //对params进行处理。
+///     return @{
+///
+///     };
+/// }
+/// SEL sel = @selector(headersParams);
+/// IMP imp = [self methodForSelector:sel];
+@property (nonatomic, assign) IMP                   headersWithRequestParamsIMP;
 
 
 /// 不需要加通用参数的URL

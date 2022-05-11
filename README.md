@@ -145,6 +145,25 @@ pod 'XSNetwork'
 ## 版本更新记录
 
 
+
+
+#### 0.2.3
+
+1.XSServerModel中增加headersWithRequestParamsIMP，参考XSNet1.m
+ 作用是处理请求参数并放在header里面，这个IMP目标方法可以有一个参数，例如：
+```
+这个参数params就是请求的所有参数
+- (NSDictionary *)dynamicParamsHeader:(NSDictionary *)params {
+    NSString *str = [XSNet1 dataTOjsonString:params]; //注意这里的dataTOjsonString，因为IMP的目标方法体里面不能有self
+    return @{
+        @"sign" : [XSNet1 getMd5Str:str] //模拟加密
+    };
+}
+
+```
+
+------
+
 #### 0.2.3
 
 1.XSServerModel中增加commonHeaders，dynamicHeadersIMP用于添加header参数

@@ -8,6 +8,7 @@
 
 #import "XSNet1.h"
 #import "ErrorHandler1.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation XSNet1
 
@@ -34,12 +35,12 @@
     //自定义错误处理逻辑
     self.server.model.errHander = [ErrorHandler1 new];
     
-    //通用参数
+    //公共参数，每次请求都会加上
     self.server.model.commonParameter = @{
         @"fuck":@"you"
     };
     
-    //动态通用参数：
+    //动态通用参数，每次请求都会执行一次，与commonParameter可以同时存在
     SEL sel = @selector(dynamicParams);
     IMP imp = [self methodForSelector:sel];
     self.server.model.dynamicParamsIMP = imp;
@@ -50,15 +51,69 @@
     self.server.model.errorAlerType = XSAPIAlertType_Toast;
     
     
+    //公共header参数，每次请求都会加上
     self.server.model.commonHeaders = @{
-        @"token":@"aaaaa123"
+        @"token":@"aaaaa123",
+//        @"Content-Type":@"application/json"
     };
+    
+    
+    //这个是用于把请求参数进行签名或者其他处理后放在header请求头里面
+    SEL selHeader = NSSelectorFromString(@"dynamicParamsHeader:");
+    IMP impHeader = [self methodForSelector:selHeader];
+    self.server.model.headersWithRequestParamsIMP = impHeader;
 }
 
+
+/// 动态参数，每次请求都会执行一次
 - (NSDictionary *)dynamicParams {
     return @{
         @"test_uuid":[[NSUUID UUID] UUIDString]
     };
+}
+
+
+///  处理请求参数，并放进请求头，这个方法每次都会执行一次
+/// @param params 请求参数，这个里面包含commonParameter和dynamicParamsIMP返回的公用参数
+- (NSDictionary *)dynamicParamsHeader:(NSDictionary *)params {
+    NSString *str = [XSNet1 dataTOjsonString:params]; //注意这里的dataTOjsonString，因为IMP的目标方法体里面不能有self
+    return @{
+        @"sign" : [XSNet1 getMd5Str:str] //模拟加密
+    };
+}
+
++(NSString *)getMd5Str:(NSString *)str{
+    // 判断传入的字符串是否为空
+    if (! str) return nil;
+    // 转成utf-8字符串
+    const char *cStr = str.UTF8String;
+    // 设置一个接收数组
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    // 对密码进行加密
+    CC_MD5(cStr, (CC_LONG) strlen(cStr), result);
+    NSMutableString *md5Str = [NSMutableString string];
+    // 转成32字节的16进制
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i ++) {
+        [md5Str appendFormat:@"%02x", result[i]];
+    }
+    return md5Str;
+}
+
++ (NSString *)dataTOjsonString:(id)object{
+    if (!object) {
+        return nil;
+    }
+    NSString *jsonString = nil;
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return jsonString;
 }
 
 

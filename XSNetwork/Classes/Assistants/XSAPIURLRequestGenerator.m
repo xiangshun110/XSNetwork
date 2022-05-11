@@ -129,11 +129,6 @@
               \n---------------------------\n",urlString);
         return nil;
     }
-
-#ifdef DEBUG
-    NSLog(@"==========URL:%@",urlString);
-    NSLog(@"==========Params:%@",commonParams);
-#endif
     
     if (dataModel.requestType == XSAPIRequestTypePostUpload) {
         request.timeoutInterval = 0;
@@ -163,6 +158,13 @@
             }
         }
         
+        if (service.model.headersWithRequestParamsIMP) { //根据参数获取header参数
+            NSDictionary *headers =  ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, commonParams);
+            if (headers && commonParams.allKeys.count) {
+                [hParams addEntriesFromDictionary:headers];
+            }
+        }
+        
         [hParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             [request setValue:obj forHTTPHeaderField:key];
         }];
@@ -171,6 +173,15 @@
     if (dataModel.bodyData) {
         [request setHTTPBody:dataModel.bodyData];
     }
+    
+    
+#ifdef DEBUG
+    NSLog(@"=====请求数据开始=====");
+    NSLog(@"URL: \n%@",urlString);
+    NSLog(@"参数: \n%@",commonParams);
+    NSLog(@"headers: \n%@",request.allHTTPHeaderFields);
+    NSLog(@"=====请求数据结束=====");
+#endif
     
     return request;
 }
