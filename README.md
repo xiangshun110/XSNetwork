@@ -145,6 +145,12 @@ pod 'XSNetwork'
 ## 版本更新记录
 
 
+#### 0.2.5
+
+1.支持text/html，解决这个错误failed: unacceptable content-type: text/html
+
+
+------
 
 
 #### 0.2.4
