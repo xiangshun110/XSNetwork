@@ -15,7 +15,8 @@
 
 //static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 @interface XSAPIURLRequestGenerator()
-@property (nonatomic, strong) AFHTTPRequestSerializer *httpRequestSerializer;
+//@property (nonatomic, strong) AFHTTPRequestSerializer *httpRequestSerializer;
+@property (nonatomic, strong) AFJSONRequestSerializer *httpRequestSerializer;
 //@property (nonatomic, strong) AFJSONRequestSerializer *jsonRequestSerializer;
 @end
 @implementation XSAPIURLRequestGenerator
@@ -220,10 +221,11 @@
 //}
 
 #pragma mark - getters and setters
-- (AFHTTPRequestSerializer *)httpRequestSerializer
+- (AFJSONRequestSerializer *)httpRequestSerializer
 {
+    
     if (_httpRequestSerializer == nil) {
-        _httpRequestSerializer = [AFHTTPRequestSerializer serializer];
+        _httpRequestSerializer = [AFJSONRequestSerializer serializer];
         _httpRequestSerializer.timeoutInterval = DefaultTimeout;
         _httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     }

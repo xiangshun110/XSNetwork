@@ -144,6 +144,12 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.7
+
+1.把AFHTTPRequestSerializer改成AFJSONRequestSerializer
+
+
+------
 
 #### 0.2.6
 

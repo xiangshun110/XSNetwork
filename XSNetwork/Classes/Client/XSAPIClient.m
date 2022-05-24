@@ -16,8 +16,12 @@
 @interface XSAPIClient()
 
 //AFNetworking stuff
-@property (nonatomic, strong) AFURLSessionManager *sessionManager;
-@property (nonatomic, strong) AFURLSessionManager *uploadSessionManager;
+//@property (nonatomic, strong) AFURLSessionManager *sessionManager;
+//@property (nonatomic, strong) AFURLSessionManager *uploadSessionManager;
+
+@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
+@property (nonatomic, strong) AFHTTPSessionManager *uploadSessionManager;
+
 // 根据 requestid，存放 task
 @property (nonatomic, strong) NSMutableDictionary *dispatchTable;
 @property (nonatomic, strong) NSNumber *recordedRequestId;
@@ -59,7 +63,8 @@
 - (NSNumber *)callRequestWithRequestModel:(XSAPIBaseRequestDataModel *)requestModel{
     NSURLRequest *request = [[XSAPIURLRequestGenerator sharedInstance] generateWithRequestDataModel:requestModel];
     typeof(self) __weak weakSelf = self;
-    AFURLSessionManager *sessionManager;
+//    AFURLSessionManager *sessionManager;
+    AFHTTPSessionManager *sessionManager;
     NSNumber *requestID;
     if (requestModel.requestType == XSAPIRequestTypeGETDownload || requestModel.requestType == XSAPIRequestTypePostUpload) {
         sessionManager = [self getUploadSessionManager];
@@ -145,19 +150,29 @@
 #pragma mark - CustomDelegate
 #pragma mark - event response
 #pragma mark - private methods
-- (AFURLSessionManager *)getCommonSessionManager
+//- (AFURLSessionManager *)getCommonSessionManager
+//{
+//    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:20 * 1024 * 1024 diskPath:nil];
+//    [NSURLCache setSharedURLCache:URLCache];
+//
+//    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    configuration.timeoutIntervalForResource = 15;
+//
+//    AFURLSessionManager *sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+//    return sessionManager;
+//}
+
+
+- (AFHTTPSessionManager *)getCommonHTTPManager
 {
-    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:20 * 1024 * 1024 diskPath:nil];
-    [NSURLCache setSharedURLCache:URLCache];
-    
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    configuration.timeoutIntervalForResource = 15;
-    
-    AFURLSessionManager *sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
+    sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
+    sessionManager.responseSerializer = [XSCustomResponseSerializer serializer];
+//    sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
     return sessionManager;
 }
 
-- (AFURLSessionManager *)getNoTimeoutSessionManager
+- (AFHTTPSessionManager *)getNoTimeoutSessionManager
 {
     NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:20 * 1024 * 1024 diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
@@ -165,21 +180,20 @@
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.timeoutIntervalForResource = 0;
     
-    AFURLSessionManager *sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
     return sessionManager;
 }
 
 #pragma mark - getters and setters
-- (AFURLSessionManager *)getSessionManager{
+- (AFHTTPSessionManager *)getSessionManager{
     if (_sessionManager == nil) {
-        _sessionManager = [self getCommonSessionManager];
-        _sessionManager.responseSerializer = [XSCustomResponseSerializer serializer];
-        //_sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _sessionManager = [self getCommonHTTPManager];
     }
     return _sessionManager;
     
 }
-- (AFURLSessionManager *)getUploadSessionManager{
+
+- (AFHTTPSessionManager *)getUploadSessionManager{
     if (_uploadSessionManager == nil) {
         _uploadSessionManager = [self getNoTimeoutSessionManager];
         _uploadSessionManager.responseSerializer = [XSCustomResponseSerializer serializer];
@@ -188,6 +202,7 @@
     return _uploadSessionManager;
     
 }
+
 //- (AFURLSessionManager *)sessionManager
 //{
 //    if (_sessionManager == nil) {
