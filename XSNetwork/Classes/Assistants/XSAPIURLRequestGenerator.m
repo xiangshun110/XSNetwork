@@ -165,9 +165,13 @@
             }
         }
         
-        [hParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [request setValue:obj forHTTPHeaderField:key];
-        }];
+//        [hParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+//            [request setValue:obj forHTTPHeaderField:key];
+//        }];
+
+        for (NSString *headerField in hParams.keyEnumerator) {
+            [request addValue:hParams[headerField] forHTTPHeaderField:headerField];
+        }
     }
     
     if (dataModel.bodyData) {

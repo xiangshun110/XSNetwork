@@ -27,6 +27,9 @@
                 if ([responseObject isKindOfClass:[NSDictionary class]]){
                     message = responseObject[@"message"];
                 }
+                if (!message) {
+                    message = @"请求失败";
+                }
                 NSError *newError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey:message,@"data":responseObject?responseObject:@{},@"URL":responseURL.URL.absoluteString}];
 
                 xsResult.error = newError;

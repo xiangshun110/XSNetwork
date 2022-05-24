@@ -27,7 +27,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.data = @[@"post请求",@"get请求",@"切换环境",@"单个请求不显示错误提示"];
+    self.data = @[@"post请求",@"get请求",@"切换环境",@"单个请求不显示错误提示",@"aaa",@"aaab"];
     
     self.tableView = [UITableView new];
     self.tableView.delegate = self;
@@ -86,6 +86,38 @@
         case 3:
         {
             [[XSNet1 share] hideErrorAlert:self param:nil path:@"/v1/login" requestType:XSAPIRequestTypePost loadingMsg:@"ss" complete:^(id  _Nullable data, NSError * _Nullable error) {
+                NSLog(@"----data:%@",data);
+            }];
+        }
+            break;
+        case 4:
+        {
+            NSDictionary *dic = @{
+                @"actionenum":@(5),
+                @"param" :     @{
+                    @"category" :@(1),
+                    @"id" : @(1930),
+                    @"meetingid" : @(2707),
+                    @"type" : @(3)
+                }
+            };
+            [[XSNet1 share] hideErrorAlert:self param:dic path:@"/admin/common/geturl" requestType:XSAPIRequestTypePost loadingMsg:@"ss" complete:^(id  _Nullable data, NSError * _Nullable error) {
+                NSLog(@"----data:%@",data);
+            }];
+        }
+            break;
+        case 5:
+        {
+            NSMutableDictionary *body = @{@"username":@"aa",
+                                   @"password":@"123456"
+                                   }.mutableCopy;
+
+//            NSMutableDictionary *loginuserinfo = [NSMutableDictionary dictionary];
+//            loginuserinfo[@"logintype"] = @"用户登录";
+//            loginuserinfo[@"devicetype"] = @(2);
+//            loginuserinfo[@"deviceinfo"] = [self getDeviceInfo];
+//            body[@"loginuserinfo"] = loginuserinfo;
+            [[XSNet1 share] hideErrorAlert:self param:body path:@"/admin/account/userlogin" requestType:XSAPIRequestTypePost loadingMsg:@"ss" complete:^(id  _Nullable data, NSError * _Nullable error) {
                 NSLog(@"----data:%@",data);
             }];
         }

@@ -145,6 +145,13 @@ pod 'XSNetwork'
 ## 版本更新记录
 
 
+#### 0.2.6
+
+1.修改添加header参数的方式，setValue改成addValue，这样不会改变原来header的数据
+
+
+------
+
 #### 0.2.5
 
 1.支持text/html，解决这个错误failed: unacceptable content-type: text/html
