@@ -144,6 +144,13 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.8
+
+1.修复XSNetworkTools里面uploadFile没有上传进度
+
+
+------
+
 #### 0.2.7
 
 1.把AFHTTPRequestSerializer改成AFJSONRequestSerializer

@@ -70,7 +70,7 @@ static NSArray *comParamExcludes = nil;
 }
 
 - (nullable XSBaseDataEngine *)uploadFile:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path fileURL:(NSURL * _Nullable)fileURL filePath:(NSString *_Nullable)filePath fileKey:(NSString *_Nullable)fileKey fileName:(NSString *_Nullable)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock _Nullable)progress complete:(CompletionDataBlock _Nullable)responseBlock {
-    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:filePath dataFileURL:fileURL image:nil dataName:fileKey fileName:fileName requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:filePath dataFileURL:fileURL image:nil dataName:fileKey fileName:fileName requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:progress downloadProgressBlock:nil errorButtonSelectIndex:nil];
 }
 
 
