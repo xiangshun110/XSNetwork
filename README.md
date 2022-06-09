@@ -144,6 +144,13 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.9
+
+1.修复参数为空的时候header没加进去
+
+
+------
+
 #### 0.2.8
 
 1.修复XSNetworkTools里面uploadFile没有上传进度
