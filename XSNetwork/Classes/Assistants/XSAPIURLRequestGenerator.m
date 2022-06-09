@@ -151,17 +151,18 @@
         if (service.model.commonHeaders) {
             [hParams addEntriesFromDictionary:service.model.commonHeaders];
         }
+        
         if (service.model.dynamicHeadersIMP) {
             NSDictionary* (*dyFunc)(void) = (void *)service.model.dynamicHeadersIMP;
             NSDictionary *dyParams = dyFunc();
-            if (dyParams) {
+            if (dyParams && dyParams.allKeys.count) {
                 [hParams addEntriesFromDictionary:dyParams];
             }
         }
         
         if (service.model.headersWithRequestParamsIMP) { //根据参数获取header参数
             NSDictionary *headers =  ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, commonParams);
-            if (headers && commonParams.allKeys.count) {
+            if (headers && headers.allKeys.count) {
                 [hParams addEntriesFromDictionary:headers];
             }
         }
