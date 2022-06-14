@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 ///     };
 /// }
+/// 当前请求的URL也在params里面，key是固定的：_url_
 /// SEL sel = @selector(headersParams);
 /// IMP imp = [self methodForSelector:sel];
 @property (nonatomic, assign) IMP                   headersWithRequestParamsIMP;

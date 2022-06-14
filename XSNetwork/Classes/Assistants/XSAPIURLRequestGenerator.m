@@ -161,7 +161,9 @@
         }
         
         if (service.model.headersWithRequestParamsIMP) { //根据参数获取header参数
-            NSDictionary *headers =  ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, commonParams);
+            NSMutableDictionary *impDic = [NSMutableDictionary dictionaryWithDictionary:commonParams.copy];
+            [impDic setObject:urlString forKey:@"_url_"];
+            NSDictionary *headers =  ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, impDic.copy);
             if (headers && headers.allKeys.count) {
                 [hParams addEntriesFromDictionary:headers];
             }

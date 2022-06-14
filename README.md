@@ -144,6 +144,13 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.10
+
+1.在headersWithRequestParamsIMP参数里面加一个当前请求的URL，key是：_url_
+
+
+------
+
 #### 0.2.9
 
 1.修复参数为空的时候header没加进去
