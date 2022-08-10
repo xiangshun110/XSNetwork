@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '0.2.10'
+  s.version          = '0.2.11'
   s.summary          = '对AFNetworking 4.0的封装'
 
 # This description is used to generate tags and improve search results.
@@ -38,6 +38,9 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
+#  要排除的文件
+#  s.exclude_files = 'MJRefresh/include/**'
+  
     s.dependency 'AFNetworking', '~> 4.0.1'
     s.dependency 'MBProgressHUD', '~> 1.2.0'
 end
