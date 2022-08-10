@@ -18,7 +18,7 @@ git commit -m "build:${tag}"
 git push github master
 
 git tag $tag
-git push girhub —tasg
+git push github —tasg
 
 
 pod trunk push XSNetwork.podspec --allow-warnings
