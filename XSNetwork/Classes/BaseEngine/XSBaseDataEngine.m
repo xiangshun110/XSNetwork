@@ -56,7 +56,7 @@
     
     XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:serverName];
     
-    MBProgressHUD *hud = nil;
+    __block MBProgressHUD *hud = nil;
     if (loadingMsg && ([control isKindOfClass:[UIViewController class]] || [control isKindOfClass:[UIView class]])) {
         UIView *view = nil;
         if ([control isKindOfClass:[UIViewController class]]) {
@@ -65,16 +65,20 @@
         } else if ([control isKindOfClass:[UIView class]]) {
             view = (UIView *)control;
         }
-        hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.bezelView.style = MBProgressHUDBackgroundStyleBlur;
-        hud.bezelView.color = [UIColor blackColor];
-        hud.contentColor = [UIColor blackColor];
-        if (loadingMsg.length) {
-            hud.label.text = loadingMsg;
+        if (view) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+                hud.mode = MBProgressHUDModeIndeterminate;
+                hud.bezelView.style = MBProgressHUDBackgroundStyleBlur;
+                hud.bezelView.color = [UIColor blackColor];
+                hud.contentColor = [UIColor blackColor];
+                if (loadingMsg.length) {
+                    hud.label.text = loadingMsg;
+                }
+                hud.removeFromSuperViewOnHide = YES;
+                hud.userInteractionEnabled = NO;
+            });
         }
-        hud.removeFromSuperViewOnHide = YES;
-        hud.userInteractionEnabled = NO;
     }
     
     XSAPIBaseRequestDataModel *dataModel = [engine dataServerName:serverName
