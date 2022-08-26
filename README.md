@@ -144,6 +144,15 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.12
+
+1.hub弹出放在主线程执行
+
+
+------
+
+#### 
+
 #### 0.2.10
 
 1.在headersWithRequestParamsIMP参数里面加一个当前请求的URL，key是：_url_
