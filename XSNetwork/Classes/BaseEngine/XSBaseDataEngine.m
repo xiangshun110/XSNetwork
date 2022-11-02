@@ -69,9 +69,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
                 hud.mode = MBProgressHUDModeIndeterminate;
-                hud.bezelView.style = MBProgressHUDBackgroundStyleBlur;
-                hud.bezelView.color = [UIColor blackColor];
-                hud.contentColor = [UIColor blackColor];
+                hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+                hud.bezelView.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+                hud.contentColor = [UIColor whiteColor];
                 if (loadingMsg.length) {
                     hud.label.text = loadingMsg;
                 }
