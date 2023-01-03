@@ -20,6 +20,9 @@
 #define DefaultTimeout         25.0
 
 
+#define NotiEnvChange          @"environmentTypeChange"
+
+
 // 服务器类型，这个弃用了，用serverName代替，XSServiceMain就是DefaultServerName
 typedef NS_ENUM(NSUInteger, XSServiceType) {
     XSServiceMain,      //主服务器

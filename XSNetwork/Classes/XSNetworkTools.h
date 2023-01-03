@@ -25,6 +25,10 @@
 @property (nonatomic, strong, readonly) XSBaseServers * _Nonnull server;
 
 
+/// 显示当前环境名称
+/// @param container 传UIwindow进来
+- (void)showEnvTagView:(UIView *)container;
+
 
 //---------------分割线-------------------
 

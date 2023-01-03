@@ -79,6 +79,8 @@
     _environmentType = environmentType;
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:environmentType] forKey:@"environmentType"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiEnvChange object:nil];
     //重置APIbase
     _apiBaseUrl = nil;
 }

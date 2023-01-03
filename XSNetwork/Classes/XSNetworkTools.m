@@ -20,7 +20,9 @@ static NSArray *comParamExcludes = nil;
 
 @interface XSNetworkTools()
 
-@property (nonatomic, strong) XSBaseServers * _Nonnull server;
+@property (nonatomic, strong) XSBaseServers * _Nonnull  server;
+
+@property (nonatomic, strong) UILabel                   *devEnvlabel;
 
 @end
 
@@ -42,9 +44,75 @@ static NSArray *comParamExcludes = nil;
     return sharedInstance;
 }
 
+#pragma mark private
+
+- (void)netEnvChange:(NSNotification *)noti {
+    switch (self.server.model.environmentType) {
+        case XSEnvTypeRelease:
+        {
+            self.devEnvlabel.hidden = YES;
+        }
+            break;
+        case XSEnvTypeDevelop:
+        {
+            self.devEnvlabel.hidden = NO;
+            self.devEnvlabel.text = @"dev";
+        }
+            break;
+        case XSEnvTypePreRelease:
+        {
+            self.devEnvlabel.hidden = NO;
+            self.devEnvlabel.text = @"pre";
+        }
+            break;
+        case XSEnvTypeCustom:
+        {
+            self.devEnvlabel.hidden = NO;
+            self.devEnvlabel.text = @"cus";
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
+#pragma mark getter
+
+
+- (UILabel *)devEnvlabel {
+    if (!_devEnvlabel) {
+        _devEnvlabel = [UILabel new];
+        _devEnvlabel.alpha = 0.8;
+        _devEnvlabel.textColor = [UIColor blackColor];
+        _devEnvlabel.font = [UIFont systemFontOfSize:10];
+        _devEnvlabel.textAlignment = NSTextAlignmentCenter;
+        _devEnvlabel.backgroundColor = [UIColor colorWithRed:200 green:200 blue:200 alpha:0.5];
+        _devEnvlabel.userInteractionEnabled = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netEnvChange:) name:NotiEnvChange object:nil];
+    }
+    return _devEnvlabel;
+}
+
 
 - (XSBaseServers *)server {
     return [[XSServerFactory sharedInstance] serviceWithName:[self serverName]];
+}
+
+
+
+
+- (void)showEnvTagView:(UIView *)container {
+    [container addSubview:self.devEnvlabel];
+    if (@available(iOS 11.0, *)) {
+        self.devEnvlabel.frame = CGRectMake(container.safeAreaInsets.left, container.safeAreaInsets.right, 40, 16);
+    } else {
+        self.devEnvlabel.frame = CGRectMake(0, 20, 40, 16);
+    }
+    [self netEnvChange:nil];
 }
 
 
