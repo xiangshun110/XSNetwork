@@ -87,9 +87,9 @@ static NSArray *comParamExcludes = nil;
         _devEnvlabel = [UILabel new];
         _devEnvlabel.alpha = 0.8;
         _devEnvlabel.textColor = [UIColor blackColor];
-        _devEnvlabel.font = [UIFont systemFontOfSize:10];
+        _devEnvlabel.font = [UIFont systemFontOfSize:11];
         _devEnvlabel.textAlignment = NSTextAlignmentCenter;
-        _devEnvlabel.backgroundColor = [UIColor colorWithRed:200 green:200 blue:200 alpha:0.5];
+        _devEnvlabel.backgroundColor = [UIColor colorWithRed:100/255.0 green:100/255.0 blue:0 alpha:0.5];
         _devEnvlabel.userInteractionEnabled = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netEnvChange:) name:NotiEnvChange object:nil];
@@ -108,7 +108,7 @@ static NSArray *comParamExcludes = nil;
 - (void)showEnvTagView:(UIView *)container {
     [container addSubview:self.devEnvlabel];
     if (@available(iOS 11.0, *)) {
-        self.devEnvlabel.frame = CGRectMake(container.safeAreaInsets.left, container.safeAreaInsets.right, 40, 16);
+        self.devEnvlabel.frame = CGRectMake(container.safeAreaInsets.left, container.safeAreaInsets.top, 40, 16);
     } else {
         self.devEnvlabel.frame = CGRectMake(0, 20, 40, 16);
     }

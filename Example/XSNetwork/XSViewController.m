@@ -41,6 +41,8 @@
     NSLog(@"[XSNet singleInstance]:%@",[XSNet singleInstance]);
     
     
+    [[XSNet singleInstance] showEnvTagView:[UIApplication sharedApplication].keyWindow];
+    
     self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"get请求",@"切换环境",@"不用baseURL的请求"];
     
     self.tableView = [UITableView new];
