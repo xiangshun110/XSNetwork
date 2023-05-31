@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) UITableView   *tableView;
 @property (nonatomic, strong) NSArray       *data;
+@property (nonatomic, strong) UIView        *testView;
 
 @end
 
@@ -51,6 +52,21 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     [self.view addSubview:self.tableView];
     
+    
+//    self.testView = [UIView new];
+//    self.testView.backgroundColor = [UIColor yellowColor];
+//    self.testView.frame = CGRectMake(100, 100, 120, 60);
+//    [self.view addSubview:self.testView];
+//    
+//    [[XSNet singleInstance] showEnvTagView:self.testView];
+//    
+//    [self performSelector:@selector(clearTestView) withObject:nil afterDelay:5];
+    
+}
+
+- (void)clearTestView {
+    [self.testView removeFromSuperview];
+    self.testView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

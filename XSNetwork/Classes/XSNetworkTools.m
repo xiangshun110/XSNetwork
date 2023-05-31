@@ -24,6 +24,8 @@ static NSArray *comParamExcludes = nil;
 
 @property (nonatomic, strong) UILabel                   *devEnvlabel;
 
+@property (nonatomic, weak) UIView                      *devEnvlabelContainer;
+
 @end
 
 @implementation XSNetworkTools
@@ -105,7 +107,8 @@ static NSArray *comParamExcludes = nil;
 
 
 
-- (void)showEnvTagView:(UIView *)container {
+- (void)showEnvTagView:(UIView *_Nonnull)container {
+    self.devEnvlabelContainer = container;
     [container addSubview:self.devEnvlabel];
     if (@available(iOS 11.0, *)) {
         self.devEnvlabel.frame = CGRectMake(container.safeAreaInsets.left, container.safeAreaInsets.top, 40, 16);
@@ -113,8 +116,21 @@ static NSArray *comParamExcludes = nil;
         self.devEnvlabel.frame = CGRectMake(0, 20, 40, 16);
     }
     [self netEnvChange:nil];
+    
+    //15秒一次，把devEnvlabel移动到顶上
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(devEnvlabelToTop) object:nil];
+    [self performSelector:@selector(devEnvlabelToTop) withObject:nil afterDelay:15.0];
 }
 
+- (void)devEnvlabelToTop {
+    if (!self.devEnvlabelContainer) {
+        return;
+    }
+    if (self.server.model.environmentType != XSEnvTypeRelease) {
+        [self.devEnvlabelContainer addSubview:self.devEnvlabel];
+    }
+    [self performSelector:@selector(devEnvlabelToTop) withObject:nil afterDelay:15.0];
+}
 
 - (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path requestType:(XSAPIRequestType)requestType loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
     return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
