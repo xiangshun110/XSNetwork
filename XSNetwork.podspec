@@ -30,7 +30,8 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'XSNetwork/Classes/**/*'
+  #s.source_files = 'XSNetwork/Classes/**/*'
+  s.source_files = 'XSNetwork/Classes/**/*.{h,m,swift}'
   
   # s.resource_bundles = {
   #   'XSNetwork' => ['XSNetwork/Assets/*.png']
