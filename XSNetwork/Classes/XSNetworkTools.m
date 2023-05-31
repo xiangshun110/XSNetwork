@@ -35,9 +35,9 @@ static NSArray *comParamExcludes = nil;
 {
    
     NSString *class = NSStringFromClass([self class]);
-    
-    NSAssert([class isEqualToString:@"XSNetworkTools"], @"子类请自行实现单例方法,或者自己new一个实例");
-    
+    if (class) {
+        NSAssert([class isEqualToString:@"XSNetworkTools"], @"子类请自行实现单例方法,或者自己new一个实例");
+    }
     static dispatch_once_t onceToken;
     static XSNetworkTools *sharedInstance;
     dispatch_once(&onceToken, ^{
