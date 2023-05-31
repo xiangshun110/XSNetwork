@@ -21,4 +21,5 @@ git tag $tag
 git push github --tags
 
 
-pod trunk push XSNetwork.podspec --allow-warnings
+#pod trunk push XSNetwork.podspec --allow-warnings
+pod repo push github XSNetwork.podspec --allow-warnings
