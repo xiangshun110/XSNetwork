@@ -14,32 +14,56 @@
 
 @interface XSAPIBaseRequestDataModel : NSObject
 /**
- *  网络请求参数
+ *  请求地址
  */
-@property (nonatomic, strong) NSString              *apiMethodPath;       //网络请求地址
+@property (nonatomic, strong) NSString              *apiMethodPath;
 
-//弃用了
-@property (nonatomic, assign) XSServiceType         serviceType DEPRECATED_MSG_ATTRIBUTE("用serverName");          //服务器标识
-@property (nonatomic, strong) NSDictionary          *parameters;          //请求参数
-@property (nonatomic, assign) XSAPIRequestType      requestType;          //网络请求方式
-@property (nonatomic, copy)   CompletionDataBlock   responseBlock;      //请求着陆回调
+/// 弃用了, 服务器标识
+@property (nonatomic, assign) XSServiceType         serviceType DEPRECATED_MSG_ATTRIBUTE("用serverName");
+/**
+ 请求参数
+ */
+@property (nonatomic, strong) NSDictionary          *parameters;
+/**
+ get post ...
+ */
+@property (nonatomic, assign) XSAPIRequestType      requestType;
+/**
+ callback
+ */
+@property (nonatomic, copy)   CompletionDataBlock   responseBlock;
 
-@property (nonatomic, assign) BOOL                  needBaseURL;          //是否需要baseURL
+/**
+ 是否需要baseURL
+ */
+@property (nonatomic, assign) BOOL                  needBaseURL;
 
+
+/// 上传文件的完整路径
 @property (nonatomic, strong) NSString              *dataFilePath;
+
+/// 上传文件的nsurl
 @property (nonatomic, strong) NSURL                 *dataFileURL;
+
+/// 上传用，就是AFMultipartFormData appendPartWithFileURL中的的name，默认nil
 @property (nonatomic, strong) NSString              *dataName;
+
+/// 上传时，就是AFMultipartFormData appendPartWithFileURL中的的fileName，默认nil
+/// 下载时，代表下载后存储在本地的文件名，可以带目录，比如: test/20150101/test.pdf，默认nil
 @property (nonatomic, strong) NSString              *fileName;
+
 @property (nonatomic, strong) NSString              *mimeType;
 
-// progressBlock
+/// 上传的 progressBlock
 @property (nonatomic, copy) ProgressBlock           uploadProgressBlock;
+
+/// 下载进度
 @property (nonatomic, copy) ProgressBlock           downloadProgressBlock;
 
 /// 要传的图片
 @property (nonatomic, strong) UIImage               *image;
 
-
+/// 
 @property (nonatomic, strong) NSData                *bodyData;
 
 /// 如果小于等于0，就用默认的kYANetworkingTimeoutSeconds

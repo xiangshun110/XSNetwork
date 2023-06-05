@@ -74,7 +74,11 @@
     if(requestModel.requestType == XSAPIRequestTypeGETDownload){
         __block NSURLSessionDownloadTask *dtask = [sessionManager downloadTaskWithRequest:request progress:requestModel.downloadProgressBlock destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
             NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+            NSString *fileName = [response suggestedFilename];
+            if (requestModel.fileName && requestModel.fileName.length) {
+                fileName = requestModel.fileName;
+            }
+            return [documentsDirectoryURL URLByAppendingPathComponent:fileName];
         } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
             //NSLog(@"下载完成====:%@，%@",filePath,error);
             requestModel.responseBlock(filePath, error);

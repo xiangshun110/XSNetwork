@@ -131,7 +131,7 @@
         return nil;
     }
     
-    if (dataModel.requestType == XSAPIRequestTypePostUpload) {
+    if (dataModel.requestType == XSAPIRequestTypePostUpload || dataModel.requestType == XSAPIRequestTypeGETDownload) {
         request.timeoutInterval = 0;
     } else {
         if (dataModel.requestTimeout > 0) {

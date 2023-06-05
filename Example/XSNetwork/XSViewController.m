@@ -44,7 +44,7 @@
     
     [[XSNet singleInstance] showEnvTagView:[UIApplication sharedApplication].keyWindow];
     
-    self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"get请求",@"切换环境",@"不用baseURL的请求"];
+    self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"get请求",@"切换环境",@"不用baseURL的请求",@"文件下载"];
     
     self.tableView = [UITableView new];
     self.tableView.delegate = self;
@@ -143,6 +143,16 @@
             [[XSNet singleInstance] getRequest:self param:nil path:@"https://api.weixin.qq.com/sns/userinfo" loadingMsg:@"lll" complete:^(id  _Nullable data, NSError * _Nullable error) {
                 NSLog(@"----data:%@",data);
             }];
+            break;
+        case 6:
+        {
+            NSString *url = @"https://cdn.sandbox.edstatic.com/202311122246/a7c470d9e9859480e6612b88dfbcf05f/2023/01/18/92070ab7-2b19-bd06-b980-77d4b5ca63f6.svga";
+            [[XSNet singleInstance] downloadFile:self url:url fileName:@"test1/01.pdf" progress:^(NSProgress * _Nonnull taskProgress) {
+                NSLog(@"--------:%f",(float)taskProgress.completedUnitCount/taskProgress.totalUnitCount);
+            } complete:^(id  _Nullable data, NSError * _Nullable error) {
+                NSLog(@"aaa");
+            }];
+        }
             break;
             
         default:

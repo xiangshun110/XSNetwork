@@ -92,6 +92,16 @@
 /// @param responseBlock c
 - (nullable XSBaseDataEngine *)uploadFile:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path fileURL:(NSURL * _Nullable)fileURL filePath:(NSString *_Nullable)filePath fileKey:(NSString *_Nullable)fileKey fileName:(NSString *_Nullable)fileName requestType:(XSAPIRequestType)requestType progress:(ProgressBlock _Nullable)progress complete:(CompletionDataBlock _Nullable)responseBlock;
 
+
+
+/// 下载文件
+/// @param control owner
+/// @param url 文件URL地址
+/// @param fileName  存储到本地的文件名，可选
+/// @param progress 下载进度
+/// @param responseBlock 完成回调
+- (nullable XSBaseDataEngine *)downloadFile:(NSObject * _Nonnull)control url:(NSString * _Nonnull)url fileName:(NSString *_Nullable)fileName progress:(ProgressBlock _Nullable)progress complete:(CompletionDataBlock _Nullable)responseBlock;
+
 //--------
 
 

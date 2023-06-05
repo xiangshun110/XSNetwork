@@ -158,7 +158,9 @@ static NSArray *comParamExcludes = nil;
 }
 
 
-
+- (XSBaseDataEngine *)downloadFile:(NSObject *)control url:(NSString *)url fileName:(NSString *)fileName progress:(ProgressBlock)progress complete:(CompletionDataBlock)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:url param:nil bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:fileName requestType:XSAPIRequestTypeGETDownload alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:progress errorButtonSelectIndex:nil];
+}
 
 
 //-------------原生请求--------------
