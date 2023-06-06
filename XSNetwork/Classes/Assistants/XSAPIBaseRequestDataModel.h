@@ -61,7 +61,8 @@
 @property (nonatomic, copy) ProgressBlock           downloadProgressBlock;
 
 /// 要传的图片
-@property (nonatomic, strong) UIImage               *image;
+//@property (nonatomic, strong) UIImage               *image;
+@property (nonatomic, strong) NSData               *imageData;
 
 /// 
 @property (nonatomic, strong) NSData                *bodyData;

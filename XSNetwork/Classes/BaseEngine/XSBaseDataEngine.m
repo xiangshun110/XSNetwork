@@ -51,6 +51,35 @@
           uploadProgressBlock:(ProgressBlock)uploadProgressBlock
         downloadProgressBlock:(ProgressBlock)downloadProgressBlock
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    NSData *imageData = nil;
+    if (image) {
+        imageData = UIImagePNGRepresentation(image);
+    }
+    
+    return [XSBaseDataEngine control:control serverName:serverName path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL imageData:imageData dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
+}
+
+
++ (XSBaseDataEngine *)control:(NSObject *)control
+                   serverName:(NSString *)serverName
+                         path:(NSString *)path
+                        param:(NSDictionary *)parameters
+                        bodyData:(NSData *)bodyData
+                 dataFilePath:(NSString *)dataFilePath
+                  dataFileURL:(NSURL *)dataFileURL
+                    imageData:(NSData *)imageData
+                     dataName:(NSString *)dataName
+                     fileName:(NSString *)fileName
+                  requestType:(XSAPIRequestType)requestType
+                    alertType:(XSAPIAlertType)alertType
+                     mimeType:(NSString *)mimeType
+                      timeout:(NSTimeInterval)timeout
+                   loadingMsg:(NSString *)loadingMsg
+                     complete:(CompletionDataBlock)responseBlock
+          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
+        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
+       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
+    
     __weak typeof(control) weakControl = control;
     XSBaseDataEngine *engine = [[XSBaseDataEngine alloc] init];
     
@@ -87,7 +116,7 @@
                                                         bodyData:bodyData
                                                     dataFilePath:dataFilePath
                                                      dataFileURL:dataFileURL
-                                                           image:image
+                                                           imageData:imageData
                                                         dataName:dataName
                                                         fileName:fileName
                                                         mimeType:mimeType
@@ -162,146 +191,7 @@
 
 
 
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//       callAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                        bodyData:(NSData *)bodyData
-//                 dataFilePath:(NSString *)dataFilePath
-//                  dataFileURL:(NSURL *)dataFileURL
-//                        image:(UIImage *)image
-//                     dataName:(NSString *)dataName
-//                     fileName:(NSString *)fileName
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//                     mimeType:(NSString *)mimeType
-//                      timeout:(NSTimeInterval)timeout
-//                   loadingMsg:(NSString *)loadingMsg
-//                     complete:(CompletionDataBlock)responseBlock
-//          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-//        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
-//    
-//    return [XSBaseDataEngine control:control serverName:DefaultServerName path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
 
-
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//       callAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                        bodyData:(NSData *)bodyData
-//                 dataFilePath:(NSString *)dataFilePath
-//                  dataFileURL:(NSURL *)dataFileURL
-//                        image:(UIImage *)image
-//                     dataName:(NSString *)dataName
-//                     fileName:(NSString *)fileName
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//                     mimeType:(NSString *)mimeType
-//                      timeout:(NSTimeInterval)timeout
-//                     complete:(CompletionDataBlock)responseBlock
-//          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-//        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
-//    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout loadingMsg:nil complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
-
-
-/// get/post
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//       callAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//                      timeout:(NSTimeInterval)timeout
-//                progressBlock:(ProgressBlock)progressBlock
-//                     complete:(CompletionDataBlock)responseBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
-//
-//    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:requestType alertType:alertType mimeType:nil timeout:0 complete:responseBlock uploadProgressBlock:progressBlock downloadProgressBlock:nil errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
-
-
-/// get/post
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//       callAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//                progressBlock:(ProgressBlock)progressBlock
-//                     complete:(CompletionDataBlock)responseBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
-//
-//    return [self control:control callAPIWithServiceType:serviceType path:path param:parameters requestType:requestType alertType:alertType timeout:0 progressBlock:progressBlock complete:responseBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
-
-// upload/download
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//     uploadAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                 dataFilePath:(NSString *)dataFilePath
-//                        image:(UIImage *)image
-//                     dataName:(NSString *)dataName
-//                     fileName:(NSString *)fileName
-//                     mimeType:(NSString *)mimeType
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-//        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-//                     complete:(CompletionDataBlock)responseBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
-//{
-//
-//    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:dataFilePath dataFileURL:nil image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
-
-
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//     uploadAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                  dataFileURL:(NSURL *)dataFileURL
-//                        image:(UIImage *)image
-//                     dataName:(NSString *)dataName
-//                     fileName:(NSString *)fileName
-//                     mimeType:(NSString *)mimeType
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-//        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-//                     complete:(CompletionDataBlock)responseBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
-//{
-//    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:nil dataFileURL:dataFileURL image:image dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
-
-
-
-
-
-// upload/download
-//+ (XSBaseDataEngine *)control:(NSObject *)control
-//     uploadAPIWithServiceType:(XSServiceType)serviceType
-//                         path:(NSString *)path
-//                        param:(NSDictionary *)parameters
-//                 dataFilePath:(NSString *)dataFilePath
-//                     dataName:(NSString *)dataName
-//                     fileName:(NSString *)fileName
-//                     mimeType:(NSString *)mimeType
-//                  requestType:(XSAPIRequestType)requestType
-//                    alertType:(XSAPIAlertType)alertType
-//          uploadProgressBlock:(ProgressBlock)uploadProgressBlock
-//        downloadProgressBlock:(ProgressBlock)downloadProgressBlock
-//                     complete:(CompletionDataBlock)responseBlock
-//       errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock
-//{
-//
-//    return [XSBaseDataEngine control:control callAPIWithServiceType:serviceType path:path param:parameters bodyData:nil dataFilePath:dataFilePath dataFileURL:nil image:nil dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:0 complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
-//}
 
 #pragma mark - UITableViewDelegate
 #pragma mark - CustomDelegate
@@ -314,7 +204,7 @@
                                     bodyData:(NSData *)bodyData
                                 dataFilePath:(NSString *)dataFilePath
                                  dataFileURL:(NSURL *)dataFileURL
-                                       image:(UIImage *)image
+                                    imageData:(NSData *)imageData
                                     dataName:(NSString *)dataName
                                     fileName:(NSString *)fileName
                                     mimeType:(NSString *)mimeType
@@ -336,7 +226,7 @@
     dataModel.uploadProgressBlock = uploadProgressBlock;
     dataModel.downloadProgressBlock = downloadProgressBlock;
     dataModel.responseBlock = responseBlock;
-    dataModel.image = image;
+    dataModel.imageData = imageData;
     dataModel.bodyData = bodyData;
     return dataModel;
 }
