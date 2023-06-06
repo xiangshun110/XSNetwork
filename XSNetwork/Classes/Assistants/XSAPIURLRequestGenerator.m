@@ -116,8 +116,8 @@
                                           error:&error];
             }
             
-            if(dataModel.image){
-                [formData appendPartWithFileData:UIImagePNGRepresentation(dataModel.image) name:dataModel.dataName fileName:dataModel.fileName mimeType:dataModel.mimeType];
+            if(dataModel.imageData){
+                [formData appendPartWithFileData:dataModel.imageData name:dataModel.dataName fileName:dataModel.fileName mimeType:dataModel.mimeType];
             }
             
         } error:&error];

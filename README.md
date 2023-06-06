@@ -144,7 +144,7 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
-#### 0.2.18
+#### 0.2.19
 
 1. 支持图片以nsdata的方式上传，在XSBaseDataEngine里面加了一个方法
 
