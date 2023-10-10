@@ -144,6 +144,13 @@ pod 'XSNetwork'
 
 ## 版本更新记录
 
+#### 0.2.21
+
+1. baseURL支持任意字符串
+
+
+------
+
 #### 0.2.20
 
 1. 支持图片以nsdata的方式上传，在XSBaseDataEngine里面加了一个方法

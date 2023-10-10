@@ -195,10 +195,25 @@
 }
 #pragma mark - private methods
 - (NSString *)URLStringWithServiceUrl:(NSString *)serviceUrl path:(NSString *)path{
-    NSURL *fullURL = [NSURL URLWithString:serviceUrl];
-    if (![NSString isEmptyString:path]) {
-        fullURL = [NSURL URLWithString:path relativeToURL:fullURL];
-    }
+//    NSString *sLast = [serviceUrl substringFromIndex:serviceUrl.length - 2];
+//    if ([sLast isEqualToString:@"/"]) {
+//        serviceUrl = [serviceUrl substringToIndex:serviceUrl.length - 2];
+//    }
+//    NSString *pFirst = [path substringToIndex:1];
+//    if (![pFirst isEqualToString:@"/"]) {
+//        
+//    }
+    
+    NSString *mStr = [NSString stringWithFormat:@"%@%@",serviceUrl, path];
+    mStr = [mStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    NSURL *fullURL = [NSURL URLWithString:mStr];
+    
+//    NSURL *fullURL = [NSURL URLWithString:serviceUrl];
+//    
+//    if (![NSString isEmptyString:path]) {
+//        fullURL = [NSURL URLWithString:path relativeToURL:fullURL];
+//    }
+    
     if (fullURL == nil) {
         DELog(@"YAAPIURLRequestGenerator--URL拼接错误:\n---------------------------\n\
               apiBaseUrl:%@\n\
@@ -206,6 +221,7 @@
               \n---------------------------\n",serviceUrl,path);
         return nil;
     }
+    
     return [fullURL absoluteString];
 }
 

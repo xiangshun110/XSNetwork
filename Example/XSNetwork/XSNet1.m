@@ -33,8 +33,8 @@
 //    self.server.model.releaseApiBaseUrl = @"https://apimeeting.talkmed.com";
 //    self.server.model.developApiBaseUrl = @"https://devapimeeting.talkmed.com";
     
-    self.server.model.releaseApiBaseUrl = @"http://cslbehring-meeting.edr120.com";
-    self.server.model.developApiBaseUrl = @"http://jtbl.uatwechat.com";
+    self.server.model.releaseApiBaseUrl = @"http://cslbehring-meeting.edr120.com/2";
+    self.server.model.developApiBaseUrl = @"http://jtbl.uatwechat.com/12";
     
     //自定义错误处理逻辑
     self.server.model.errHander = [ErrorHandler1 new];
