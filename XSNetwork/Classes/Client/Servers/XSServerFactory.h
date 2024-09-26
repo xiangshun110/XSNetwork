@@ -14,13 +14,13 @@
 
 + (instancetype)sharedInstance;
 
-+ (NSString *)YABaseAPI;
+//+ (NSString *)YABaseAPI;
 
-+ (XSEnvType)getEnvironmentType;
+//+ (XSEnvType)getEnvironmentType;
 
 + (void)changeEnvironmentType:(XSEnvType)environmentType;
 
-- (XSBaseServers<YABaseServiceProtocol> *)serviceWithType:(XSServiceType)type;
+- (XSBaseServers *)serviceWithType:(XSServiceType)type;
 
 
 /// 创建或者返回一个已有的server

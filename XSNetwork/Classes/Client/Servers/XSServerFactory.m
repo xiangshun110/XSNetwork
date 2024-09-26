@@ -27,42 +27,23 @@
 }
 
 #pragma mark - public methods
-+ (NSString *)YABaseAPI{
-    return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].apiBaseUrl;
-}
-+ (XSEnvType)getEnvironmentType{
-    return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].environmentType;
-}
+//+ (NSString *)YABaseAPI{
+//    return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].apiBaseUrl;
+//}
+//+ (XSEnvType)getEnvironmentType{
+//    return [[XSServerFactory sharedInstance] serviceWithType:XSServiceMain].environmentType;
+//}
 
 
 + (void)changeEnvironmentType:(XSEnvType)environmentType{
-    
     XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:DefaultServerName];
-    if (server.model) {
-        server.model.environmentType = environmentType;
-    } else {
-        server.environmentType = environmentType;
-    }
-    
-    
-//    XSServerFactory *factory = [XSServerFactory sharedInstance];
-//    [factory.serviceStorage.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        XSBaseServers *service = obj;
-//        service.environmentType = environmentType;
-//    }];
-//    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:environmentType] forKey:@"environmentType"];
+    server.model.environmentType = environmentType;
 }
 
 
-- (XSBaseServers<YABaseServiceProtocol> *)serviceWithType:(XSServiceType)type
+- (XSBaseServers *)serviceWithType:(XSServiceType)type
 {
-    
     return [self serviceWithName:DefaultServerName];
-    
-//    if (self.serviceStorage[@(type)] == nil) {
-//        self.serviceStorage[@(type)] = [self newServiceWithType:type];
-//    }
-//    return self.serviceStorage[@(type)];
 }
 
 - (XSBaseServers *)serviceWithName:(NSString *)serverName {
@@ -73,9 +54,9 @@
 }
 
 #pragma mark - private methods
-- (XSBaseServers<YABaseServiceProtocol> *)newServiceWithType:(XSServiceType)type
+- (XSBaseServers *)newServiceWithType:(XSServiceType)type
 {
-    XSBaseServers<YABaseServiceProtocol> *service = nil;
+    XSBaseServers *service = nil;
     switch (type) {
         case XSServiceMain:
             service= [[XSMainServer alloc] init];

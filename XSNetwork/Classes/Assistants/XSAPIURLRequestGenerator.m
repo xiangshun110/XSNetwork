@@ -73,7 +73,7 @@
     
     NSString *urlString = nil;
     if (dataModel.requestType != XSAPIRequestTypeGETDownload && dataModel.needBaseURL) {
-        urlString = [self URLStringWithServiceUrl:service.apiBaseUrl path:dataModel.apiMethodPath];
+        urlString = [self URLStringWithServiceUrl:service.model.apiBaseUrl path:dataModel.apiMethodPath];
     } else {
         urlString = dataModel.apiMethodPath;
     }

@@ -8,7 +8,7 @@
 
 #import "XSBaseServers.h"
 
-@interface XSMainServer : XSBaseServers<YABaseServiceProtocol>
+@interface XSMainServer : XSBaseServers
 
 + (void)setBaseURLWithRelease:(NSString *_Nullable)release dev:(NSString *_Nullable)dev preRelease:(NSString *_Nullable)preRelease;
 
