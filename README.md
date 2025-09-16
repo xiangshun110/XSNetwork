@@ -162,6 +162,30 @@ NSDictionary *params = @{@"username": @"test", @"password": @"123456"};
 
 ## 版本更新记录
 
+#### 0.3.1
+
+1. post请求支持form-data方式传参数，示例：
+
+   ```objective-c
+   NSDictionary *params = @{
+                   @"name": @"test",
+                   @"age": @(18)
+               };
+               [[XSNet singleInstance] postFormDataRequest:self param:params path:@"http://localhost:48081/app-api/test/form" loadingMsg:@"发送FormData请求..." complete:^(id  _Nullable data, NSError *error) {
+                   NSLog(@"----FormData data:%@",data);
+                   if (error) {
+                       NSLog(@"----FormData error:%@",error);
+                   }
+               }];
+   ```
+
+   
+
+
+------
+
+#### 
+
 #### 0.2.21
 
 1. baseURL支持任意字符串
