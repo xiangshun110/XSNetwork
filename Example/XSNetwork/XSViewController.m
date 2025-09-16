@@ -44,7 +44,7 @@
     
     [[XSNet singleInstance] showEnvTagView:[UIApplication sharedApplication].keyWindow];
     
-    self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"get请求",@"切换环境",@"不用baseURL的请求",@"文件下载"];
+    self.data = @[@"模块1(高级用法)",@"模块2(返回后自动取消请求)",@"post请求",@"post请求(multipart/form-data)",@"get请求",@"切换环境",@"不用baseURL的请求",@"文件下载"];
     
     self.tableView = [UITableView new];
     self.tableView.delegate = self;
@@ -123,12 +123,27 @@
             break;
         case 3:
         {
+            NSDictionary *params = @{
+                @"username": @"test",
+                @"password": @"123456",
+                @"email": @"test@example.com"
+            };
+            [[XSNet singleInstance] postFormDataRequest:self param:params path:@"https://httpbin.org/post" loadingMsg:@"发送FormData请求..." complete:^(id  _Nullable data, NSError *error) {
+                NSLog(@"----FormData data:%@",data);
+                if (error) {
+                    NSLog(@"----FormData error:%@",error);
+                }
+            }];
+        }
+            break;
+        case 4:
+        {
             [[XSNet singleInstance] getRequest:self param:nil path:@"/time" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
                 NSLog(@"----data:%@",data);
             }];
         }
             break;
-        case 4:
+        case 5:
         {
             if ([XSNet singleInstance].server.model.environmentType == XSEnvTypeRelease) {
                 [XSNet singleInstance].server.model.environmentType = XSEnvTypeDevelop;
@@ -139,12 +154,12 @@
             }
         }
             break;
-        case 5:
+        case 6:
             [[XSNet singleInstance] getRequest:self param:nil path:@"https://api.weixin.qq.com/sns/userinfo" loadingMsg:@"lll" complete:^(id  _Nullable data, NSError * _Nullable error) {
                 NSLog(@"----data:%@",data);
             }];
             break;
-        case 6:
+        case 7:
         {
             NSString *url = @"https://cdn.sandbox.edstatic.com/202311122246/a7c470d9e9859480e6612b88dfbcf05f/2023/01/18/92070ab7-2b19-bd06-b980-77d4b5ca63f6.svga";
             [[XSNet singleInstance] downloadFile:self url:url fileName:@"test1/01.pdf" progress:^(NSProgress * _Nonnull taskProgress) {
