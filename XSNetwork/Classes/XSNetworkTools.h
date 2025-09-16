@@ -60,6 +60,15 @@
 - (nullable XSBaseDataEngine *)postRequest:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock;
 
 
+/// POST请求(multipart/form-data格式)
+/// @param control control description
+/// @param param 参数
+/// @param path 路径
+/// @param loadingMsg 不为nil的话会显示一个loading,请求完成后自动消失，loadingView显示在control的view上，如果control不是UIview和UIViewController，就不显示
+/// @param responseBlock 回调
+- (nullable XSBaseDataEngine *)postFormDataRequest:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock;
+
+
 /// 给body传一个nsdata
 /// @param control self
 /// @param bodyData nsdata
