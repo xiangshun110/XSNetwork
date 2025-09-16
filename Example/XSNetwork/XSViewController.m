@@ -116,7 +116,11 @@
             break;
         case 2:
         {
-            [[XSNet singleInstance] postRequest:self param:nil path:@"/currency/login" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
+            NSDictionary *params = @{
+                @"name": @"test",
+                @"age": @(18)
+            };
+            [[XSNet singleInstance] postRequest:self param:params path:@"http://localhost:48081/app-api/test/json" loadingMsg:@"ooooo" complete:^(id  _Nullable data, NSError *error) {
                 NSLog(@"----data:%@",data);
             }];
         }
@@ -124,11 +128,10 @@
         case 3:
         {
             NSDictionary *params = @{
-                @"username": @"test",
-                @"password": @"123456",
-                @"email": @"test@example.com"
+                @"name": @"test",
+                @"age": @(18)
             };
-            [[XSNet singleInstance] postFormDataRequest:self param:params path:@"https://httpbin.org/post" loadingMsg:@"发送FormData请求..." complete:^(id  _Nullable data, NSError *error) {
+            [[XSNet singleInstance] postFormDataRequest:self param:params path:@"http://localhost:48081/app-api/test/form" loadingMsg:@"发送FormData请求..." complete:^(id  _Nullable data, NSError *error) {
                 NSLog(@"----FormData data:%@",data);
                 if (error) {
                     NSLog(@"----FormData error:%@",error);
