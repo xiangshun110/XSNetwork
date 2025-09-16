@@ -22,7 +22,18 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 3. 可设置公共参数，可设置不要公共参数的URL
 4. 静态方法调用，使用方便
 5. 支持全局配置超时时间和单个请求设置超时时间
-5. 支持各个模块可以独立配置baseurl等，便于模块化开发
+6. 支持各个模块可以独立配置baseurl等，便于模块化开发
+7. 支持POST请求的JSON和multipart/form-data两种格式
+
+###### POST请求格式说明：
+
+```objective-c
+// JSON格式 (默认，Content-Type: application/json)
+[networkTools postRequest:self param:params path:@"/api/login" loadingMsg:@"登录中..." complete:responseBlock];
+
+// multipart/form-data格式 (Content-Type: application/x-www-form-urlencoded)
+[networkTools postFormDataRequest:self param:params path:@"/api/login" loadingMsg:@"登录中..." complete:responseBlock];
+```
 
 ## Requirements
 
@@ -50,9 +61,16 @@ pod 'XSNetwork'
 //简单用法：
 #import <XSNetworkTools.h>
 
+//JSON POST请求 (默认)
 [[XSNetworkTools singleInstance] postRequest:self param:nil path:@"https://api.abc.com/user" loadingMsg:@"loading" complete:^(id  _Nullable data, NSError * _Nullable error) {
     NSLog(@"---data:%@",data);
 }];  
+
+//multipart/form-data POST请求 (新增)
+NSDictionary *params = @{@"username": @"test", @"password": @"123456"};
+[[XSNetworkTools singleInstance] postFormDataRequest:self param:params path:@"https://api.abc.com/login" loadingMsg:@"登录中..." complete:^(id  _Nullable data, NSError * _Nullable error) {
+    NSLog(@"---data:%@",data);
+}];
 ```
 
 

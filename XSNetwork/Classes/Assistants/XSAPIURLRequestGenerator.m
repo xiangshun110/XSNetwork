@@ -15,9 +15,8 @@
 
 //static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
 @interface XSAPIURLRequestGenerator()
-//@property (nonatomic, strong) AFHTTPRequestSerializer *httpRequestSerializer;
+@property (nonatomic, strong) AFHTTPRequestSerializer *formDataRequestSerializer;
 @property (nonatomic, strong) AFJSONRequestSerializer *httpRequestSerializer;
-//@property (nonatomic, strong) AFJSONRequestSerializer *jsonRequestSerializer;
 @end
 @implementation XSAPIURLRequestGenerator
 #pragma mark - life cycle
@@ -85,6 +84,8 @@
         request = [self.httpRequestSerializer requestWithMethod:@"GET" URLString:urlString parameters:commonParams error:&error];
     } else if (dataModel.requestType == XSAPIRequestTypePost) {
         request = [self.httpRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:commonParams error:&error];
+    } else if (dataModel.requestType == XSAPIRequestTypePostFormData) {
+        request = [self.formDataRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:commonParams error:&error];
     } else if (dataModel.requestType == XSAPIRequestTypePut) {
         request = [self.httpRequestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:commonParams error:&error];
     } else if (dataModel.requestType == XSAPIRequestTypeDelete) {
@@ -249,5 +250,15 @@
         _httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     }
     return _httpRequestSerializer;
+}
+
+- (AFHTTPRequestSerializer *)formDataRequestSerializer
+{
+    if (_formDataRequestSerializer == nil) {
+        _formDataRequestSerializer = [AFHTTPRequestSerializer serializer];
+        _formDataRequestSerializer.timeoutInterval = DefaultTimeout;
+        _formDataRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    }
+    return _formDataRequestSerializer;
 }
 @end

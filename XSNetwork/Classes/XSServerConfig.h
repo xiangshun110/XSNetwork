@@ -37,6 +37,7 @@ typedef NS_ENUM (NSUInteger, XSAPIRequestType){
     XSAPIRequestTypeDelete,              //DELETE请求
     XSAPIRequestTypeUpdate,              //UPDATE请求
     XSAPIRequestTypePostUpload,          //POST数据请求,传文件，formdata
+    XSAPIRequestTypePostFormData,        //POST请求,multipart/form-data格式
     XSAPIRequestTypeGETDownload          //下载文件请求，不做返回值解析
 };
 

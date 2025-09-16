@@ -145,6 +145,10 @@ static NSArray *comParamExcludes = nil;
     return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypePost alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
 }
 
+- (nullable XSBaseDataEngine *)postFormDataRequest:(NSObject * _Nonnull)control param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path loadingMsg:(NSString * _Nullable)loadingMsg complete:(CompletionDataBlock _Nullable)responseBlock {
+    return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:nil dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypePostFormData alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
+}
+
 - (nullable XSBaseDataEngine *)request:(NSObject * _Nonnull)control bodyData:(NSData * _Nullable)bodyData param:(NSDictionary * _Nullable)param path:(NSString * _Nonnull)path complete:(CompletionDataBlock _Nullable)responseBlock {
     return [XSBaseDataEngine control:control serverName:[self serverName] path:path param:param bodyData:bodyData dataFilePath:nil dataFileURL:nil image:nil dataName:nil fileName:nil requestType:XSAPIRequestTypePostUpload alertType:XSAPIAlertType_Unknown mimeType:nil timeout:0 loadingMsg:nil complete:responseBlock uploadProgressBlock:nil downloadProgressBlock:nil errorButtonSelectIndex:nil];
 }
