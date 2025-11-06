@@ -162,6 +162,13 @@ NSDictionary *params = @{@"username": @"test", @"password": @"123456"};
 
 ## 版本更新记录
 
+#### 0.3.2
+
+1. 支持m系列电脑
+
+
+------
+
 #### 0.3.1
 
 1. post请求支持form-data方式传参数，示例：

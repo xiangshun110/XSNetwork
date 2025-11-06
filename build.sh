@@ -23,5 +23,5 @@ git push github --tags
 
 pod spec lint --verbose XSNetwork.podspec
 
-pod trunk push XSNetwork.podspec --allow-warnings --verbose --use-libraries
+pod trunk push XSNetwork.podspec --allow-warnings --verbose --use-libraries --skip-import-validation
 # pod repo push master XSNetwork.podspec --allow-warnings
