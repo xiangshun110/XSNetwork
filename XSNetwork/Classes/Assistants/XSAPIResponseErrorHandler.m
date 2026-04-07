@@ -7,7 +7,6 @@
 //
 
 #import "XSAPIResponseErrorHandler.h"
-#import <AFNetworking/AFHTTPSessionManager.h>
 #import "XSNetworkTools.h"
 //#import "APPConfig.h"
 //#import "XSCommonParamsGenerator.h"

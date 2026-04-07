@@ -1,5 +1,5 @@
 //
-//  YAAPIURLRequestGenerator.m
+//  XSAPIURLRequestGenerator.m
 //  NetWorking
 //
 //  Created by Yasin on 16/4/27.
@@ -7,23 +7,27 @@
 //
 
 #import "XSAPIURLRequestGenerator.h"
-#import "AFURLRequestSerialization.h"
 #import "XSServerFactory.h"
 #import "XSignatureGenerator.h"
 #import "NSString+XSUtilNetworking.h"
 #import "XSNetworkTools.h"
 
-//static NSTimeInterval kYANetworkingTimeoutSeconds = 25.0f;
-@interface XSAPIURLRequestGenerator()
-@property (nonatomic, strong) AFHTTPRequestSerializer *formDataRequestSerializer;
-@property (nonatomic, strong) AFJSONRequestSerializer *httpRequestSerializer;
-@end
+/// RFC 3986 unreserved characters – safe to leave un-encoded in a percent-encoded value.
+static NSCharacterSet *XSURLQueryValueAllowedCharacterSet(void) {
+    static NSCharacterSet *cs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cs = [NSCharacterSet characterSetWithCharactersInString:
+              @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"];
+    });
+    return cs;
+}
+
 @implementation XSAPIURLRequestGenerator
+
 #pragma mark - life cycle
-/**
- *  生成一个单例
- */
-+ (instancetype)sharedInstance{
+
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static XSAPIURLRequestGenerator *sharedInstance = nil;
     dispatch_once(&onceToken, ^{
@@ -33,232 +37,319 @@
 }
 
 #pragma mark - public methods
-- (NSURLRequest *)generateWithRequestDataModel:(XSAPIBaseRequestDataModel *)dataModel{
-    //XSBaseServers *service = [[XSServerFactory sharedInstance] serviceWithType:dataModel.serviceType];
-    
+
+- (NSURLRequest *)generateWithRequestDataModel:(XSAPIBaseRequestDataModel *)dataModel {
     XSBaseServers *service = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
-    
+
+    // Build merged parameter dictionary
     NSMutableDictionary *commonParams = [NSMutableDictionary new];
     NSArray *exclude = service.model.comParamExclude;
-
-    BOOL isIn = NO;
-    if (exclude && exclude.count) {
+    BOOL isExcluded = NO;
+    if (exclude.count) {
         for (NSString *u in exclude) {
             if ([dataModel.apiMethodPath containsString:u]) {
-                isIn = YES;
+                isExcluded = YES;
                 break;
             }
         }
     }
-    if (!isIn) {
-        if (service.model.commonParameter) {
-            [commonParams addEntriesFromDictionary:service.model.commonParameter];
+    if (!isExcluded && service.model.commonParameter) {
+        [commonParams addEntriesFromDictionary:service.model.commonParameter];
+    }
+    if (dataModel.parameters) {
+        [commonParams addEntriesFromDictionary:dataModel.parameters];
+    }
+
+    // Dynamic parameters (called on every request)
+    if (service.model.dynamicParamsIMP) {
+        NSDictionary *(*dyFunc)(void) = (void *)service.model.dynamicParamsIMP;
+        NSDictionary *dyParams = dyFunc();
+        if (dyParams) {
+            [commonParams addEntriesFromDictionary:dyParams];
         }
     }
-    
-    [commonParams addEntriesFromDictionary:dataModel.parameters];
-    
-    //动态通用参数
-    
-    if (service.model) {
-        if (service.model.dynamicParamsIMP) {
-            NSDictionary* (*dyFunc)(void) = (void *)service.model.dynamicParamsIMP;
-            NSDictionary *dyParams = dyFunc();
-            if (dyParams) {
-                [commonParams addEntriesFromDictionary:dyParams];
-            }
-        }
-    }
-    
+
+    // Resolve URL string
     NSString *urlString = nil;
     if (dataModel.requestType != XSAPIRequestTypeGETDownload && dataModel.needBaseURL) {
         urlString = [self URLStringWithServiceUrl:service.model.apiBaseUrl path:dataModel.apiMethodPath];
     } else {
         urlString = dataModel.apiMethodPath;
     }
+
+    // Build NSURLRequest
     NSError *error = nil;
     NSMutableURLRequest *request = nil;
 
-    // @param method The HTTP method for the request, such as `GET`, `POST`, `PUT`, or `DELETE`. This parameter must not be `nil`.
-    if (dataModel.requestType == XSAPIRequestTypeGet) {
-        request = [self.httpRequestSerializer requestWithMethod:@"GET" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypePost) {
-        request = [self.httpRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypePostFormData) {
-        request = [self.formDataRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypePut) {
-        request = [self.httpRequestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypeDelete) {
-        request = [self.httpRequestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypeUpdate) {
-        request = [self.httpRequestSerializer requestWithMethod:@"UPDATE" URLString:urlString parameters:commonParams error:&error];
-    } else if (dataModel.requestType == XSAPIRequestTypePostUpload) {
-        request = [self.httpRequestSerializer multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:commonParams constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            /**
-             *  这里的参数配置也可以根据自己的设计修改默认值.
-             *  为什么没有直接使用NSData?
-             */
-            if (![NSString isEmptyString:dataModel.dataFilePath] || dataModel.dataFileURL) {
-                NSURL *fileURL = nil;
-                if(dataModel.dataFileURL) {
-                    fileURL = dataModel.dataFileURL;
-                }else {
-                    fileURL = [NSURL fileURLWithPath:dataModel.dataFilePath];
-                }
-                NSString *name = dataModel.dataName?dataModel.dataName:@"data";
-                NSString *fileName = dataModel.fileName?dataModel.fileName:@"data.zip";
-                NSString *mimeType = dataModel.mimeType?dataModel.mimeType:@"application/zip";
-                NSError *error;
-                
-                [formData appendPartWithFileURL:fileURL
-                                           name:name
-                                       fileName:fileName
-                                       mimeType:mimeType
-                                          error:&error];
-            }
-            
-            if(dataModel.imageData){
-                [formData appendPartWithFileData:dataModel.imageData name:dataModel.dataName fileName:dataModel.fileName mimeType:dataModel.mimeType];
-            }
-            
-        } error:&error];
-    } else if(dataModel.requestType == XSAPIRequestTypeGETDownload) {
-        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    switch (dataModel.requestType) {
+        case XSAPIRequestTypeGet:
+            request = [self buildGETRequest:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypePost:
+            request = [self buildJSONRequest:@"POST" urlString:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypePostFormData:
+            request = [self buildFormDataRequest:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypePut:
+            request = [self buildJSONRequest:@"PUT" urlString:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypeDelete:
+            request = [self buildJSONRequest:@"DELETE" urlString:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypeUpdate:
+            request = [self buildJSONRequest:@"UPDATE" urlString:urlString parameters:commonParams error:&error];
+            break;
+        case XSAPIRequestTypePostUpload:
+            request = [self buildMultipartRequest:urlString parameters:commonParams dataModel:dataModel error:&error];
+            break;
+        case XSAPIRequestTypeGETDownload:
+            request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+            break;
     }
+
     if (error || request == nil) {
-        DELog(@"NSMutableURLRequests生成失败：\n---------------------------\n\
+        DELog(@"NSMutableURLRequest generation failed:\n---------------------------\n\
               urlString:%@\n\
-              \n---------------------------\n",urlString);
+              \n---------------------------\n", urlString);
         return nil;
     }
-    
-    if (dataModel.requestType == XSAPIRequestTypePostUpload || dataModel.requestType == XSAPIRequestTypeGETDownload) {
+
+    // Apply timeout
+    if (dataModel.requestType == XSAPIRequestTypePostUpload ||
+        dataModel.requestType == XSAPIRequestTypeGETDownload) {
         request.timeoutInterval = 0;
     } else {
         if (dataModel.requestTimeout > 0) {
             request.timeoutInterval = dataModel.requestTimeout;
         } else {
-            XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
-            if (server.model) {
-                request.timeoutInterval = server.model.requestTimeout;
+            if (service.model) {
+                request.timeoutInterval = service.model.requestTimeout;
             } else {
                 request.timeoutInterval = DefaultTimeout;
             }
         }
     }
-    
+
+    // Apply headers
     if (service.model) {
         NSMutableDictionary *hParams = [NSMutableDictionary new];
         if (service.model.commonHeaders) {
             [hParams addEntriesFromDictionary:service.model.commonHeaders];
         }
-        
+
         if (service.model.dynamicHeadersIMP) {
-            NSDictionary* (*dyFunc)(void) = (void *)service.model.dynamicHeadersIMP;
+            NSDictionary *(*dyFunc)(void) = (void *)service.model.dynamicHeadersIMP;
             NSDictionary *dyParams = dyFunc();
             if (dyParams && dyParams.allKeys.count) {
                 [hParams addEntriesFromDictionary:dyParams];
             }
         }
-        
-        if (service.model.headersWithRequestParamsIMP) { //根据参数获取header参数
+
+        if (service.model.headersWithRequestParamsIMP) {
             NSMutableDictionary *impDic = [NSMutableDictionary dictionaryWithDictionary:commonParams.copy];
             [impDic setObject:urlString forKey:@"_url_"];
-            NSDictionary *headers =  ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, impDic.copy);
+            NSDictionary *headers = ((id(*)(id, SEL, NSDictionary *))service.model.headersWithRequestParamsIMP)(nil, nil, impDic.copy);
             if (headers && headers.allKeys.count) {
                 [hParams addEntriesFromDictionary:headers];
             }
         }
-        
-//        [hParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            [request setValue:obj forHTTPHeaderField:key];
-//        }];
 
         for (NSString *headerField in hParams.keyEnumerator) {
             [request addValue:hParams[headerField] forHTTPHeaderField:headerField];
         }
     }
-    
+
+    // Raw body data override (used by the bodyData: request variant)
     if (dataModel.bodyData) {
         [request setHTTPBody:dataModel.bodyData];
     }
-    
-    
+
 #ifdef DEBUG
     NSLog(@"=====请求数据开始=====");
-    NSLog(@"URL: \n%@",urlString);
-    NSLog(@"参数: \n%@",commonParams);
-    NSLog(@"headers: \n%@",request.allHTTPHeaderFields);
+    NSLog(@"URL: \n%@", urlString);
+    NSLog(@"参数: \n%@", commonParams);
+    NSLog(@"headers: \n%@", request.allHTTPHeaderFields);
     NSLog(@"=====请求数据结束=====");
 #endif
-    
+
     return request;
 }
-#pragma mark - private methods
-- (NSString *)URLStringWithServiceUrl:(NSString *)serviceUrl path:(NSString *)path{
-//    NSString *sLast = [serviceUrl substringFromIndex:serviceUrl.length - 2];
-//    if ([sLast isEqualToString:@"/"]) {
-//        serviceUrl = [serviceUrl substringToIndex:serviceUrl.length - 2];
-//    }
-//    NSString *pFirst = [path substringToIndex:1];
-//    if (![pFirst isEqualToString:@"/"]) {
-//        
-//    }
-    
-    NSString *mStr = [NSString stringWithFormat:@"%@%@",serviceUrl, path];
-    mStr = [mStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-    NSURL *fullURL = [NSURL URLWithString:mStr];
-    
-//    NSURL *fullURL = [NSURL URLWithString:serviceUrl];
-//    
-//    if (![NSString isEmptyString:path]) {
-//        fullURL = [NSURL URLWithString:path relativeToURL:fullURL];
-//    }
-    
-    if (fullURL == nil) {
-        DELog(@"YAAPIURLRequestGenerator--URL拼接错误:\n---------------------------\n\
-              apiBaseUrl:%@\n\
-              urlPath:%@\n\
-              \n---------------------------\n",serviceUrl,path);
+
+#pragma mark - Private request builders
+
+- (NSMutableURLRequest *)buildGETRequest:(NSString *)urlString
+                              parameters:(NSDictionary *)params
+                                   error:(NSError **)outError {
+    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
+    if (!components) {
         return nil;
     }
-    
+
+    if (params.count) {
+        NSMutableArray *queryItems = [NSMutableArray array];
+        [params enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+            NSString *encodedKey   = [[key description]
+                stringByAddingPercentEncodingWithAllowedCharacters:XSURLQueryValueAllowedCharacterSet()];
+            NSString *encodedValue = [[value description]
+                stringByAddingPercentEncodingWithAllowedCharacters:XSURLQueryValueAllowedCharacterSet()];
+            [queryItems addObject:[NSURLQueryItem queryItemWithName:encodedKey value:encodedValue]];
+        }];
+        NSMutableArray *existing = [NSMutableArray arrayWithArray:components.queryItems ?: @[]];
+        [existing addObjectsFromArray:queryItems];
+        components.queryItems = existing;
+    }
+
+    NSURL *url = components.URL;
+    if (!url) {
+        return nil;
+    }
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"GET";
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    return request;
+}
+
+- (NSMutableURLRequest *)buildJSONRequest:(NSString *)method
+                                urlString:(NSString *)urlString
+                               parameters:(NSDictionary *)params
+                                    error:(NSError **)outError {
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        return nil;
+    }
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = method;
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+
+    if (params.count) {
+        NSError *jsonError = nil;
+        NSData *body = [NSJSONSerialization dataWithJSONObject:params options:0 error:&jsonError];
+        if (jsonError) {
+            if (outError) { *outError = jsonError; }
+            return nil;
+        }
+        request.HTTPBody = body;
+    }
+    return request;
+}
+
+- (NSMutableURLRequest *)buildFormDataRequest:(NSString *)urlString
+                                   parameters:(NSDictionary *)params
+                                        error:(NSError **)outError {
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        return nil;
+    }
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+
+    if (params.count) {
+        NSMutableArray *parts = [NSMutableArray array];
+        [params enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+            NSString *encodedKey   = [[key description]
+                stringByAddingPercentEncodingWithAllowedCharacters:XSURLQueryValueAllowedCharacterSet()];
+            NSString *encodedValue = [[value description]
+                stringByAddingPercentEncodingWithAllowedCharacters:XSURLQueryValueAllowedCharacterSet()];
+            [parts addObject:[NSString stringWithFormat:@"%@=%@", encodedKey, encodedValue]];
+        }];
+        request.HTTPBody = [[parts componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    return request;
+}
+
+- (NSMutableURLRequest *)buildMultipartRequest:(NSString *)urlString
+                                    parameters:(NSDictionary *)params
+                                     dataModel:(XSAPIBaseRequestDataModel *)dataModel
+                                         error:(NSError **)outError {
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        return nil;
+    }
+
+    NSString *boundary = [NSString stringWithFormat:@"----XSNetworkBoundary%@",
+                          [[NSUUID UUID] UUIDString]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    [request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary]
+   forHTTPHeaderField:@"Content-Type"];
+
+    NSMutableData *body = [NSMutableData data];
+
+    // Boundary helper macros (local – not exposed outside this method)
+    void (^appendString)(NSString *) = ^(NSString *s) {
+        [body appendData:[s dataUsingEncoding:NSUTF8StringEncoding]];
+    };
+
+    // Add regular parameters as form fields
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
+        appendString([NSString stringWithFormat:@"--%@\r\n", boundary]);
+        appendString([NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",
+                      [key description]]);
+        appendString([NSString stringWithFormat:@"%@\r\n", [value description]]);
+    }];
+
+    // Add file part (from path or URL)
+    if (![NSString isEmptyString:dataModel.dataFilePath] || dataModel.dataFileURL) {
+        NSURL *fileURL = dataModel.dataFileURL ?: [NSURL fileURLWithPath:dataModel.dataFilePath];
+        NSString *name     = dataModel.dataName  ?: @"data";
+        NSString *fileName = dataModel.fileName  ?: @"data.zip";
+        NSString *mimeType = dataModel.mimeType  ?: @"application/zip";
+        NSError *fileError = nil;
+        NSData *fileData   = [NSData dataWithContentsOfURL:fileURL options:0 error:&fileError];
+        if (fileData) {
+            appendString([NSString stringWithFormat:@"--%@\r\n", boundary]);
+            appendString([NSString stringWithFormat:
+                          @"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n",
+                          name, fileName]);
+            appendString([NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimeType]);
+            [body appendData:fileData];
+            appendString(@"\r\n");
+        } else if (fileError && outError) {
+            *outError = fileError;
+            return;
+        }
+    }
+
+    // Add image data part
+    if (dataModel.imageData) {
+        NSString *name     = dataModel.dataName ?: @"image";
+        NSString *fileName = dataModel.fileName ?: @"image.png";
+        NSString *mimeType = dataModel.mimeType ?: @"image/png";
+        appendString([NSString stringWithFormat:@"--%@\r\n", boundary]);
+        appendString([NSString stringWithFormat:
+                      @"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n",
+                      name, fileName]);
+        appendString([NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimeType]);
+        [body appendData:dataModel.imageData];
+        appendString(@"\r\n");
+    }
+
+    // Close the multipart boundary
+    appendString([NSString stringWithFormat:@"--%@--\r\n", boundary]);
+    [request setHTTPBody:body];
+    return request;
+}
+
+#pragma mark - private methods
+
+- (NSString *)URLStringWithServiceUrl:(NSString *)serviceUrl path:(NSString *)path {
+    NSString *mStr = [NSString stringWithFormat:@"%@%@", serviceUrl, path];
+    mStr = [mStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    NSURL *fullURL = [NSURL URLWithString:mStr];
+
+    if (fullURL == nil) {
+        DELog(@"XSAPIURLRequestGenerator -- URL concat error:\n---------------------------\n\
+              apiBaseUrl:%@\n\
+              urlPath:%@\n\
+              \n---------------------------\n", serviceUrl, path);
+        return nil;
+    }
+
     return [fullURL absoluteString];
 }
 
-//- (AFHTTPRequestSerializer *)serializerWithModel:(XSAPIBaseRequestDataModel *)dataModel {
-//    if (dataModel.requestTimeout > 0) {
-//        self.httpRequestSerializer.timeoutInterval = dataModel.requestTimeout;
-//    } else {
-//        XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:dataModel.serverName];
-//        if (server.model) {
-//            self.httpRequestSerializer.timeoutInterval = server.model.requestTimeout;
-//        } else {
-//            self.httpRequestSerializer.timeoutInterval = DefaultTimeout;
-//        }
-//    }
-//    return self.httpRequestSerializer;
-//}
-
-#pragma mark - getters and setters
-- (AFJSONRequestSerializer *)httpRequestSerializer
-{
-    
-    if (_httpRequestSerializer == nil) {
-        _httpRequestSerializer = [AFJSONRequestSerializer serializer];
-        _httpRequestSerializer.timeoutInterval = DefaultTimeout;
-        _httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    }
-    return _httpRequestSerializer;
-}
-
-- (AFHTTPRequestSerializer *)formDataRequestSerializer
-{
-    if (_formDataRequestSerializer == nil) {
-        _formDataRequestSerializer = [AFHTTPRequestSerializer serializer];
-        _formDataRequestSerializer.timeoutInterval = DefaultTimeout;
-        _formDataRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    }
-    return _formDataRequestSerializer;
-}
 @end
