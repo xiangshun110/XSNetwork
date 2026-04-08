@@ -7,6 +7,9 @@
 //
 
 #import "UIDevice+XSUtilNetworking.h"
+
+#if TARGET_OS_IPHONE
+
 #include <sys/sysctl.h>
 @implementation UIDevice (XSUtilNetworking)
 - (NSString *)platform
@@ -62,3 +65,5 @@
     return platform;
 }
 @end
+
+#endif // TARGET_OS_IPHONE

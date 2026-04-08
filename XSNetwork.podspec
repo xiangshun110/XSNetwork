@@ -29,6 +29,7 @@ Pod::Spec.new do |s|
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
+  s.osx.deployment_target = '10.13'
   s.swift_versions = ['5.0']
   
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
@@ -39,5 +40,4 @@ Pod::Spec.new do |s|
     s.static_framework = true
   
     s.dependency 'Alamofire', '~> 5.0'
-    s.dependency 'MBProgressHUD', :modular_headers => true
 end

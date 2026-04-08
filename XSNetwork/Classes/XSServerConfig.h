@@ -9,6 +9,18 @@
 #ifndef XSServerConfig_h
 #define XSServerConfig_h
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+typedef UIView              XSPlatformView;
+typedef UIViewController    XSPlatformViewController;
+typedef UIImage             XSPlatformImage;
+#else
+#import <AppKit/AppKit.h>
+typedef NSView              XSPlatformView;
+typedef NSViewController    XSPlatformViewController;
+typedef NSImage             XSPlatformImage;
+#endif
+
 #if (defined(DEBUG) || defined(ADHOC) || !defined YA_BUILD_FOR_RELEASE)
 #define DELog(format, ...)  NSLog((@"FUNC:%s\n" "LINE:%d\n" format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else

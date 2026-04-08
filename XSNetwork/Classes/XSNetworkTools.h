@@ -26,8 +26,8 @@
 
 
 /// 显示当前环境名称，正式环境不会显示
-/// @param container 传UIwindow进来
-- (void)showEnvTagView:(UIView *_Nonnull)container;
+/// @param container 传视图窗口进来
+- (void)showEnvTagView:(XSPlatformView *_Nonnull)container;
 
 
 //---------------分割线-------------------

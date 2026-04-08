@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "XSServerConfig.h"
-#import <UIKit/UIKit.h>
 
 @interface XSBaseDataEngine : NSObject
 
@@ -46,7 +45,7 @@
                         bodyData:(NSData *)bodyData
                  dataFilePath:(NSString *)dataFilePath
                   dataFileURL:(NSURL *)dataFileURL
-                        image:(UIImage *)image
+                        image:(XSPlatformImage *)image
                      dataName:(NSString *)dataName
                      fileName:(NSString *)fileName
                   requestType:(XSAPIRequestType)requestType
