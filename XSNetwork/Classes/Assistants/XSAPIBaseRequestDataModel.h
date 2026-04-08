@@ -10,7 +10,6 @@
  */
 #import <Foundation/Foundation.h>
 #import "XSServerConfig.h"
-#import <UIKit/UIKit.h>
 
 @interface XSAPIBaseRequestDataModel : NSObject
 /**

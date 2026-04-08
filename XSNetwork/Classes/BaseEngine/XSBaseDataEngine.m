@@ -10,7 +10,7 @@
 #import "XSAPIBaseRequestDataModel.h"
 #import "XSAPIClient.h"
 #import "NSObject+XSNetWorkingAutoCancel.h"
-#import "MBProgressHUD.h"
+#import "XSProgressHUD.h"
 #import "XSServerFactory.h"
 
 @interface XSBaseDataEngine ()
@@ -39,7 +39,7 @@
                         bodyData:(NSData *)bodyData
                  dataFilePath:(NSString *)dataFilePath
                   dataFileURL:(NSURL *)dataFileURL
-                        image:(UIImage *)image
+                        image:(XSPlatformImage *)image
                      dataName:(NSString *)dataName
                      fileName:(NSString *)fileName
                   requestType:(XSAPIRequestType)requestType
@@ -53,7 +53,13 @@
        errorButtonSelectIndex:(ErrorAlertSelectIndexBlock)errorButtonSelectIndexBlock {
     NSData *imageData = nil;
     if (image) {
+#if TARGET_OS_IPHONE
         imageData = UIImagePNGRepresentation(image);
+#else
+        CGImageRef cgImage = [image CGImageForProposedRect:NULL context:nil hints:nil];
+        NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+        imageData = [bitmapRep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+#endif
     }
     
     return [XSBaseDataEngine control:control serverName:serverName path:path param:parameters bodyData:bodyData dataFilePath:dataFilePath dataFileURL:dataFileURL imageData:imageData dataName:dataName fileName:fileName requestType:requestType alertType:alertType mimeType:mimeType timeout:timeout loadingMsg:loadingMsg complete:responseBlock uploadProgressBlock:uploadProgressBlock downloadProgressBlock:downloadProgressBlock errorButtonSelectIndex:errorButtonSelectIndexBlock];
@@ -85,28 +91,17 @@
     
     XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:serverName];
     
-    __block MBProgressHUD *hud = nil;
-    if (loadingMsg && ([control isKindOfClass:[UIViewController class]] || [control isKindOfClass:[UIView class]])) {
-        UIView *view = nil;
-        if ([control isKindOfClass:[UIViewController class]]) {
-            UIViewController *uivc = (UIViewController *)control;
-            view = uivc.view;
-        } else if ([control isKindOfClass:[UIView class]]) {
-            view = (UIView *)control;
+    __block XSProgressHUD *hud = nil;
+    if (loadingMsg && ([control isKindOfClass:[XSPlatformViewController class]] || [control isKindOfClass:[XSPlatformView class]])) {
+        XSPlatformView *view = nil;
+        if ([control isKindOfClass:[XSPlatformViewController class]]) {
+            XSPlatformViewController *vc = (XSPlatformViewController *)control;
+            view = vc.view;
+        } else if ([control isKindOfClass:[XSPlatformView class]]) {
+            view = (XSPlatformView *)control;
         }
         if (view) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-                hud.mode = MBProgressHUDModeIndeterminate;
-                hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
-                hud.bezelView.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-                hud.contentColor = [UIColor whiteColor];
-                if (loadingMsg.length) {
-                    hud.label.text = loadingMsg;
-                }
-                hud.removeFromSuperViewOnHide = YES;
-                hud.userInteractionEnabled = NO;
-            });
+            hud = [XSProgressHUD showLoadingInView:view message:loadingMsg];
         }
     }
     
@@ -148,21 +143,17 @@
                 switch (aType) {
                     case XSAPIAlertType_Toast:
                     {
-                        UIView *view = nil;
+                        XSPlatformView *toastView = nil;
                         if (server.model.toastView) {
-                            view = server.model.toastView;
+                            toastView = server.model.toastView;
                         } else {
-                            if ([weakControl isKindOfClass:[UIViewController class]]) {
-                                UIViewController *vc = (UIViewController *)weakControl;
-                                view = vc.view;
+                            if ([weakControl isKindOfClass:[XSPlatformViewController class]]) {
+                                XSPlatformViewController *vc = (XSPlatformViewController *)weakControl;
+                                toastView = vc.view;
                             }
                         }
-                        if (view) {
-                            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-                            hud.mode = MBProgressHUDModeText;
-                            hud.label.text = emsg;
-                            hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
-                            [hud hideAnimated:YES afterDelay:2.f];
+                        if (toastView) {
+                            [XSProgressHUD showToast:emsg inView:toastView afterDelay:2.0];
                         }
                     }
                         break;

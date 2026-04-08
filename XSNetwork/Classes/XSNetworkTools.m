@@ -7,7 +7,6 @@
 //
 
 #import "XSNetworkTools.h"
-#import <UIKit/UIKit.h>
 #import "XSServerFactory.h"
 #import "XSMainServer.h"
 #import "XSAPIClient.h"
@@ -22,9 +21,13 @@ static NSArray *comParamExcludes = nil;
 
 @property (nonatomic, strong) XSBaseServers * _Nonnull  server;
 
+#if TARGET_OS_IPHONE
 @property (nonatomic, strong) UILabel                   *devEnvlabel;
+#else
+@property (nonatomic, strong) NSTextField               *devEnvlabel;
+#endif
 
-@property (nonatomic, weak) UIView                      *devEnvlabelContainer;
+@property (nonatomic, weak) XSPlatformView              *devEnvlabelContainer;
 
 @end
 
@@ -58,19 +61,31 @@ static NSArray *comParamExcludes = nil;
         case XSEnvTypeDevelop:
         {
             self.devEnvlabel.hidden = NO;
+#if TARGET_OS_IPHONE
             self.devEnvlabel.text = @"dev";
+#else
+            self.devEnvlabel.stringValue = @"dev";
+#endif
         }
             break;
         case XSEnvTypePreRelease:
         {
             self.devEnvlabel.hidden = NO;
+#if TARGET_OS_IPHONE
             self.devEnvlabel.text = @"pre";
+#else
+            self.devEnvlabel.stringValue = @"pre";
+#endif
         }
             break;
         case XSEnvTypeCustom:
         {
             self.devEnvlabel.hidden = NO;
+#if TARGET_OS_IPHONE
             self.devEnvlabel.text = @"cus";
+#else
+            self.devEnvlabel.stringValue = @"cus";
+#endif
         }
             break;
             
@@ -83,7 +98,7 @@ static NSArray *comParamExcludes = nil;
 
 #pragma mark getter
 
-
+#if TARGET_OS_IPHONE
 - (UILabel *)devEnvlabel {
     if (!_devEnvlabel) {
         _devEnvlabel = [UILabel new];
@@ -98,6 +113,22 @@ static NSArray *comParamExcludes = nil;
     }
     return _devEnvlabel;
 }
+#else
+- (NSTextField *)devEnvlabel {
+    if (!_devEnvlabel) {
+        _devEnvlabel = [NSTextField labelWithString:@""];
+        _devEnvlabel.alphaValue = 0.8;
+        _devEnvlabel.textColor = [NSColor blackColor];
+        _devEnvlabel.font = [NSFont systemFontOfSize:11];
+        _devEnvlabel.alignment = NSTextAlignmentCenter;
+        _devEnvlabel.backgroundColor = [NSColor colorWithRed:100/255.0 green:100/255.0 blue:0 alpha:0.5];
+        _devEnvlabel.drawsBackground = YES;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netEnvChange:) name:NotiEnvChange object:nil];
+    }
+    return _devEnvlabel;
+}
+#endif
 
 
 - (XSBaseServers *)server {
@@ -107,14 +138,19 @@ static NSArray *comParamExcludes = nil;
 
 
 
-- (void)showEnvTagView:(UIView *_Nonnull)container {
+- (void)showEnvTagView:(XSPlatformView *_Nonnull)container {
     self.devEnvlabelContainer = container;
     [container addSubview:self.devEnvlabel];
+#if TARGET_OS_IPHONE
     if (@available(iOS 11.0, *)) {
         self.devEnvlabel.frame = CGRectMake(container.safeAreaInsets.left, container.safeAreaInsets.top, 40, 16);
     } else {
         self.devEnvlabel.frame = CGRectMake(0, 20, 40, 16);
     }
+#else
+    // macOS: position at top-left (coordinate origin at bottom-left, so adjust)
+    self.devEnvlabel.frame = CGRectMake(0, container.bounds.size.height - 16, 40, 16);
+#endif
     [self netEnvChange:nil];
     
     //15秒一次，把devEnvlabel移动到顶上

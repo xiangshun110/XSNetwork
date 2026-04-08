@@ -12,3 +12,4 @@
 #import <XSNetwork/XSServerModel.h>
 #import <XSNetwork/XSAPIResponseErrorHandler.h>
 #import <XSNetwork/XSBaseDataEngine.h>
+#import <XSNetwork/XSProgressHUD.h>
