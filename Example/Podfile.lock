@@ -1,22 +1,8 @@
 PODS:
-  - AFNetworking (4.0.1):
-    - AFNetworking/NSURLSession (= 4.0.1)
-    - AFNetworking/Reachability (= 4.0.1)
-    - AFNetworking/Security (= 4.0.1)
-    - AFNetworking/Serialization (= 4.0.1)
-    - AFNetworking/UIKit (= 4.0.1)
-  - AFNetworking/NSURLSession (4.0.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (4.0.1)
-  - AFNetworking/Security (4.0.1)
-  - AFNetworking/Serialization (4.0.1)
-  - AFNetworking/UIKit (4.0.1):
-    - AFNetworking/NSURLSession
+  - Alamofire (5.11.2)
   - MBProgressHUD (1.2.0)
-  - XSNetwork (0.1.9):
-    - AFNetworking (~> 4.0.1)
+  - XSNetwork (0.3.2):
+    - Alamofire (~> 5.0)
     - MBProgressHUD (~> 1.2.0)
 
 DEPENDENCIES:
@@ -24,7 +10,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AFNetworking
+    - Alamofire
     - MBProgressHUD
 
 EXTERNAL SOURCES:
@@ -32,10 +18,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  Alamofire: 400275dd1c6d87d95a041861d2a59da4b520a203
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  XSNetwork: fc0a13b0d4b2499e43265135740874123a63e703
+  XSNetwork: 6ca232fcd84abc64c5b649b5465b60ee482dd87c
 
-PODFILE CHECKSUM: 0fe055bbf2694d6210e28ce09d86014f7181b302
+PODFILE CHECKSUM: 792643826c70802501cff767a0cba67e3c35fd9c
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.16.2
