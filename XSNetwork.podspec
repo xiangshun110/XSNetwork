@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = '对网络请求的封装，基于Alamofire'
 
 # This description is used to generate tags and improve search results.
@@ -51,5 +51,5 @@ TODO: Add long description of the pod here.
 #  s.exclude_files = 'MJRefresh/include/**'
   
     s.dependency 'Alamofire', '~> 5.0'
-    s.dependency 'MBProgressHUD', '~> 1.2.0'
+    s.dependency 'MBProgressHUD', '~> 1.2.0', :modular_headers => true
 end
