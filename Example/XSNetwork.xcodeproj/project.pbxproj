@@ -407,10 +407,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/XSNetwork/XSNetwork.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XSNetwork.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -565,7 +567,12 @@
 				GCC_PREFIX_HEADER = "XSNetwork/XSNetwork-Prefix.pch";
 				INFOPLIST_FILE = "XSNetwork/XSNetwork-Info.plist";
 				MODULE_NAME = ExampleApp;
-				OTHER_LDFLAGS = "$(inherited) -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56 -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -584,7 +591,12 @@
 				GCC_PREFIX_HEADER = "XSNetwork/XSNetwork-Prefix.pch";
 				INFOPLIST_FILE = "XSNetwork/XSNetwork-Info.plist";
 				MODULE_NAME = ExampleApp;
-				OTHER_LDFLAGS = "$(inherited) -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56 -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency",
+					"-Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

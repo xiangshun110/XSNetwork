@@ -26,7 +26,6 @@
     "DEFINES_MODULE": "YES"
   },
   "source_files": "XSNetwork/Classes/**/*",
-  "static_framework": true,
   "dependencies": {
     "Alamofire": [
       "~> 5.0"
