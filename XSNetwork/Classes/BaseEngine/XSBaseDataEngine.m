@@ -92,14 +92,21 @@
     XSBaseServers *server = [[XSServerFactory sharedInstance] serviceWithName:serverName];
     
     __block XSProgressHUD *hud = nil;
-    if (loadingMsg && ([control isKindOfClass:[XSPlatformViewController class]] || [control isKindOfClass:[XSPlatformView class]])) {
+    if (loadingMsg) {
         XSPlatformView *view = nil;
-        if ([control isKindOfClass:[XSPlatformViewController class]]) {
-            XSPlatformViewController *vc = (XSPlatformViewController *)control;
-            view = vc.view;
-        } else if ([control isKindOfClass:[XSPlatformView class]]) {
-            view = (XSPlatformView *)control;
+#if TARGET_OS_IPHONE
+        if ([control isKindOfClass:[UIViewController class]]) {
+            view = ((UIViewController *)control).view;
+        } else if ([control isKindOfClass:[UIView class]]) {
+            view = (UIView *)control;
         }
+#else
+        if ([control isKindOfClass:[NSViewController class]]) {
+            view = ((NSViewController *)control).view;
+        } else if ([control isKindOfClass:[NSView class]]) {
+            view = (NSView *)control;
+        }
+#endif
         if (view) {
             hud = [XSProgressHUD showLoadingInView:view message:loadingMsg];
         }
@@ -147,10 +154,15 @@
                         if (server.model.toastView) {
                             toastView = server.model.toastView;
                         } else {
-                            if ([weakControl isKindOfClass:[XSPlatformViewController class]]) {
-                                XSPlatformViewController *vc = (XSPlatformViewController *)weakControl;
-                                toastView = vc.view;
+#if TARGET_OS_IPHONE
+                            if ([weakControl isKindOfClass:[UIViewController class]]) {
+                                toastView = ((UIViewController *)weakControl).view;
                             }
+#else
+                            if ([weakControl isKindOfClass:[NSViewController class]]) {
+                                toastView = ((NSViewController *)weakControl).view;
+                            }
+#endif
                         }
                         if (toastView) {
                             [XSProgressHUD showToast:emsg inView:toastView afterDelay:2.0];
