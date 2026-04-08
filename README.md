@@ -162,6 +162,14 @@ NSDictionary *params = @{@"username": @"test", @"password": @"123456"};
 
 ## 版本更新记录
 
+#### 1.0.0
+
+1. 去掉AFNetworking, 改用Alamofire
+
+
+------
+
+
 #### 0.3.2
 
 1. 支持m系列电脑
