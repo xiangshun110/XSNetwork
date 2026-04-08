@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '1.0.4'
+  s.version          = '1.0.5'
   s.summary          = '对网络请求的封装，基于Alamofire'
 
 # This description is used to generate tags and improve search results.
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.13'
 #  s.swift_versions = ['5.0']
   
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+#  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
 
 #  s.source_files = 'XSNetwork/Classes/**/*'
 
@@ -40,5 +40,5 @@ Pod::Spec.new do |s|
   
   s.source_files = 'XSNetwork/Classes/**/*.{h,m,swift}'
 
-  s.dependency 'Alamofire', '~> 5.0'
+  s.dependency 'Alamofire', '~> 5.11'
 end
