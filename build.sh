@@ -25,7 +25,7 @@ git tag $tag
 git push github --tags
 
 # 2. 再 lint
-pod spec lint XSNetwork.podspec --verbose
+pod spec lint XSNetwork.podspec --use-libraries --verbose
 
 pod trunk push XSNetwork.podspec --allow-warnings --verbose --use-libraries --skip-import-validation
 # pod repo push master XSNetwork.podspec --allow-warnings

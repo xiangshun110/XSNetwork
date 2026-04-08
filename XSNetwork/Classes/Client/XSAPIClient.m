@@ -10,7 +10,7 @@
 #import "XSAPIURLRequestGenerator.h"
 #import "XSAPIResponseErrorHandler.h"
 #import "XSServerFactory.h"
-#import <XSNetwork/XSNetwork-Swift.h>
+#import "XSNetwork-Swift.h"
 
 @interface XSAPIClient()
 
