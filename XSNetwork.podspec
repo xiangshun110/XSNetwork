@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
   s.version          = '0.3.2'
-  s.summary          = '对AFNetworking 4.0的封装'
+  s.summary          = '对网络请求的封装，基于Alamofire'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -29,6 +29,7 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
+  s.swift_versions = ['5.0']
   
 #  s.pod_target_xcconfig = {
 #    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
@@ -47,6 +48,6 @@ TODO: Add long description of the pod here.
 #  要排除的文件
 #  s.exclude_files = 'MJRefresh/include/**'
   
-    s.dependency 'AFNetworking', '~> 4.0.1'
+    s.dependency 'Alamofire', '~> 5.0'
     s.dependency 'MBProgressHUD', '~> 1.2.0'
 end
