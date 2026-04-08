@@ -1,9 +1,7 @@
 PODS:
   - Alamofire (5.11.2)
-  - MBProgressHUD (1.2.0)
-  - XSNetwork (0.3.2):
+  - XSNetwork (1.0.2):
     - Alamofire (~> 5.0)
-    - MBProgressHUD (~> 1.2.0)
 
 DEPENDENCIES:
   - XSNetwork (from `../`)
@@ -11,7 +9,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
-    - MBProgressHUD
 
 EXTERNAL SOURCES:
   XSNetwork:
@@ -19,9 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 400275dd1c6d87d95a041861d2a59da4b520a203
-  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  XSNetwork: 10df7642c005f1bd4177ff39d50b5c58ed1c927e
+  XSNetwork: 063a312c4ce7414f527a3438dccc4e4e9c6afcaf
 
-PODFILE CHECKSUM: 6d3e9c21df4c1c2b25d499e36fabe37cb386083e
+PODFILE CHECKSUM: a50d5ee3b20dda6ecd6c9cb87df69d4e87f12fb0
 
 COCOAPODS: 1.16.2

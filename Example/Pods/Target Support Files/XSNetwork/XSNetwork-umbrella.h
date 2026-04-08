@@ -29,6 +29,7 @@
 #import <XSNetwork/XSCustomResponseSerializer.h>
 #import <XSNetwork/XSNetwork.h>
 #import <XSNetwork/XSNetworkTools.h>
+#import <XSNetwork/XSProgressHUD.h>
 #import <XSNetwork/XSServerConfig.h>
 
 FOUNDATION_EXPORT double XSNetworkVersionNumber;

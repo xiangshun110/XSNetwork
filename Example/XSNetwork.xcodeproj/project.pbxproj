@@ -407,14 +407,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/XSNetwork/XSNetwork.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XSNetwork.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -518,7 +514,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -551,7 +547,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -562,12 +558,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C12063A38DC4D17AEC4262EC /* Pods-XSNetwork_Example.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 884R4CPE3U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XSNetwork/XSNetwork-Prefix.pch";
 				INFOPLIST_FILE = "XSNetwork/XSNetwork-Info.plist";
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = "$(inherited) -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56 -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -579,12 +577,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF7EC4A3AD027CA84A8C3FF6 /* Pods-XSNetwork_Example.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 884R4CPE3U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XSNetwork/XSNetwork-Prefix.pch";
 				INFOPLIST_FILE = "XSNetwork/XSNetwork-Info.plist";
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = "$(inherited) -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibility56 -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityConcurrency -Wl,-U,__swift_FORCE_LOAD_$_swiftCompatibilityPacks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -596,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 77FEE8A062BD26E1B994E9B6 /* Pods-XSNetwork_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -621,6 +622,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1E564851C9F347E72E4ED36A /* Pods-XSNetwork_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",

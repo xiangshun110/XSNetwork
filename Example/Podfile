@@ -19,6 +19,7 @@ post_install do |installer|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
       config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
+      config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = '$(inherited)'
     end
 
     # Ensure Swift source files are compiled before ObjC files in mixed-language pods
@@ -29,6 +30,16 @@ post_install do |installer|
     compile_phase.files.clear
     swift_files.each  { |f| compile_phase.files << f }
     other_files.each  { |f| compile_phase.files << f }
+  end
+
+  # Apply to the main project (XSNetwork_Example) targets as well
+  installer.aggregate_targets.each do |agg_target|
+    agg_target.user_project.targets.each do |user_target|
+      user_target.build_configurations.each do |config|
+        config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
+      end
+    end
+    agg_target.user_project.save
   end
 
   # Fix double-quoted imports in CocoaPods-generated umbrella headers (Xcode 15+)
