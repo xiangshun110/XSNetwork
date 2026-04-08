@@ -1,5 +1,11 @@
 #!/bin/sh
-#
+
+# 1. 先检查 Ruby 语法
+ruby -c XSNetwork.podspec
+
+# 2. 再 lint
+pod spec lint XSNetwork.podspec --verbose
+
 echo "输入tag:"
 read tag
 

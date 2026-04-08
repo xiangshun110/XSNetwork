@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = '对网络请求的封装，基于Alamofire'
 
 # This description is used to generate tags and improve search results.
@@ -17,9 +17,9 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description = <<-DESC
+  A lightweight network abstraction based on Alamofire.
+  DESC
 
   s.homepage         = 'https://github.com/xiangshun110/XSNetwork'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -31,25 +31,13 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '12.0'
   s.swift_versions = ['5.0']
   
-#  s.pod_target_xcconfig = {
-#    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-#  }
-#  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
 
   s.source_files = 'XSNetwork/Classes/**/*'
-  #s.source_files = 'XSNetwork/Classes/**/*.{h,m,swift}'
-  
-  # s.resource_bundles = {
-  #   'XSNetwork' => ['XSNetwork/Assets/*.png']
-  # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-#  要排除的文件
-#  s.exclude_files = 'MJRefresh/include/**'
+
+    s.static_framework = true
   
     s.dependency 'Alamofire', '~> 5.0'
-    s.dependency 'MBProgressHUD', '~> 1.2.0', :modular_headers => true
+    s.dependency 'MBProgressHUD', :modular_headers => true
 end
