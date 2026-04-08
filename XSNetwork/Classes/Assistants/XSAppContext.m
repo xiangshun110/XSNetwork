@@ -7,8 +7,30 @@
 //
 
 #import "XSAppContext.h"
-#import "AFNetworkReachabilityManager.h"
 //#import "UIDevice+XSUtilNetworking.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <netinet/in.h>
+
+static BOOL XSIsNetworkReachable(void) {
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len    = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+
+    SCNetworkReachabilityRef ref = SCNetworkReachabilityCreateWithAddress(
+        kCFAllocatorDefault, (const struct sockaddr *)&zeroAddress);
+    if (!ref) { return NO; }
+
+    SCNetworkReachabilityFlags flags = 0;
+    BOOL got = SCNetworkReachabilityGetFlags(ref, &flags);
+    CFRelease(ref);
+
+    if (!got) { return YES; } // unknown → assume reachable (mirrors original behaviour)
+    BOOL reachable   = (flags & kSCNetworkFlagsReachable)          != 0;
+    BOOL needsConn   = (flags & kSCNetworkFlagsConnectionRequired)  != 0;
+    return reachable && !needsConn;
+}
+
 @implementation XSAppContext
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
@@ -30,11 +52,7 @@
 
 - (BOOL)isReachable
 {
-    if ([AFNetworkReachabilityManager sharedManager].networkReachabilityStatus == AFNetworkReachabilityStatusUnknown) {
-        return YES;
-    } else {
-        return [[AFNetworkReachabilityManager sharedManager] isReachable];
-    }
+    return XSIsNetworkReachable();
 }
 
 #pragma mark - public methods
@@ -44,7 +62,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[XSAppContext alloc] init];
-        [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     });
     return sharedInstance;
 }

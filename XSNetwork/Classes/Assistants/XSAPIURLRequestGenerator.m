@@ -310,7 +310,7 @@ static NSCharacterSet *XSURLQueryValueAllowedCharacterSet(void) {
             appendString(@"\r\n");
         } else if (fileError && outError) {
             *outError = fileError;
-            return;
+            return nil;
         }
     }
 

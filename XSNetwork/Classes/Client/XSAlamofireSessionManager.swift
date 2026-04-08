@@ -11,11 +11,11 @@ import Foundation
 
 /// Wraps an Alamofire `Session` and exposes an Objective-C–compatible interface
 /// for starting, tracking, and cancelling network requests.
-@objc class XSAlamofireSessionManager: NSObject {
+@objc public class XSAlamofireSessionManager: NSObject {
 
     // MARK: - Singleton
 
-    @objc static let shared = XSAlamofireSessionManager()
+    @objc public static let shared = XSAlamofireSessionManager()
 
     // MARK: - Sessions
 
@@ -59,7 +59,7 @@ import Foundation
     ///                           Arguments: `(response, responseObject, error)`.
     /// - Returns: An opaque request identifier that can be passed to `cancelRequest(withID:)`.
     @objc(startDataRequest:uploadProgress:downloadProgress:isUpload:completion:)
-    func startDataRequest(_ request: URLRequest,
+    public func startDataRequest(_ request: URLRequest,
                           uploadProgress uploadProgressBlock: ((Progress) -> Void)?,
                           downloadProgress downloadProgressBlock: ((Progress) -> Void)?,
                           isUpload: Bool,
@@ -78,7 +78,7 @@ import Foundation
                 self?.removeRequest(forID: requestID)
 
                 // Do not deliver a callback for explicitly cancelled requests.
-                if dataResponse.error?.isExplicitlyCancelled == true {
+                if case .explicitlyCancelled = dataResponse.error {
                     return
                 }
 
@@ -107,7 +107,7 @@ import Foundation
     ///                   Arguments: `(response, fileURL, error)`.
     /// - Returns: An opaque request identifier that can be passed to `cancelRequest(withID:)`.
     @objc(startDownloadRequest:progress:destination:completion:)
-    func startDownloadRequest(_ request: URLRequest,
+    public func startDownloadRequest(_ request: URLRequest,
                               progress progressBlock: ((Progress) -> Void)?,
                               destination: @escaping (URL, URLResponse) -> URL,
                               completion: @escaping (URLResponse?, URL?, Error?) -> Void) -> NSNumber {
@@ -125,7 +125,7 @@ import Foundation
             .response { [weak self] downloadResponse in
                 self?.removeRequest(forID: requestID)
 
-                if downloadResponse.error?.isExplicitlyCancelled == true {
+                if case .explicitlyCancelled = downloadResponse.error {
                     return
                 }
 
@@ -143,7 +143,7 @@ import Foundation
     // MARK: - Cancellation
 
     @objc(cancelRequestWithID:)
-    func cancelRequest(withID requestID: NSNumber) {
+    public func cancelRequest(withID requestID: NSNumber) {
         lock.lock()
         let request = requestTable.removeValue(forKey: requestID)
         lock.unlock()
@@ -151,7 +151,7 @@ import Foundation
     }
 
     @objc(cancelRequestsWithIDs:)
-    func cancelRequests(withIDs requestIDList: [NSNumber]) {
+    public func cancelRequests(withIDs requestIDList: [NSNumber]) {
         lock.lock()
         for rid in requestIDList {
             requestTable.removeValue(forKey: rid)?.cancel()

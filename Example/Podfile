@@ -18,6 +18,24 @@ post_install do |installer|
       if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
+      config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
     end
+
+    # Ensure Swift source files are compiled before ObjC files in mixed-language pods
+    next unless target.name == 'XSNetwork'
+    compile_phase = target.build_phases.find { |p| p.is_a?(Xcodeproj::Project::Object::PBXSourcesBuildPhase) }
+    next unless compile_phase
+    swift_files, other_files = compile_phase.files.to_a.partition { |f| f.file_ref.path.end_with?('.swift') }
+    compile_phase.files.clear
+    swift_files.each  { |f| compile_phase.files << f }
+    other_files.each  { |f| compile_phase.files << f }
+  end
+
+  # Fix double-quoted imports in CocoaPods-generated umbrella headers (Xcode 15+)
+  Dir.glob('Pods/Target Support Files/**/*-umbrella.h').each do |umbrella|
+    pod_name = File.basename(umbrella, '-umbrella.h')
+    content = File.read(umbrella)
+    fixed = content.gsub(/#import "(.+\.h)"/) { "#import <#{pod_name}/#{$1}>" }
+    File.write(umbrella, fixed) if fixed != content
   end
 end
