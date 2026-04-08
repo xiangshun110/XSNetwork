@@ -3,8 +3,6 @@
 # 1. 先检查 Ruby 语法
 ruby -c XSNetwork.podspec
 
-# 2. 再 lint
-pod spec lint XSNetwork.podspec --verbose
 
 echo "输入tag:"
 read tag
@@ -26,8 +24,8 @@ git push github master
 git tag $tag
 git push github --tags
 
-
-pod spec lint --verbose XSNetwork.podspec
+# 2. 再 lint
+pod spec lint XSNetwork.podspec --verbose
 
 pod trunk push XSNetwork.podspec --allow-warnings --verbose --use-libraries --skip-import-validation
 # pod repo push master XSNetwork.podspec --allow-warnings
