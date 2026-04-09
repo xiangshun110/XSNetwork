@@ -25,7 +25,7 @@ class XSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
 
         print("XSNet.singleInstance():\(XSNet.singleInstance())")
 
-        if let window = UIApplication.shared.windows.first {
+        if let window = UIApplication.shared.keyWindow {
             XSNet.singleInstance().showEnvTagView(window)
         }
 
