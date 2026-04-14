@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0015FA0BDC8C518B1EC0BC0E /* Pods_XSNetwork_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD12A983FA5542FF28917A6 /* Pods_XSNetwork_Tests.framework */; };
+		2F5E9AB62F8E1629000ED663 /* XSNetObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5E9AB42F8E1629000ED663 /* XSNetObjc.m */; };
+		2F5E9AB72F8E1629000ED663 /* ErrorHandlerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5E9AAF2F8E1629000ED663 /* ErrorHandlerObjc.m */; };
+		2F5E9AB82F8E1629000ED663 /* ObjcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5E9AB12F8E1629000ED663 /* ObjcViewController.m */; };
+		2F5E9AB92F8E1629000ED663 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2F5E9AB22F8E1629000ED663 /* README.md */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -45,6 +49,13 @@
 		0A1FE84C4A76C6E41F965B2F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1E564851C9F347E72E4ED36A /* Pods-XSNetwork_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Tests.release.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Tests/Pods-XSNetwork_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		1FD12A983FA5542FF28917A6 /* Pods_XSNetwork_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XSNetwork_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F5E9AAE2F8E1629000ED663 /* ErrorHandlerObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorHandlerObjc.h; sourceTree = "<group>"; };
+		2F5E9AAF2F8E1629000ED663 /* ErrorHandlerObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlerObjc.m; sourceTree = "<group>"; };
+		2F5E9AB02F8E1629000ED663 /* ObjcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjcViewController.h; sourceTree = "<group>"; };
+		2F5E9AB12F8E1629000ED663 /* ObjcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjcViewController.m; sourceTree = "<group>"; };
+		2F5E9AB22F8E1629000ED663 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2F5E9AB32F8E1629000ED663 /* XSNetObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSNetObjc.h; sourceTree = "<group>"; };
+		2F5E9AB42F8E1629000ED663 /* XSNetObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSNetObjc.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* XSNetwork_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSNetwork_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -135,6 +146,20 @@
 			name = test2;
 			sourceTree = "<group>";
 		};
+		2F5E9AB52F8E1629000ED663 /* ObjcExample */ = {
+			isa = PBXGroup;
+			children = (
+				2F5E9AAE2F8E1629000ED663 /* ErrorHandlerObjc.h */,
+				2F5E9AAF2F8E1629000ED663 /* ErrorHandlerObjc.m */,
+				2F5E9AB02F8E1629000ED663 /* ObjcViewController.h */,
+				2F5E9AB12F8E1629000ED663 /* ObjcViewController.m */,
+				2F5E9AB22F8E1629000ED663 /* README.md */,
+				2F5E9AB32F8E1629000ED663 /* XSNetObjc.h */,
+				2F5E9AB42F8E1629000ED663 /* XSNetObjc.m */,
+			);
+			path = ObjcExample;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +205,7 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				2F5E9AB52F8E1629000ED663 /* ObjcExample */,
 			);
 			name = "Example for XSNetwork";
 			path = XSNetwork;
@@ -320,6 +346,7 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				2F5E9AB92F8E1629000ED663 /* README.md in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -412,6 +439,9 @@
 				AA000001000000000000000C /* AppDelegate.swift in Sources */,
 				AA0000010000000000000008 /* XSViewController2.swift in Sources */,
 				AA000001000000000000000E /* XSViewController.swift in Sources */,
+				2F5E9AB62F8E1629000ED663 /* XSNetObjc.m in Sources */,
+				2F5E9AB72F8E1629000ED663 /* ErrorHandlerObjc.m in Sources */,
+				2F5E9AB82F8E1629000ED663 /* ObjcViewController.m in Sources */,
 				AA0000010000000000000006 /* XSViewController1.swift in Sources */,
 				AA000001000000000000000A /* ErrorHandler1.swift in Sources */,
 			);

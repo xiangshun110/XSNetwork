@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XSNetwork'
-  s.version          = '1.0.6'
+  s.version          = '1.0.7'
   s.summary          = '对网络请求的封装，基于Alamofire'
 
 # This description is used to generate tags and improve search results.
