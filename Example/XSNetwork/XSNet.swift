@@ -4,7 +4,7 @@ import XSNetwork
 class XSNet: XSNetworkTools {
     private static let _instance = XSNet()
 
-    @objc static func singleInstance() -> XSNet {
+    @objc static func share() -> XSNet {
         return _instance
     }
 

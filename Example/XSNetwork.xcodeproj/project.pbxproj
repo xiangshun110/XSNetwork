@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA0000010000000000000002 /* XSNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000001 /* XSNet.swift */; };
-		AA0000010000000000000004 /* XSNet1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000003 /* XSNet1.swift */; };
-		AA0000010000000000000006 /* XSViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000005 /* XSViewController1.swift */; };
-		AA0000010000000000000008 /* XSViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000007 /* XSViewController2.swift */; };
-		AA000001000000000000000A /* ErrorHandler1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000009 /* ErrorHandler1.swift */; };
-		AA000001000000000000000C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000001000000000000000B /* AppDelegate.swift */; };
-		AA000001000000000000000E /* XSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000001000000000000000D /* XSViewController.swift */; };
 		0015FA0BDC8C518B1EC0BC0E /* Pods_XSNetwork_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD12A983FA5542FF28917A6 /* Pods_XSNetwork_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -28,6 +21,13 @@
 		69B9917C4802E5449D6BFF31 /* Pods_XSNetwork_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08DFC0E77E82E25703CD3B3C /* Pods_XSNetwork_Example.framework */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		AA0000010000000000000002 /* XSNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000001 /* XSNet.swift */; };
+		AA0000010000000000000004 /* XSNet1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000003 /* XSNet1.swift */; };
+		AA0000010000000000000006 /* XSViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000005 /* XSViewController1.swift */; };
+		AA0000010000000000000008 /* XSViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000007 /* XSViewController2.swift */; };
+		AA000001000000000000000A /* ErrorHandler1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000010000000000000009 /* ErrorHandler1.swift */; };
+		AA000001000000000000000C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000001000000000000000B /* AppDelegate.swift */; };
+		AA000001000000000000000E /* XSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000001000000000000000D /* XSViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,13 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA0000010000000000000001 /* XSNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSNet.swift; sourceTree = "<group>"; };
-		AA0000010000000000000003 /* XSNet1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSNet1.swift; sourceTree = "<group>"; };
-		AA0000010000000000000005 /* XSViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController1.swift; sourceTree = "<group>"; };
-		AA0000010000000000000007 /* XSViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController2.swift; sourceTree = "<group>"; };
-		AA0000010000000000000009 /* ErrorHandler1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler1.swift; sourceTree = "<group>"; };
-		AA000001000000000000000B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AA000001000000000000000D /* XSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController.swift; sourceTree = "<group>"; };
 		08DFC0E77E82E25703CD3B3C /* Pods_XSNetwork_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XSNetwork_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1FE84C4A76C6E41F965B2F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1E564851C9F347E72E4ED36A /* Pods-XSNetwork_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Tests.release.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Tests/Pods-XSNetwork_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,6 +62,13 @@
 		77FEE8A062BD26E1B994E9B6 /* Pods-XSNetwork_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Tests.debug.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Tests/Pods-XSNetwork_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8A8B798ABC8BAFD84DFC85C0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		AA0000010000000000000001 /* XSNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSNet.swift; sourceTree = "<group>"; };
+		AA0000010000000000000003 /* XSNet1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSNet1.swift; sourceTree = "<group>"; };
+		AA0000010000000000000005 /* XSViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController1.swift; sourceTree = "<group>"; };
+		AA0000010000000000000007 /* XSViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController2.swift; sourceTree = "<group>"; };
+		AA0000010000000000000009 /* ErrorHandler1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler1.swift; sourceTree = "<group>"; };
+		AA000001000000000000000B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AA000001000000000000000D /* XSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSViewController.swift; sourceTree = "<group>"; };
 		C12063A38DC4D17AEC4262EC /* Pods-XSNetwork_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Example.debug.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		DF7EC4A3AD027CA84A8C3FF6 /* Pods-XSNetwork_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XSNetwork_Example.release.xcconfig"; path = "Target Support Files/Pods-XSNetwork_Example/Pods-XSNetwork_Example.release.xcconfig"; sourceTree = "<group>"; };
 		E85F42AF64F851BB0BEF9341 /* XSNetwork.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XSNetwork.podspec; path = ../XSNetwork.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };

@@ -19,14 +19,14 @@ class XSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         title = "demo"
 
-        XSNet.singleInstance().server.model.releaseApiBaseUrl = "https://api.talkmed.com/api/v1"
-        XSNet.singleInstance().server.model.developApiBaseUrl = "http://api.sandbox.talkmed.com/api/v1"
-        XSNet.singleInstance().server.model.environmentType = .develop
+        XSNet.share().server.model.releaseApiBaseUrl = "https://api.talkmed.com/api/v1"
+        XSNet.share().server.model.developApiBaseUrl = "http://api.sandbox.talkmed.com/api/v1"
+        XSNet.share().server.model.environmentType = .develop
 
-        print("XSNet.singleInstance():\(XSNet.singleInstance())")
+        print("XSNet.share():\(XSNet.share())")
 
         if let window = UIApplication.shared.keyWindow {
-            XSNet.singleInstance().showEnvTagView(window)
+            XSNet.share().showEnvTagView(window)
         }
 
         tableView.delegate = self
@@ -66,42 +66,42 @@ class XSViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
             navigationController?.pushViewController(vc2, animated: true)
         case 2:
             let params: [AnyHashable: Any] = ["name": "test", "age": 18]
-            XSNet.singleInstance().postRequest(self, param: params,
+            XSNet.share().postRequest(self, param: params,
                                                path: "http://localhost:48081/app-api/test/json",
                                                loadingMsg: "ooooo") { data, error in
                 print("----data:\(String(describing: data))")
             }
         case 3:
             let params: [AnyHashable: Any] = ["name": "test", "age": 18]
-            XSNet.singleInstance().postFormDataRequest(self, param: params,
-                                                       path: "http://localhost:48081/app-api/test/form",
-                                                       loadingMsg: "发送FormData请求...") { data, error in
+            XSNet.share().postFormDataRequest(self, param: params,
+                                                        path: "http://localhost:48081/app-api/test/form",
+                                                        loadingMsg: "发送FormData请求...") { data, error in
                 print("----FormData data:\(String(describing: data))")
                 if let error = error { print("----FormData error:\(error)") }
             }
         case 4:
-            XSNet.singleInstance().getRequest(self, param: nil, path: "/time",
-                                              loadingMsg: "ooooo") { data, error in
+            XSNet.share().getRequest(self, param: nil, path: "/time",
+                                               loadingMsg: "ooooo") { data, error in
                 print("----data:\(String(describing: data))")
             }
         case 5:
-            if XSNet.singleInstance().server.model.environmentType == .release {
-                XSNet.singleInstance().server.model.environmentType = .develop
+            if XSNet.share().server.model.environmentType == .release {
+                XSNet.share().server.model.environmentType = .develop
                 print("切换dev成功")
             } else {
-                XSNet.singleInstance().server.model.environmentType = .release
+                XSNet.share().server.model.environmentType = .release
                 print("切换release成功")
             }
         case 6:
-            XSNet.singleInstance().getRequest(self, param: nil,
+            XSNet.share().getRequest(self, param: nil,
                                               path: "https://api.weixin.qq.com/sns/userinfo",
                                               loadingMsg: "lll") { data, error in
                 print("----data:\(String(describing: data))")
             }
         case 7:
             let url = "https://cdn.sandbox.edstatic.com/202311122246/a7c470d9e9859480e6612b88dfbcf05f/2023/01/18/92070ab7-2b19-bd06-b980-77d4b5ca63f6.svga"
-            XSNet.singleInstance().downloadFile(self, url: url, fileName: "test1/01.pdf",
-                                               progress: { taskProgress in
+            XSNet.share().downloadFile(self, url: url, fileName: "test1/01.pdf",
+                                                progress: { taskProgress in
                 print("--------:\(Float(taskProgress.completedUnitCount) / Float(taskProgress.totalUnitCount))")
             }) { data, error in
                 print("aaa")

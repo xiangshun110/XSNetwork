@@ -1,6 +1,6 @@
 {
   "name": "XSNetwork",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "summary": "对网络请求的封装，基于Alamofire",
   "description": "A lightweight network abstraction based on Alamofire.",
   "homepage": "https://github.com/xiangshun110/XSNetwork",
@@ -13,22 +13,22 @@
   },
   "source": {
     "git": "https://github.com/xiangshun110/XSNetwork.git",
-    "tag": "1.0.2"
+    "tag": "1.0.6"
   },
   "platforms": {
     "ios": "12.0",
     "osx": "10.13"
   },
-  "swift_versions": [
-    "5.0"
-  ],
   "pod_target_xcconfig": {
-    "DEFINES_MODULE": "YES"
+    "DEFINES_MODULE": "YES",
+    "MACOSX_DEPLOYMENT_TARGET": "10.13",
+    "IPHONEOS_DEPLOYMENT_TARGET": "12.0"
   },
-  "source_files": "XSNetwork/Classes/**/*",
+  "swift_versions": "5.0",
+  "source_files": "XSNetwork/Classes/**/*.{h,m,swift}",
   "dependencies": {
     "Alamofire": [
-      "~> 5.0"
+      "~> 5.11"
     ]
   },
   "swift_version": "5.0"

@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (5.11.2)
-  - XSNetwork (1.0.2):
-    - Alamofire (~> 5.0)
+  - XSNetwork (1.0.6):
+    - Alamofire (~> 5.11)
 
 DEPENDENCIES:
   - XSNetwork (from `../`)
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 400275dd1c6d87d95a041861d2a59da4b520a203
-  XSNetwork: 0a401f9070928ed11dad04babd3c13dbd770cad7
+  XSNetwork: c51450df93f1b893e082c53fe8a925aec3ea894f
 
 PODFILE CHECKSUM: a50d5ee3b20dda6ecd6c9cb87df69d4e87f12fb0
 
