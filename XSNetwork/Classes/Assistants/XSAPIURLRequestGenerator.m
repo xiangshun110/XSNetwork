@@ -196,34 +196,28 @@
 }
 #pragma mark - private methods
 - (NSString *)URLStringWithServiceUrl:(NSString *)serviceUrl path:(NSString *)path{
-//    NSString *sLast = [serviceUrl substringFromIndex:serviceUrl.length - 2];
-//    if ([sLast isEqualToString:@"/"]) {
-//        serviceUrl = [serviceUrl substringToIndex:serviceUrl.length - 2];
-//    }
-//    NSString *pFirst = [path substringToIndex:1];
-//    if (![pFirst isEqualToString:@"/"]) {
-//        
-//    }
+
     
-    NSString *mStr = [NSString stringWithFormat:@"%@%@",serviceUrl, path];
-    mStr = [mStr stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    // 去掉 serviceUrl 末尾 /
+    while ([serviceUrl hasSuffix:@"/"]) {
+        serviceUrl = [serviceUrl substringToIndex:serviceUrl.length - 1];
+    }
+
+    // 去掉 path 开头 /
+    while ([path hasPrefix:@"/"]) {
+        path = [path substringFromIndex:1];
+    }
+
+    NSString *mStr = [NSString stringWithFormat:@"%@/%@", serviceUrl, path];
+
     NSURL *fullURL = [NSURL URLWithString:mStr];
-    
-//    NSURL *fullURL = [NSURL URLWithString:serviceUrl];
-//    
-//    if (![NSString isEmptyString:path]) {
-//        fullURL = [NSURL URLWithString:path relativeToURL:fullURL];
-//    }
-    
-    if (fullURL == nil) {
-        DELog(@"YAAPIURLRequestGenerator--URL拼接错误:\n---------------------------\n\
-              apiBaseUrl:%@\n\
-              urlPath:%@\n\
-              \n---------------------------\n",serviceUrl,path);
+
+    if (!fullURL) {
+        DELog(@"URL拼接错误: %@ %@", serviceUrl, path);
         return nil;
     }
-    
-    return [fullURL absoluteString];
+
+    return fullURL.absoluteString;
 }
 
 //- (AFHTTPRequestSerializer *)serializerWithModel:(XSAPIBaseRequestDataModel *)dataModel {
