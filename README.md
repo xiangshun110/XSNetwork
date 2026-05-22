@@ -162,6 +162,10 @@ NSDictionary *params = @{@"username": @"test", @"password": @"123456"};
 
 ## 版本更新记录
 
+#### 0.3.3.2
+
+1. 修复URL的一个问题
+
 #### 0.3.2
 
 1. 支持m系列电脑

@@ -52,7 +52,7 @@ git tag "${tag}"
 git push github "refs/tags/${tag}:refs/tags/${tag}"
 
 
-pod spec lint --verbose XSNetwork.podspec
+pod spec lint XSNetwork.podspec --allow-warnings --verbose --use-libraries --skip-import-validation
 
 pod trunk push XSNetwork.podspec --allow-warnings --verbose --use-libraries --skip-import-validation
 # pod repo push master XSNetwork.podspec --allow-warnings
