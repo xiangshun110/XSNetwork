@@ -46,10 +46,10 @@ fi
 
 git add --all
 git commit -m "build:${tag}"
-git push github "${branch}"
+git push github "refs/heads/${branch}:refs/heads/${branch}"
 
 git tag "${tag}"
-git push github "${tag}"
+git push github "refs/tags/${tag}:refs/tags/${tag}"
 
 
 pod spec lint --verbose XSNetwork.podspec
